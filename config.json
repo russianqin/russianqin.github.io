@@ -4,7 +4,7 @@
     "avatarUrl":"https://avatars.githubusercontent.com/u/6659289?v=4",
     "GMEEK_VERSION":"last",
     "singlePage":["link","about","refreshment"],
-    "iconList":{"refreshment":"M2 4 C1 2, 1 8, 4 10 L12 10 C15 8, 15 2, 14 4 C13 3, 11 3, 10 4 L6 4 C5 3, 3 3, 2 4 Z M4 6 L12 6 M5 8 L11 8 M6 10 L10 10"},
+    "iconList":{"refreshment":"https://primer.style/octicons/icon/codescan-16/"},
     "onePageListNum":50,
     "UTC":3,
     "bottomText":"转载请注明出处",
