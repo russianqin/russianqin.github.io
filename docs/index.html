@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link href='https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css' rel='stylesheet' />
-    
+    <script src='https://blog.meekdai.com/Gmeek/plugins/GmeekBSZ.js'></script>
     <link rel="icon" href="https://avatars.githubusercontent.com/u/6659289?v=4"><script>
         let theme = localStorage.getItem("meek_theme") || "light";
         document.documentElement.setAttribute("data-color-mode", theme);
@@ -64,17 +64,17 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
         </svg>
     </a>
     
-    <a href="https://russianqin.github.io/link.html" class="btn btn-invisible circle" title="个人页面">
+    <a href="https://russianqin.github.io/refreshment.html" class="btn btn-invisible circle" title="日日新">
+        <svg class="octicon" width="16" height="16" >
+            <path id="日日新" fill-rule="evenodd"></path>
+        </svg>
+    </a><a href="https://russianqin.github.io/link.html" class="btn btn-invisible circle" title="个人页面">
         <svg class="octicon" width="16" height="16" >
             <path id="个人页面" fill-rule="evenodd"></path>
         </svg>
     </a><a href="https://russianqin.github.io/about.html" class="btn btn-invisible circle" title="关于我">
         <svg class="octicon" width="16" height="16" >
             <path id="关于我" fill-rule="evenodd"></path>
-        </svg>
-    </a><a href="https://russianqin.github.io/refreshment.html" class="btn btn-invisible circle" title="日日新">
-        <svg class="octicon" width="16" height="16" >
-            <path id="日日新" fill-rule="evenodd"></path>
         </svg>
     </a>
     <a href="https://russianqin.github.io/rss.xml" target="_blank" id="buttonRSS" class="btn btn-invisible circle" title="RSS">
@@ -236,7 +236,7 @@ for(var i=0;i<iconPost.length;i++){
 
 
 
-document.getElementById("个人页面").setAttribute("d",value=IconList["link"]);document.getElementById("关于我").setAttribute("d",value=IconList["about"]);document.getElementById("日日新").setAttribute("d",value=IconList["refreshment"]);
+document.getElementById("日日新").setAttribute("d",value=IconList["refreshment"]);document.getElementById("个人页面").setAttribute("d",value=IconList["link"]);document.getElementById("关于我").setAttribute("d",value=IconList["about"]);
 </script>
 
 
