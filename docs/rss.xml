@@ -1,5 +1,51 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>五环魔法师</title><link>https://russianqin.github.io</link><description>分享人生经验，提高知识水平</description><copyright>五环魔法师</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/6659289?v=4</url><title>avatar</title><link>https://russianqin.github.io</link></image><lastBuildDate>Fri, 06 Jun 2025 19:23:57 +0000</lastBuildDate><managingEditor>五环魔法师</managingEditor><ttl>60</ttl><webMaster>五环魔法师</webMaster><item><title>《球状闪电》俄语版（西伯利亚2）</title><link>https://russianqin.github.io/post/%E3%80%8A-qiu-zhuang-shan-dian-%E3%80%8B-e-yu-ban-%EF%BC%88-xi-bo-li-ya-2%EF%BC%89.html</link><description>摘自《球状闪电》俄语版
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>五环魔法师</title><link>https://russianqin.github.io</link><description>分享人生经验，提高知识水平</description><copyright>五环魔法师</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/6659289?v=4</url><title>avatar</title><link>https://russianqin.github.io</link></image><lastBuildDate>Fri, 06 Jun 2025 19:26:06 +0000</lastBuildDate><managingEditor>五环魔法师</managingEditor><ttl>60</ttl><webMaster>五环魔法师</webMaster><item><title>《三体》英语版（疯狂年代2）</title><link>https://russianqin.github.io/post/%E3%80%8A-san-ti-%E3%80%8B-ying-yu-ban-%EF%BC%88-feng-kuang-nian-dai-2%EF%BC%89.html</link><description>摘自《三体》英语版
+
+《The Three-Body Problem》
+
+| 单词原型        | 中文解释               | 记忆建议                                   |
+|---------------|----------------------|------------------------------------------|
+| buckle        | 扣子；弯曲            | 联想'button'(纽扣)+'huckle'(搭扣)组合记忆  |
+| blur          | 模糊                | 拟声词，模拟视线不清的'blur-blur'声        |
+| ooze          | 渗出；分泌物          | 与'ooze'(泥浆)同形，联想缓慢流动的物质      |
+| oblige        | 迫使；施惠            | 拉丁词根'ob-'(朝向)+'ligare'(绑定)→约束性帮助 |
+| fragile       | 易碎的              | 词根'frag'(破碎)+'ile'(易于)→易碎特性       |
+| interpretation| 解释                | 'inter-'(之间)+'pret'(表达)→在不同观点间转述 |
+| brazen        | 厚颜无耻的           | 古英语'bræs'(黄铜)→像黄铜般不知羞耻         |
+| invincible    | 无敌的              | 'in-'(不)+'vinc'(征服)+'ible'→不可战胜的    |
+| whip          | 鞭打；快速移动        | 拟声词，模拟鞭子破空的'whip'声             |
+| fervor        | 热情                | 拉丁语'fervere'(沸腾)→热烈的情绪状态        |
+| cosmological  | 宇宙学的             | 'cosmo'(宇宙)+'logical'(学科的)→研究宇宙结构 |
+| plausible     | 貌似合理的           | 拉丁语'plausibilis'(可鼓掌的)→表面可信的    |
+| splice        | 拼接                | 与'split'(分裂)对比记忆→将分裂部分重新连接  |
+| injury        | 伤害                | 'in-'(非)+'jury'(法律)→法律外的伤害         |
+| footing       | 立足点；基础          | 'foot'(脚)+'ing'→站立的基础条件              |
+| nightmarish   | 噩梦般的             | 'nightmare'(噩梦)+'ish'→具有噩梦特征的      |
+| commotion     | 骚动                | 'com-'(共同)+'motion'(运动)→多人混乱运动    |
+| doctrine      | 教条                | 拉丁语'docere'(教导)→被教导的准则           |
+| concoct       | 编造；调制           | 'con-'(共同)+'coct'(煮)→混合烹制→虚构       |
+| paralyze      | 使瘫痪              | 'para-'(旁边)+'lyze'(松开)→身体部分失去控制 |
+| one-sided     | 片面的              | 'one'(单)+'side'(方面)→仅考虑单方面的       |
+| barrage     | 弹幕；连续提问         | 法语词源，原指军事屏障→密集的火力/问题攻势   |
+| eloquence   | 雄辩                | 拉丁语'loqui'(说话)+'e-'→出色的表达能力      |
+| frenzied    | 狂乱的              | 'frenzy'(疯狂)+'ed'→处于极度兴奋状态的       |
+| meander     | 蜿蜒而行             | 源自希腊'Meander'河→形容河流般的曲折路径     |
+| chest       | 胸膛；箱子            | 古英语'cist'(容器)→身体容器/储物容器双重含义  |
+| cackle      | 咯咯笑              | 拟声词，模拟禽类的'cack-cack'笑声           |
+| trickle     | 细流                | 与'tickle'(轻触)对比记忆→液体缓慢流动        |
+| janitor     | 看门人              | 拉丁语'janua'(门)+'tor'→守门者的职业         |
+| dissolve    | 溶解；解散            | 'dis-'(分开)+'solve'(解决)→使固态分离        |
+| disperse    | 分散                | 'di-'(分开)+'sperse'(散播)→向不同方向散开    |
+| peal        | 钟声；响亮的声音       | 与'peel'(剥皮)对比记忆→声音的'剥离'效果      |
+| confidante  | 红颜知己             | 法语阴性形式，强调女性密友身份               |
+| fascinate   | 使着迷              | 拉丁语'fascinum'(魔咒)→施加魔法般的吸引力     |
+| briar       | 荆棘                | 与'brier'(石南)同源→多刺植物的统称           |
+| meerschaum  | 海泡石（烟斗材质）     | 德语'Meer'(海)+'Schaum'(泡沫)→海底沉积物      |
+| suffuse     | 弥漫                | 'suf-'(遍布)+'fuse'(流动)→液体/光线充满空间  |
+| clamp       | 夹紧；夹具            | 拟声词，模拟金属夹闭合的'clamp'声            |
+| heel        | 脚后跟；倾斜          | 古英语'hēla'，兼有身体部位与船舶倾斜双义      |
+| streak      | 条纹；飞奔            | 古英语'strica'，指快速移动留下的线性痕迹      |
+| topple      | 倒塌                | 拟声词'top-'模拟物体顶端失衡的瞬间            |。</description><guid isPermaLink="true">https://russianqin.github.io/post/%E3%80%8A-san-ti-%E3%80%8B-ying-yu-ban-%EF%BC%88-feng-kuang-nian-dai-2%EF%BC%89.html</guid><pubDate>Fri, 06 Jun 2025 19:25:38 +0000</pubDate></item><item><title>《球状闪电》俄语版（西伯利亚2）</title><link>https://russianqin.github.io/post/%E3%80%8A-qiu-zhuang-shan-dian-%E3%80%8B-e-yu-ban-%EF%BC%88-xi-bo-li-ya-2%EF%BC%89.html</link><description>摘自《球状闪电》俄语版
 
 《Шаровая молния》
 
