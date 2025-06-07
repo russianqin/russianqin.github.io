@@ -1,5 +1,52 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>五环魔法师</title><link>https://russianqin.github.io</link><description>分享人生经验，提高知识水平</description><copyright>五环魔法师</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/6659289?v=4</url><title>avatar</title><link>https://russianqin.github.io</link></image><lastBuildDate>Sat, 07 Jun 2025 19:16:02 +0000</lastBuildDate><managingEditor>五环魔法师</managingEditor><ttl>60</ttl><webMaster>五环魔法师</webMaster><item><title>《球状闪电》——西伯利亚3</title><link>https://russianqin.github.io/post/%E3%80%8A-qiu-zhuang-shan-dian-%E3%80%8B%E2%80%94%E2%80%94-xi-bo-li-ya-3.html</link><description>摘自《球状闪电》俄语版
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>五环魔法师</title><link>https://russianqin.github.io</link><description>分享人生经验，提高知识水平</description><copyright>五环魔法师</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/6659289?v=4</url><title>avatar</title><link>https://russianqin.github.io</link></image><lastBuildDate>Sat, 07 Jun 2025 19:49:42 +0000</lastBuildDate><managingEditor>五环魔法师</managingEditor><ttl>60</ttl><webMaster>五环魔法师</webMaster><item><title>《三体》——寂静的春天1</title><link>https://russianqin.github.io/post/%E3%80%8A-san-ti-%E3%80%8B%E2%80%94%E2%80%94-ji-jing-de-chun-tian-1.html</link><description>摘自《三体》英语版
+
+《The Three-Body Problem》
+
+| 单词原型          | 中文解释               | 记忆建议                                   |
+|------------------|----------------------|------------------------------------------|
+| caress           | 抚摸                 | 联想'care'(关怀)+'ess'→轻柔的肢体接触        |
+| grief            | 悲伤                 | 与'grave'(坟墓)同源→与死亡相关的情绪          |
+| geiger           | 盖革计数器           | 源自发明者Hans Geiger的姓氏→辐射测量设备      |
+| timber           | 木材                 | 古英语'timber'→建筑用原木                   |
+| chant            | 吟唱                 | 拉丁词源'cantare'→有节奏的歌唱               |
+| dahurian larch   | 兴安落叶松           | 'Dahurian'(达斡尔的)+'larch'(落叶松)→特定树种 |
+| parthenon        | 帕特农神庙           | 希腊语'Parthenos'(处女)→雅典娜神庙            |
+| thump            | 重击声               | 拟声词→沉闷的撞击声                         |
+| mortuary         | 停尸房               | 拉丁词'mortuus'(死亡)+'ary'→遗体存放场所      |
+| resurface        | 重新露面             | 're'(再)+'surface'(表面)→再次出现            |
+| split            | 裂开                 | 拟声词→物体破裂的清脆声                      |
+| crack            | 裂缝                 | 拟声词→脆裂的声响                           |
+| bark             | 树皮；犬吠           | 多义词：植物表皮/狗叫声（拟声）               |
+| regiment         | 军团                 | 拉丁词'regimen'(统治)→军事编制单位            |
+| corps            | 兵团                 | 法语词→特种部队编制（如Marine Corps）         |
+| cluster          | 簇；群集             | 古英语'clyster'→密集的集合体                 |
+| revisionist      | 修正主义者           | 'revise'(修正)+'ist'→历史观点修正者           |
+| crave            | 渴望                 | 古英语'crafian'→强烈的生理/心理需求           |
+| graze            | 放牧；擦伤           | 多义词：动物吃草/皮肤轻微破损                 |
+| pen              | 围栏；笔             | 多义词：牲畜圈养工具/书写工具                 |
+| 单词原型            | 中文解释               | 记忆建议                                   |
+|--------------------|----------------------|------------------------------------------|
+| expanse            | 广阔区域             | 'expand'(扩展)+'se'→延展的空间              |
+| ardor              | 热情                 | 拉丁词'ardere'(燃烧)→炽热的情感              |
+| dung               | 粪便                 | 古英语词→动物排泄物                        |
+| barren             | 贫瘠的               | 古法语'barhaine'→不毛之地                   |
+| ridge              | 山脊                 | 古英语'hrycg'→山脉的凸起部分                 |
+| denude             | 剥光                 | 'de'(去除)+'nude'(裸露)→使暴露               |
+| tract              | 大片土地             | 拉丁词'tractus'(延伸)→连续的地理区域          |
+| scots pine         | 欧洲赤松             | 'Scots'(苏格兰的)+'pine'(松树)→特定树种       |
+| birch              | 桦树                 | 古英语'bierce'→白皮树种                     |
+| aromatic           | 芳香的               | 希腊词'aroma'(香料)→散发香气的               |
+| fir                | 冷杉                 | 古北欧语'fura'→常绿针叶树                   |
+| elm                | 榆树                 | 拉丁词'ulmus'→叶片不对称的树种                |
+| chosenia arbutifolia | 柳叶菜               | 学名'Chosenia'(朝鲜柳属)+'arbutifolia'(熊果叶)|
+| wield              | 挥舞                 | 古英语'wealdan'→有力地使用工具               |
+| swarm              | 蜂群                 | 古英语'swearm'→昆虫的密集群体                |
+| locust             | 蝗虫                 | 拉丁词'locusta'→破坏性害虫                   |
+| bereft             | 丧失的               | 'be'(完全)+'reft'(剥夺)→被夺走一切的          |
+| cross section      | 横截面               | 'cross'(交叉)+'section'(部分)→剖面图          |
+| fell               | 砍伐                 | 古英语'fellan'→使树木倒下                    |
+| tremor             | 震颤                 | 拉丁词'tremere'(颤抖)→轻微的震动              |。</description><guid isPermaLink="true">https://russianqin.github.io/post/%E3%80%8A-san-ti-%E3%80%8B%E2%80%94%E2%80%94-ji-jing-de-chun-tian-1.html</guid><pubDate>Sat, 07 Jun 2025 19:49:17 +0000</pubDate></item><item><title>《球状闪电》——西伯利亚3</title><link>https://russianqin.github.io/post/%E3%80%8A-qiu-zhuang-shan-dian-%E3%80%8B%E2%80%94%E2%80%94-xi-bo-li-ya-3.html</link><description>摘自《球状闪电》俄语版
 
 《Шаровая молния》
 
