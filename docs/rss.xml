@@ -1,5 +1,51 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>五环魔法师</title><link>https://russianqin.github.io</link><description>分享人生经验，提高知识水平</description><copyright>五环魔法师</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/6659289?v=4</url><title>avatar</title><link>https://russianqin.github.io</link></image><lastBuildDate>Sun, 08 Jun 2025 18:27:52 +0000</lastBuildDate><managingEditor>五环魔法师</managingEditor><ttl>60</ttl><webMaster>五环魔法师</webMaster><item><title>博客完善计划（应当龟速但持续推进）</title><link>https://russianqin.github.io/post/bo-ke-wan-shan-ji-hua-%EF%BC%88-ying-dang-gui-su-dan-chi-xu-tui-jin-%EF%BC%89.html</link><description>- [ ] 优化文章收藏界面
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>五环魔法师</title><link>https://russianqin.github.io</link><description>分享人生经验，提高知识水平</description><copyright>五环魔法师</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/6659289?v=4</url><title>avatar</title><link>https://russianqin.github.io</link></image><lastBuildDate>Sun, 08 Jun 2025 18:55:30 +0000</lastBuildDate><managingEditor>五环魔法师</managingEditor><ttl>60</ttl><webMaster>五环魔法师</webMaster><item><title>《球状闪电》——西伯利亚4</title><link>https://russianqin.github.io/post/%E3%80%8A-qiu-zhuang-shan-dian-%E3%80%8B%E2%80%94%E2%80%94-xi-bo-li-ya-4.html</link><description>摘自《球状闪电》俄语版
+
+《Шаровая молния》
+
+| 单词原型            | 中文解释               | 记忆建议                                   |
+|--------------------|----------------------|------------------------------------------|
+| ступенчатый         | 阶梯状的             | 'ступень'(台阶)+'чатый'(后缀)→像台阶一样的   |
+| выхватывать        | 抓取                 | 'вы'(出)+'хватить'(抓住)→快速夺取           |
+| фон                | 背景                 | 法语'fond'→画面/环境的底层部分               |
+| недра              | 地下资源             | 古斯拉夫语'нѣдро'→地球内部                  |
+| мрак               | 黑暗                 | 与'мрачный'(阴郁的)同词根→无光状态           |
+| подобный           | 类似的               | 'под'(在...下)+'обный'(相似)→与...相像       |
+| ацтекский          | 阿兹特克的           | 文明名'Aztec'+形容词后缀→中美洲古文明相关     |
+| алтарь             | 祭坛                 | 拉丁语'altare'→宗教祭祀台                   |
+| густой             | 浓密的               | 拟声词'гул'(嗡嗡声)→密集到不透光             |
+| джунгли            | 丛林                 | 英语'jungle'音译→热带密林                   |
+| священный          | 神圣的               | 'связь'(联系)+'енный'→与神相关的             |
+| жалкий             | 可怜的               | 'жалость'(怜悯)+'кий'→值得同情的             |
+| паломник           | 朝圣者               | 'палом'(棕榈枝)+'ник'→持圣物旅行的人          |
+| преисполненный     | 充满的               | 'пре'(过度)+'исполнение'(完成)→完全充斥的     |
+| страх              | 恐惧                 | 古教会斯拉夫语→本能性害怕                    |
+| благоговейный      | 虔诚的               | 'благо'(善)+'говеть'(斋戒)→宗教敬畏           |
+| восхищение         | 惊叹                 | 'вос'(向上)+'хищение'(夺取)→精神被俘获        |
+| пирамида           | 金字塔               | 希腊语'pyramis'→锥形建筑                     |
+| гадать             | 占卜                 | 与'гад'(爬虫)同源→古代用动物内脏预测           |
+| жертва             | 牺牲品               | 'жер'(焚烧)+'тва'→祭祀焚烧物                  |
+| затяжка            | 拖延/深吸            | 'за'(封闭)+'тянуть'(拉)→拉长时间或烟雾       |
+| неописуемый        | 难以描述的          | 'не'(不)+'описать'(描述)→超出语言表达能力     |
+| описывать          | 描述                 | 与'письмо'(文字)同根→用语言再现事物           |
+| исследователь      | 研究者               | 'исследование'(研究)+'тель'→从事探索的人       |
+| тотчас             | 立刻                 | 'тот'(那个)+'час'(小时)→就在那个时刻          |
+| осознать           | 意识到               | 'о'(关于)+'знать'(知道)→认知到真相            |
+| чересчур           | 过度                 | 'через'(穿过)+'чур'(界限)→超出限度             |
+| упрощенно          | 简化地               | 'у'(使)+'простой'(简单)→使变简单的方式         |
+| ошибочный          | 错误的               | 'ошибка'(错误)+'ный'→包含谬误的               |
+| путать             | 混淆                 | 拟声词→像乱线团般纠缠不清                     |
+| таинственный       | 神秘的               | 'тайна'(秘密)+'енный'→充满未知的              |
+| преступление       | 犯罪                 | 'пре'(越过)+'ступ'(步)→逾越法律界限的行为       |
+| пораженный         | 震惊的               | 'поразить'(打击)+'енный'→精神受冲击的状态       |
+| лишиться           | 失去                 | 'лих'(剥夺)+'иться'→被夺走某物的过程           |
+| дар                | 天赋                 | 古斯拉夫语→神灵赐予的能力                      |
+| раздирать          | 撕裂                 | 'раз'(分开)+'драть'(撕扯)→强力分裂             |
+| противоречивый     | 矛盾的               | 'против'(反对)+'речь'(言语)→观点对立的          |
+| огорченный         | 沮丧的               | 'горе'(悲伤)+'ченный'→情绪低落的               |
+| достигнуть         | 达到                 | 'до'(到)+'стигнуть'(触及)→实现目标             |
+| полюс              | 极点                 | 希腊语'polos'→地球/磁场的两端                  |
+| недоуменно         | 困惑地               | 'не'(不)+'доумение'(理解)→无法理解的状态        |。</description><guid isPermaLink="true">https://russianqin.github.io/post/%E3%80%8A-qiu-zhuang-shan-dian-%E3%80%8B%E2%80%94%E2%80%94-xi-bo-li-ya-4.html</guid><pubDate>Sun, 08 Jun 2025 18:55:06 +0000</pubDate></item><item><title>博客完善计划（应当龟速但持续推进）</title><link>https://russianqin.github.io/post/bo-ke-wan-shan-ji-hua-%EF%BC%88-ying-dang-gui-su-dan-chi-xu-tui-jin-%EF%BC%89.html</link><description>- [ ] 优化文章收藏界面
 - [ ] 输出创作内容并优化界面
 - [ ] ……。</description><guid isPermaLink="true">https://russianqin.github.io/post/bo-ke-wan-shan-ji-hua-%EF%BC%88-ying-dang-gui-su-dan-chi-xu-tui-jin-%EF%BC%89.html</guid><pubDate>Sun, 08 Jun 2025 18:25:09 +0000</pubDate></item><item><title>列宁故居半日游（2025.06.06）</title><link>https://russianqin.github.io/post/lie-ning-gu-ju-ban-ri-you-%EF%BC%882025.06.06%EF%BC%89.html</link><description>伟大的革命导师列宁一辈子在很多地方生活、工作过，所以在欧洲（特别是俄罗斯）各地都给后人留下了“列宁故居”的景点。</description><guid isPermaLink="true">https://russianqin.github.io/post/lie-ning-gu-ju-ban-ri-you-%EF%BC%882025.06.06%EF%BC%89.html</guid><pubDate>Sat, 07 Jun 2025 21:39:18 +0000</pubDate></item><item><title>《三体》——寂静的春天1</title><link>https://russianqin.github.io/post/%E3%80%8A-san-ti-%E3%80%8B%E2%80%94%E2%80%94-ji-jing-de-chun-tian-1.html</link><description>摘自《三体》英语版
 
