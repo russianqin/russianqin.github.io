@@ -1,5 +1,50 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>五环魔法师</title><link>https://russianqin.github.io</link><description>分享人生经验，提高知识水平</description><copyright>五环魔法师</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/6659289?v=4</url><title>avatar</title><link>https://russianqin.github.io</link></image><lastBuildDate>Sun, 08 Jun 2025 18:55:30 +0000</lastBuildDate><managingEditor>五环魔法师</managingEditor><ttl>60</ttl><webMaster>五环魔法师</webMaster><item><title>《球状闪电》——西伯利亚4</title><link>https://russianqin.github.io/post/%E3%80%8A-qiu-zhuang-shan-dian-%E3%80%8B%E2%80%94%E2%80%94-xi-bo-li-ya-4.html</link><description>摘自《球状闪电》俄语版
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>五环魔法师</title><link>https://russianqin.github.io</link><description>分享人生经验，提高知识水平</description><copyright>五环魔法师</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/6659289?v=4</url><title>avatar</title><link>https://russianqin.github.io</link></image><lastBuildDate>Sun, 08 Jun 2025 19:42:11 +0000</lastBuildDate><managingEditor>五环魔法师</managingEditor><ttl>60</ttl><webMaster>五环魔法师</webMaster><item><title>《三体》——寂静的春天2</title><link>https://russianqin.github.io/post/%E3%80%8A-san-ti-%E3%80%8B%E2%80%94%E2%80%94-ji-jing-de-chun-tian-2.html</link><description>摘自《三体》英语版
+
+《The Three-Body Problem》
+
+| 单词原型          | 中文解释               | 记忆建议                                   |
+|------------------|----------------------|------------------------------------------|
+| barrel-chested   | 胸膛宽阔的           | 字面'桶状胸膛'→形容壮硕体型                   |
+| shrub            | 灌木                 | 古英语'scrybb'→低矮木本植物                   |
+| fuss             | 忙乱/大惊小怪        | 拟声词→像慌乱时发出的'呲呲'声                  |
+| decompose        | 分解/腐烂            | 'de'(反向)+'compose'(组成)→结构瓦解            |
+| ditch            | 沟渠                 | 古英语'dic'→人工挖掘的排水道                   |
+| rot              | 腐烂                 | 与'rust'(锈蚀)同源→有机物腐败过程               |
+| blurt            | 脱口而出             | 拟声词→突然爆发的'bl-'音                      |
+| converse         | 交谈                 | 'con'(共同)+'verse'(转向)→思想交流              |
+| bark-lined       | 树皮衬里的           | 'bark'(树皮)+'lined'(衬里)→原始建筑特征         |
+| hut              | 棚屋                 | 德语'hütte'→简易遮蔽结构                       |
+| brook            | 小溪                 | 古英语'brōc'→小型流动水体                      |
+| cadre            | 骨干队伍             | 法语'cadre'→核心组织框架                       |
+| suffuse          | 弥漫                 | 'suf'(遍布)+'fuse'(流动)→逐渐充满               |
+| indistinguishable | 难以区分的           | 'in'(否定)+'distinguish'(辨别)→无法识别         |
+| shudder          | 颤抖                 | 拟声词→类似'嘚嘚'发抖声                        |
+| shaving          | 刨花                 | 'shave'(削)+'ing'→木材加工副产品                |
+| miasma           | 瘴气                 | 希腊语'miasma'→腐败产生的有毒雾气               |
+| regiment         |  regiment            | 拉丁语'regimentum'→军事编制单位                |
+| moniker          | 绰号                 | 吉普赛语'monikā'→非正式名称                    |
+| parabolic        | 抛物线的             | 'para'(旁)+'bol'(抛)→对称曲线运动轨迹           |
+| antenna dish     | 卫星天线             | 'antenna'(触角)+'dish'(碟)→抛物面接收器        |
+| mobilize         | 动员                 | 'mobile'(移动)+'ize'→使进入活动状态            |
+| retract          | 缩回                 | 're'(回)+'tract'(拉)→拉回原处                 |
+| erupt            | 爆发                 | 拉丁语'erumpere'→突然冲破                     |
+| nausea           | 恶心                 | 希腊语'nausia'(晕船)→生理不适感                |
+| dizziness        | 头晕                 | 'dizzy'(眩晕)+'ness'→失去平衡的状态             |
+| icicle           | 冰柱                 | 'ice'(冰)+'icle'(小)→冻结形成的锥体            |
+| thump            | 重击声               | 拟声词→沉闷的'咚'声                           |
+| patrol           | 巡逻                 | 法语'patrouiller'→周期性巡查                   |
+| sentry           | 哨兵                 | 'sent'(觉察)+'ry'→警戒人员                     |
+| station          | 驻扎                 | 拉丁语'statio'→固定位置部署                    |
+| reprimand        | 训斥                 | 're'(再)+'primand'(首要)→严肃批评               |
+| retrieve         | 取回                 | 're'(重新)+'trieve'(找到)→恢复丢失物            |
+| sloppy           | 马虎的               | 'slop'(泼洒)+'py'→像泼水般不严谨                |
+| silt content     | 淤泥含量             | 'silt'(粉砂)+'content'(含量)→沉积物比例         |
+| prose            | 散文                 | 拉丁语'prosa'→非韵文体裁                       |
+| legibly          | 清晰可读地           | 'legible'(易读)+'ly'→字迹分明地                |
+| pour             | 倾倒                 | 古法语'purer'→液体流动动作                     |
+| nib              | 笔尖                 | 中古英语'neb'→书写工具的尖端                   |
+| fragrance        | 香气                 | 拉丁语'fragrantia'→宜人气味                    |。</description><guid isPermaLink="true">https://russianqin.github.io/post/%E3%80%8A-san-ti-%E3%80%8B%E2%80%94%E2%80%94-ji-jing-de-chun-tian-2.html</guid><pubDate>Sun, 08 Jun 2025 19:41:44 +0000</pubDate></item><item><title>《球状闪电》——西伯利亚4</title><link>https://russianqin.github.io/post/%E3%80%8A-qiu-zhuang-shan-dian-%E3%80%8B%E2%80%94%E2%80%94-xi-bo-li-ya-4.html</link><description>摘自《球状闪电》俄语版
 
 《Шаровая молния》
 
