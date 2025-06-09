@@ -1,0 +1,26 @@
+name: Sync README to Issue
+
+on:
+  schedule:
+    - cron: '0 * * * *' # 每小时自动同步一次
+  workflow_dispatch:    # 支持手动触发
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Fetch README
+      run: |
+        curl -s https://raw.githubusercontent.com/russianqin/WenZhangShouCang/main/README.md > readme.md
+        
+    - name: Update Issue
+      uses: peter-evans/create-or-update-comment@v2
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        repository: russianqin/russianqin.github.io
+        issue-number: 20
+        body: |
+          ${{ steps.fetch-readme.outputs.content }}
+        edit-mode: replace
+      env:
+        CONTENT: ${{ steps.fetch-readme.outputs.content }}
