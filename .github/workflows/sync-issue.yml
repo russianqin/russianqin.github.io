@@ -2,25 +2,39 @@ name: Sync README to Issue
 
 on:
   schedule:
-    - cron: '0 * * * *' # 每小时自动同步一次
-  workflow_dispatch:    # 支持手动触发
+    - cron: '0 * * * *'  # 每小时运行一次
+  workflow_dispatch:     # 支持手动触发
+  push:
+    branches:
+      - main
+    paths:
+      - 'README.md'      # 当README.md变化时触发
 
 jobs:
-  sync:
+  sync-issue:
     runs-on: ubuntu-latest
     steps:
-    - name: Fetch README
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Fetch README content
+      id: fetch-readme
       run: |
-        curl -s https://raw.githubusercontent.com/russianqin/WenZhangShouCang/main/README.md > readme.md
-        
+        README_CONTENT=$(curl -s https://raw.githubusercontent.com/russianqin/WenZhangShouCang/main/README.md)
+        # 转义特殊字符
+        ESCAPED_CONTENT=$(echo "$README_CONTENT" | sed 's/\\/\\\\/g; s/"/\\"/g; s/`/\\`/g')
+        echo "content=${ESCAPED_CONTENT}" >> $GITHUB_OUTPUT
+
     - name: Update Issue
-      uses: peter-evans/create-or-update-comment@v2
+      uses: actions/github-script@v6
       with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        repository: russianqin/russianqin.github.io
-        issue-number: 20
-        body: |
-          ${{ steps.fetch-readme.outputs.content }}
-        edit-mode: replace
+        script: |
+          const { data: issue } = await github.rest.issues.update({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            issue_number: 20,
+            body: `${{ steps.fetch-readme.outputs.content }}`
+          });
+          console.log(`Updated issue #${issue.number}`);
       env:
-        CONTENT: ${{ steps.fetch-readme.outputs.content }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
