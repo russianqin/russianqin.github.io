@@ -4,37 +4,45 @@ on:
   schedule:
     - cron: '0 * * * *'  # 每小时运行一次
   workflow_dispatch:     # 支持手动触发
-  push:
-    branches:
-      - main
-    paths:
-      - 'README.md'      # 当README.md变化时触发
 
 jobs:
   sync-issue:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
-
     - name: Fetch README content
       id: fetch-readme
       run: |
-        README_CONTENT=$(curl -s https://raw.githubusercontent.com/russianqin/WenZhangShouCang/main/README.md)
-        # 转义特殊字符
-        ESCAPED_CONTENT=$(echo "$README_CONTENT" | sed 's/\\/\\\\/g; s/"/\\"/g; s/`/\\`/g')
-        echo "content=${ESCAPED_CONTENT}" >> $GITHUB_OUTPUT
+        # 使用原始GitHub URL获取内容
+        CONTENT=$(curl -sL "https://raw.githubusercontent.com/russianqin/WenZhangShouCang/main/README.md")
+        
+        # 对内容进行JSON转义
+        JSON_CONTENT=$(echo -n "$CONTENT" | jq -Rs .)
+        
+        # 保存到文件供后续步骤使用
+        echo "$JSON_CONTENT" > content.json
+        
+        # 设置输出变量
+        echo "content_file=content.json" >> $GITHUB_OUTPUT
+      
+      # 确保安装了jq工具
+      # 如果基础镜像没有jq，可以添加安装步骤：sudo apt-get install -y jq
 
     - name: Update Issue
       uses: actions/github-script@v6
       with:
         script: |
-          const { data: issue } = await github.rest.issues.update({
+          // 读取之前保存的内容文件
+          const fs = require('fs');
+          const content = JSON.parse(fs.readFileSync('${{ steps.fetch-readme.outputs.content_file }}', 'utf8'));
+          
+          // 更新issue
+          await github.rest.issues.update({
             owner: context.repo.owner,
             repo: context.repo.repo,
             issue_number: 20,
-            body: `${{ steps.fetch-readme.outputs.content }}`
+            body: content
           });
-          console.log(`Updated issue #${issue.number}`);
+          
+          console.log('Issue #20 updated successfully');
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
