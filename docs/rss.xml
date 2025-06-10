@@ -1,5 +1,60 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>五环魔法师</title><link>https://russianqin.github.io</link><description>分享人生经验，提高知识水平</description><copyright>五环魔法师</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/6659289?v=4</url><title>avatar</title><link>https://russianqin.github.io</link></image><lastBuildDate>Tue, 10 Jun 2025 20:39:26 +0000</lastBuildDate><managingEditor>五环魔法师</managingEditor><ttl>60</ttl><webMaster>五环魔法师</webMaster><item><title>《球状闪电》——西伯利亚6</title><link>https://russianqin.github.io/post/%E3%80%8A-qiu-zhuang-shan-dian-%E3%80%8B%E2%80%94%E2%80%94-xi-bo-li-ya-6.html</link><description>摘自《球状闪电》俄语版
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>五环魔法师</title><link>https://russianqin.github.io</link><description>分享人生经验，提高知识水平</description><copyright>五环魔法师</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/6659289?v=4</url><title>avatar</title><link>https://russianqin.github.io</link></image><lastBuildDate>Tue, 10 Jun 2025 20:43:34 +0000</lastBuildDate><managingEditor>五环魔法师</managingEditor><ttl>60</ttl><webMaster>五环魔法师</webMaster><item><title>《三体》——红岸之一</title><link>https://russianqin.github.io/post/%E3%80%8A-san-ti-%E3%80%8B%E2%80%94%E2%80%94-hong-an-zhi-yi.html</link><description>摘自《三体》英语版
+
+《The Three-Body Problem》
+
+| 单词原型      | 中文解释               | 记忆建议                                   |
+|-------------|----------------------|------------------------------------------|
+| chatter     | 喋喋不休             | 拟声词，联想'chat'(聊天)+'-er'重复→持续说话       |
+| raging      | 狂怒的               | 'rage'(愤怒)+'-ing'→情绪爆发的状态              |
+| perpetual   | 永久的               | 'per'(完全)+'pet'(追求)+'ual'→持续追求的状态      |
+| pendulum    | 钟摆                | 源自拉丁语'pendere'(悬挂)→悬挂摆动的物体           |
+| blurry      | 模糊的               | 'blur'(模糊)+'-y'→视线不清的特征                |
+| ceiling     | 天花板               | 联想'sky'(天空)+'-ing'→房间上部的遮挡            |
+| mesh        | 网眼                | 与'mash'(捣碎)区分→网状结构的孔隙                 |
+| reassert    | 重申                | 're'(再)+'assert'(断言)→再次强调                |
+| scalding    | 滚烫的               | 'scald'(烫伤)+'-ing'→足以造成烫伤的温度           |
+| spittle     | 唾沫                | 'spit'(吐)+'-tle'→口腔分泌的液体                 |
+| sew         | 缝制                | 对比'sow'(播种)→用针线连接布料                   |
+| unbutton    | 解开纽扣             | 'un'(反)+'button'(纽扣)→打开固定装置              |
+| insignia    | 徽章                | 'in'(内)+'sign'(标记)+'ia'→象征身份的标记          |
+| porthole    | 舷窗                | 'port'(港口)+'hole'(洞)→船体上的观察窗            |
+| dazzling    | 炫目的               | 'dazzle'(耀眼)+'-ing'→强光造成的视觉冲击           |
+| trunk       | 树干/行李箱          | 多义词：植物主干→箱体(形状相似)                   |
+| flicker     | 闪烁                | 拟声词，联想火焰'fl-fl'声+光线不稳定               |
+| rotor       | 转子                | 'rotate'(旋转)+'-or'→机械旋转部件                |
+| commissar   | 政委                | 俄语借词'комиссар'，联想苏联政治军官               |
+| thesis      | 论文                | 希腊词源'θέσις'(命题)→系统研究的学术成果           |
+| crouch          | 蹲伏                 | 拟声词'cr-'开头→收缩身体的动作                  |
+| cramped         | 狭窄的               | 'cram'(塞满)+'-ped'→空间被挤压的状态             |
+| gyrate          | 旋转                 | 词根'gyr-'（环）+ '-ate'→环形运动                |
+| misty           | 朦胧的               | 'mist'(薄雾)+'-y'→能见度低的特征                |
+| spacious        | 宽敞的               | 'space'(空间)+'-ious'→有富余容量的               |
+| nestle          | 依偎                 | 联想'nest'(鸟巢)→舒适地蜷缩                     |
+| trio            | 三重奏/三人组         | 意大利语借词，数字'tri'(三)的组合体               |
+| flank           | 侧翼                 | 军事术语，与'blank'(空白)区分→部队两侧保护         |
+| solemn          | 庄严的               | 拉丁词源'sollemnis'(仪式)→正式场合的氛围          |
+| incontrovertible | 无可争议的           | 'in'(不)+'controvert'(争论)+'ible'→不容辩驳的     |
+| mitigate        | 减轻                 | 'miti'(温和)+'-gate'(门)→使严重程度降低           |
+| elude           | 逃避                 | 'e'(出)+'lude'(玩)→从控制中逃脱                  |
+| sort through    | 筛选                 | 'sort'(分类)+'through'(穿过)→系统性整理           |
+| tinge           | 淡色/微量            | 与'tingle'(刺痛)区分→轻微的色彩或影响             |
+| oscilloscope    | 示波器               | 'oscillate'(振荡)+'scope'(观察)→电子测量仪器       |
+| entomb          | 埋葬                 | 'en'(使)+'tomb'(坟墓)→将某物密封在封闭空间         |
+| trench          | 战壕                 | 联想'trench coat'(风衣)→长而深的防御工事           |
+| blot            | 污渍/遮蔽            | 拟声词，联想墨水'bl-'的扩散→遮盖或污染             |
+| artillery       | 火炮                 | 'art'(技艺)+'-illery'→需要精密操作的重型武器        |
+| klaxon          | 警报器               | 商标名转化，联想'claxon'(刺耳声)→紧急信号装置       |
+| blare       | 刺耳响声             | 拟声词'bla-'联想喇叭的爆破音                     |
+| glow        | 发光                | 与'grow'(生长)对比→柔和持续的光源                |
+| magnetron   | 磁控管              | 'magnet'(磁铁)+'tron'(装置)→微波发生器核心部件     |
+| flutter     | 飘动/心跳不规律      | 拟声词'fl-fl'联想翅膀快速拍打                    |
+| faint       | 微弱的              | 与'feint'(佯攻)区分→几乎察觉不到的存在             |
+| debrief     | 任务汇报            | 'de'(解除)+'brief'(简报)→行动后详细陈述            |
+| wisp        | 一缕(烟/头发)        | 与'wish'(愿望)对比→细小飘散的丝状物               |
+| grate       | 磨碎/使人烦躁        | 多义词：物理摩擦→心理刺激(同形异义)                |
+| thickset    | 矮胖的              | 'thick'(厚)+'set'(固定)→结实粗短的身材             |
+| bulge       | 凸起                | 联想'ball'(球)+'-uge'→弧形膨胀部位                |。</description><guid isPermaLink="true">https://russianqin.github.io/post/%E3%80%8A-san-ti-%E3%80%8B%E2%80%94%E2%80%94-hong-an-zhi-yi.html</guid><pubDate>Tue, 10 Jun 2025 20:43:07 +0000</pubDate></item><item><title>《球状闪电》——西伯利亚6</title><link>https://russianqin.github.io/post/%E3%80%8A-qiu-zhuang-shan-dian-%E3%80%8B%E2%80%94%E2%80%94-xi-bo-li-ya-6.html</link><description>摘自《球状闪电》俄语版
 
 《Шаровая молния》
 
