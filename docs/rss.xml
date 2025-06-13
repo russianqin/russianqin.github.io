@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>五环魔法师</title><link>https://russianqin.github.io</link><description>分享人生经验，提高知识水平</description><copyright>五环魔法师</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/6659289?v=4</url><title>avatar</title><link>https://russianqin.github.io</link></image><lastBuildDate>Fri, 13 Jun 2025 14:59:43 +0000</lastBuildDate><managingEditor>五环魔法师</managingEditor><ttl>60</ttl><webMaster>五环魔法师</webMaster><item><title>《三体》——台球</title><link>https://russianqin.github.io/post/%E3%80%8A-san-ti-%E3%80%8B%E2%80%94%E2%80%94-tai-qiu.html</link><description>摘自《三体》英语版
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>五环魔法师</title><link>https://russianqin.github.io</link><description>分享人生经验，提高知识水平</description><copyright>五环魔法师</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/6659289?v=4</url><title>avatar</title><link>https://russianqin.github.io</link></image><lastBuildDate>Fri, 13 Jun 2025 15:05:07 +0000</lastBuildDate><managingEditor>五环魔法师</managingEditor><ttl>60</ttl><webMaster>五环魔法师</webMaster><item><title>《三体》——台球</title><link>https://russianqin.github.io/post/%E3%80%8A-san-ti-%E3%80%8B%E2%80%94%E2%80%94-tai-qiu.html</link><description>摘自《三体》英语版
 
 《The Three-Body Problem》
 
@@ -38,7 +38,52 @@
 | momentum      | 动量                 | 'move'(运动)+'mentum'→物理惯性                  |
 | sparrow       | 麻雀                 | 古英语'spearwa'→小型鸣禽                        |
 | refuge        | 避难所               | 're'(回)+'fuge'(逃离)→安全藏身处                 |
-| stumble       | 绊倒                 | 拟声词'stum-'→磕碰障碍物的动作                   |。</description><guid isPermaLink="true">https://russianqin.github.io/post/%E3%80%8A-san-ti-%E3%80%8B%E2%80%94%E2%80%94-tai-qiu.html</guid><pubDate>Fri, 13 Jun 2025 14:12:24 +0000</pubDate></item><item><title>《三体》——红岸之一</title><link>https://russianqin.github.io/post/%E3%80%8A-san-ti-%E3%80%8B%E2%80%94%E2%80%94-hong-an-zhi-yi.html</link><description>摘自《三体》英语版
+| stumble       | 绊倒                 | 拟声词'stum-'→磕碰障碍物的动作                   |。</description><guid isPermaLink="true">https://russianqin.github.io/post/%E3%80%8A-san-ti-%E3%80%8B%E2%80%94%E2%80%94-tai-qiu.html</guid><pubDate>Fri, 13 Jun 2025 14:12:24 +0000</pubDate></item><item><title>《三体》——科学边界</title><link>https://russianqin.github.io/post/%E3%80%8A-san-ti-%E3%80%8B%E2%80%94%E2%80%94-ke-xue-bian-jie.html</link><description>摘自《三体》英语版
+
+《The Three-Body Problem》
+
+| 单词原型      | 中文解释               | 记忆建议                                   |
+|-------------|----------------------|------------------------------------------|
+| butt        | 屁股/烟头            | 多义词：身体部位→香烟末端（联想形状相似）            |
+| hush        | 安静                | 拟声词'shhh'→压低声音的动作                   |
+| hostage     | 人质                | 'host'(主人)+'-age'→被控制的状态               |
+| suspend     | 悬挂/暂停           | 'sus'(下)+'pend'(挂)→吊起或中止                |
+| baffle      | 使困惑              | 联想'buffalo'(水牛)→让人像牛一样迷茫             |
+| disarray    | 混乱                | 'dis'(否定)+ 'array'(排列)→无序状态              |
+| cord        | 绳索                | 与'chord'(和弦)区分→物理连接线                 |
+| tangle      | 缠结                | 拟声词'tan-'→线条交织的混乱                    |
+| rack        | 架子/折磨           | 多义词：储物架→精神痛苦（形似刑架）               |
+| haphazard   | 随意的              | 'hap'(运气)+'hazard'(风险)→无计划的             |
+| hover       | 盘旋                | 与'over'(上方)结合→保持空中悬浮                 |
+| odds and ends | 零碎物品           | 'odds'(零钱)+'ends'(残余)→各种小物件            |
+| wrinkle     | 皱纹                | 拟声词'rink-'→皮肤褶皱                         |
+| prominent   | 突出的              | 'pro'(前)+'minent'(突出)→显著易见的             |
+| liaison     | 联络                | 法语词源，发音'li-ay-zon'→协调人员               |
+| smirk       | 得意地笑            | 拟声词'sm-'→带着嘲讽的嘴角上扬                   |
+| descale     | 除垢                | 'de'(去除)+'scale'(水垢)→清理沉积物              |
+| tilapia     | 罗非鱼              | 拉丁学名直接借用，发音'ti-la-pia'                |
+| spine       | 脊柱/书脊           | 多义词：人体骨骼→书本装订部位                   |
+| focal       | 焦点的              | 'focus'(焦点)+'-al'→处于中心位置的               |
+| flip          | 翻转/快速翻阅        | 拟声词'fl-'→轻弹动作（如硬币翻转）               |
+| parity        | 平等/奇偶校验        | 'par'(相等)+'ity'→数学相等或计算机校验位          |
+| egghead       | 书呆子               | 'egg'(蛋)+'head'(头)→形容脑袋像光滑的蛋          |
+| crooked       | 弯曲的/不诚实的      | 多义词：物理弯曲→行为狡诈（联想歪曲事实）           |
+| scrupulous    | 严谨细致的           | 'scruple'(顾虑)+'ous'→连细节都顾虑的             |
+| fastidious    | 挑剔的               | 拉丁词源'fastidium'(厌恶)→过度讲究的             |
+| floor-length  | 及地长度的           | 'floor'(地板)+'length'(长度)→衣物尺寸描述        |
+| tint          | 淡色                | 与'tent'(帐篷)区分→轻微着色                     |
+| vulgar        | 粗俗的               | 拉丁词'vulgus'(平民)→缺乏教养的                  |
+| fearsome      | 可怕的               | 'fear'(恐惧)+'some'→引发恐惧的                   |
+| component     | 组件                | 'com'(共同)+'ponere'(放置)→组合系统的部分         |
+| solenoid      | 螺线管              | 'sole'(单一)+'enoid'(形状)→电磁线圈装置          |
+| story         | 故事/楼层           | 多义词：叙事文本→建筑层数（同形异义）              |
+| cryogenic     | 低温的               | 'cryo'(寒冷)+'genic'(产生)→极低温技术            |
+| coolant       | 冷却剂              | 'cool'(冷却)+'ant'(剂)→热交换介质                |
+| junk heap     | 垃圾堆              | 'junk'(废物)+'heap'(堆)→废弃物聚集处             |
+| exude         | 渗出                | 'ex'(出)+'sudare'(流汗)→缓慢释放物质             |
+| inhuman       | 非人的               | 'in'(非)+'human'(人类)→超越人类特征的             |
+| grimness      | 严峻                | 'grim'(冷酷)+'ness'→压抑的氛围                  |
+| steel-bound   | 钢制的              | 'steel'(钢)+'bound'(束缚)→用金属加固的           |。</description><guid isPermaLink="true">https://russianqin.github.io/post/%E3%80%8A-san-ti-%E3%80%8B%E2%80%94%E2%80%94-ke-xue-bian-jie.html</guid><pubDate>Fri, 13 Jun 2025 13:14:45 +0000</pubDate></item><item><title>《三体》——红岸之一</title><link>https://russianqin.github.io/post/%E3%80%8A-san-ti-%E3%80%8B%E2%80%94%E2%80%94-hong-an-zhi-yi.html</link><description>摘自《三体》英语版
 
 《The Three-Body Problem》
 
