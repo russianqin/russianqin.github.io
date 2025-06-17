@@ -1,5 +1,38 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>五环魔法师</title><link>https://russianqin.github.io</link><description>分享人生经验，提高知识水平</description><copyright>五环魔法师</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/6659289?v=4</url><title>avatar</title><link>https://russianqin.github.io</link></image><lastBuildDate>Mon, 16 Jun 2025 21:27:52 +0000</lastBuildDate><managingEditor>五环魔法师</managingEditor><ttl>60</ttl><webMaster>五环魔法师</webMaster><item><title>《三体》——三体、周文王、长夜2</title><link>https://russianqin.github.io/post/%E3%80%8A-san-ti-%E3%80%8B%E2%80%94%E2%80%94-san-ti-%E3%80%81-zhou-wen-wang-%E3%80%81-chang-ye-2.html</link><description>[单词讲解](https://www.bilibili.com/audio/au4855424?type=1?type=6)
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>五环魔法师</title><link>https://russianqin.github.io</link><description>分享人生经验，提高知识水平</description><copyright>五环魔法师</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/6659289?v=4</url><title>avatar</title><link>https://russianqin.github.io</link></image><lastBuildDate>Tue, 17 Jun 2025 20:27:58 +0000</lastBuildDate><managingEditor>五环魔法师</managingEditor><ttl>60</ttl><webMaster>五环魔法师</webMaster><item><title>《三体》——叶文洁</title><link>https://russianqin.github.io/post/%E3%80%8A-san-ti-%E3%80%8B%E2%80%94%E2%80%94-ye-wen-ji.html</link><description>[单词讲解]()
+
+摘自《三体》英语版
+
+《The Three-Body Problem》
+
+| 单词原型       | 中文解释               | 记忆建议                                   |
+|--------------|----------------------|------------------------------------------|
+| devoid       | 缺乏的               | 'de-'（去除）+ 'void'（空）→ 完全缺失（反义联想：full） |
+| elliptical   | 椭圆的/省略的        | 希腊语'elleipsis'（缺失）→ 几何形状/语言省略（双关记忆） |
+| interim      | 临时的               | 'inter-'（之间）+ 'im'（时间）→ 过渡时期（词根拆解）   |
+| entropy      | 熵/混乱度           | 热力学概念，联想'energy'（能量）+'tropy'（转化）→ 系统无序性 |
+| magnitude    | 量级/重要性         | 'magn'（大）+ 'itude'（状态）→ 规模程度（词源记忆）    |
+| articulate   | 清晰的/表达清楚      | 'articulus'（关节）→ 像关节一样连接流畅（比喻记忆）     |
+| snow pea     | 荷兰豆               | 'snow'（雪）+ 'pea'（豌豆）→ 嫩绿如雪的豆类（视觉联想） |
+| affectionate | 深情的               | 'affect'（情感）+ 'tionate'（充满）→ 充满爱意（复合词） |
+| diminutive   | 微小的               | 'diminish'（减少）+ 'ive'（性质）→ 小型化（词根联想）  |
+| pesticide    | 杀虫剂               | 'pest'（害虫）+ 'cide'（杀）→ 杀虫化学剂（构词法）     |
+| tingle       | 刺痛感               | 拟声词，模拟轻微刺痛感（如'ting-ting'声）→ 感官记忆     |
+| tinge        | 淡色调               | 来自拉丁语'tingere'（染色）→ 轻微着色（词源联想）       |
+| hue          | 色调                | 古英语'hīw'（外貌）→ 颜色变体（与'color'对比记忆）      |
+| ranger       | 护林员/突击队员      | 'range'（范围）+ '-er'（人）→ 管理特定区域的人（职业后缀法） |
+| ura sedge    | 乌拉草               | 日语'ウラ'（ura）+ 英语'sedge'（莎草）→ 日本传统草编材料（文化词） |
+| rough-hewn   | 粗凿的               | 'rough'（粗糙）+ 'hewn'（砍劈）→ 原始加工状态（复合形容词） |
+| aesthetic    | 美学的               | 希腊语'aisthetikos'（感知）→ 与美感相关（词源记忆）      |
+| femininity   | 女性特质             | 'feminine'（女性的）+ '-ity'（性质）→ 抽象名词化（后缀法） |
+| parabolic    | 抛物线的             | 'parabola'（抛物线）+ '-ic'（的）→ 数学曲线（学科术语）  |
+| baffled      | 困惑的               | 拟声词，模拟'ba-ba'混乱声 → 思维受阻（音义联想）         |
+| scrawled     | 潦草写的             | 拟声词'scrawl'（刮擦声）→ 快速书写（动作联想）          |
+| mesmerized   | 着迷的               | 源自催眠师Mesmer → 被催眠般吸引（人名典故）             |
+| whim         | 一时兴起             | 古挪威语'hvima'（眼神游离）→ 突发奇想（词源联想）        |
+| unprecedented | 前所未有的          | 'un-'（无）+ 'precedent'（先例）→ 史无前例（否定构词）   |
+| ensuing      | 随后的               | 'ensue'（跟随）+ '-ing'→ 时间先后关系（动词分词化）      |
+| ginseng      | 人参                 | 汉语'人参'音译 → 直接关联中药材（外来词）               |。</description><guid isPermaLink="true">https://russianqin.github.io/post/%E3%80%8A-san-ti-%E3%80%8B%E2%80%94%E2%80%94-ye-wen-ji.html</guid><pubDate>Tue, 17 Jun 2025 20:27:26 +0000</pubDate></item><item><title>《三体》——三体、周文王、长夜2</title><link>https://russianqin.github.io/post/%E3%80%8A-san-ti-%E3%80%8B%E2%80%94%E2%80%94-san-ti-%E3%80%81-zhou-wen-wang-%E3%80%81-chang-ye-2.html</link><description>[单词讲解](https://www.bilibili.com/audio/au4855424?type=1?type=6)
 
 摘自《三体》英语版
 
