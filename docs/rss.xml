@@ -1,5 +1,42 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>五环魔法师</title><link>https://russianqin.github.io</link><description>分享人生经验，提高知识水平</description><copyright>五环魔法师</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/6659289?v=4</url><title>avatar</title><link>https://russianqin.github.io</link></image><lastBuildDate>Sat, 21 Jun 2025 20:10:07 +0000</lastBuildDate><managingEditor>五环魔法师</managingEditor><ttl>60</ttl><webMaster>五环魔法师</webMaster><item><title>《球状闪电》——大学1</title><link>https://russianqin.github.io/post/%E3%80%8A-qiu-zhuang-shan-dian-%E3%80%8B%E2%80%94%E2%80%94-da-xue-1.html</link><description>[单词讲解]()
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>五环魔法师</title><link>https://russianqin.github.io</link><description>分享人生经验，提高知识水平</description><copyright>五环魔法师</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/6659289?v=4</url><title>avatar</title><link>https://russianqin.github.io</link></image><lastBuildDate>Sat, 21 Jun 2025 21:07:30 +0000</lastBuildDate><managingEditor>五环魔法师</managingEditor><ttl>60</ttl><webMaster>五环魔法师</webMaster><item><title>《三体》——宇宙闪烁</title><link>https://russianqin.github.io/post/%E3%80%8A-san-ti-%E3%80%8B%E2%80%94%E2%80%94-yu-zhou-shan-shuo.html</link><description>[单词讲解]()
+
+摘自《三体》英语版
+
+《The Three-Body Problem》
+
+| 单词原型       | 中文解释               | 记忆建议                                   |
+|--------------|----------------------|------------------------------------------|
+| spectacular  | 壮观的               | 'spectacle'（景象）+ '-ar'→ 视觉冲击力（词缀拆解）   |
+| anisotropy   | 各向异性             | 'an-'（非）+ 'isotropy'（各向同性）→ 物理特性对比（反义构词） |
+| thermal      | 热的                 | 'thermo-'（热）词根 → 温度相关（科学术语前缀）        |
+| spectrum     | 光谱                 | 'specter'（幽灵）→ 光的分色现象（词源联想）          |
+| isotropic    | 各向同性的           | 'iso-'（相同）+ 'tropic'（方向）→ 均匀分布（希腊词源） |
+| ember        | 余烬                 | 古英语'æmerge'→ 将熄的火炭（古词形象记忆）           |
+| fluorescent  | 荧光的               | 'fluor'（萤石）+ '-escent'（发光）→ 冷光源（矿物起源） |
+| anticipate   | 预料                 | 'anti-'（前）+ 'capere'（抓住）→ 提前把握（拉丁词源） |
+| paging       | 分页                 | 'page'（页）→ 书本翻页动作（日常场景具象化）         |
+| scramble     | 爬行/争夺            | 拟声词→ 混乱攀爬的声音（听觉形象记忆）              |
+| expectantly  | 期待地               | 'expect'（期待）→ 伸长脖子的等待姿态（行为联想）      |
+| wriggling    | 扭动                 | 与'wiggle'（摆动）同源 → 蠕虫运动（生物动作类比）     |
+| elapsed      | 已过去的             | 'e-'（出）+ 'lapse'（流逝）→ 时间溜走（液体流动隐喻） |
+| sabotage     | 蓄意破坏             | 法语'sabot'（木鞋）→ 工人扔鞋入机器（历史典故）       |
+| saboteur     | 破坏者               | 'sabotage' + '-eur'（人）→ 实施破坏者（职业后缀）    |
+| deprive      | 剥夺                 | 'de-'（去除）+ 'private'（私有）→ 强行夺走（法律术语联想） |
+| miniaturize  | 使小型化             | 'mini'（迷你）+ '-ize'（化）→ 技术缩微（科技构词法）   |
+| immense      | 巨大的               | 'in-'（非）+ 'mensus'（测量）→ 难以测量的（拉丁词源）  |
+| hazy         | 模糊的               | 拟声词→ 雾气朦胧的视觉（天气现象联想）               |
+| diffraction  | 衍射                 | 'dis-'（分开）+ 'frangere'（破碎）→ 光波分裂（物理现象） |
+| quiver       | 颤抖                 | 拟声词→ 箭矢颤动的形象（武器相关记忆）               |
+| cramped      | 狭窄的               | 'cramp'（痉挛）→ 空间压迫感（生理不适转化）           |
+| perverse     | 反常的               | 'per-'（完全）+ 'verse'（转向）→ 逆向而行（路径意象）   |
+| neon         | 霓虹灯               | 希腊语'neos'（新的）→ 新型光源（科技史标记）           |
+| tremble      | 发抖                 | 与'quake'同源 → 地震般的微颤（自然灾害类比）          |
+| flap         | 拍打                 | 拟声词→ 鸟类翅膀扇动声（动物行为观察）               |
+| ripple       | 涟漪                 | 重复'rip'→ 水面连续波纹（视觉动态记忆）              |
+| puddle       | 水坑                 | 与'pod'（容器）同源 → 地面液体容器（形状联想）         |
+| toll         | 敲钟/通行费          | 古英语'toll'→ 钟声与税费双重含义（历史词义分化）        |
+| romanesque   | 罗马式的             | 'Roman' + '-esque'（风格）→ 建筑艺术流派（文化术语）   |。</description><guid isPermaLink="true">https://russianqin.github.io/post/%E3%80%8A-san-ti-%E3%80%8B%E2%80%94%E2%80%94-yu-zhou-shan-shuo.html</guid><pubDate>Sat, 21 Jun 2025 21:07:07 +0000</pubDate></item><item><title>《球状闪电》——大学1</title><link>https://russianqin.github.io/post/%E3%80%8A-qiu-zhuang-shan-dian-%E3%80%8B%E2%80%94%E2%80%94-da-xue-1.html</link><description>[单词讲解]()
 
 摘自《球状闪电》俄语版
 
