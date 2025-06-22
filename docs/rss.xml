@@ -1,5 +1,41 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>五环魔法师</title><link>https://russianqin.github.io</link><description>分享人生经验，提高知识水平</description><copyright>五环魔法师</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/6659289?v=4</url><title>avatar</title><link>https://russianqin.github.io</link></image><lastBuildDate>Sat, 21 Jun 2025 21:07:30 +0000</lastBuildDate><managingEditor>五环魔法师</managingEditor><ttl>60</ttl><webMaster>五环魔法师</webMaster><item><title>《三体》——宇宙闪烁</title><link>https://russianqin.github.io/post/%E3%80%8A-san-ti-%E3%80%8B%E2%80%94%E2%80%94-yu-zhou-shan-shuo.html</link><description>[单词讲解]()
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>五环魔法师</title><link>https://russianqin.github.io</link><description>分享人生经验，提高知识水平</description><copyright>五环魔法师</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/6659289?v=4</url><title>avatar</title><link>https://russianqin.github.io</link></image><lastBuildDate>Sun, 22 Jun 2025 10:08:30 +0000</lastBuildDate><managingEditor>五环魔法师</managingEditor><ttl>60</ttl><webMaster>五环魔法师</webMaster><item><title>《三体》——大史</title><link>https://russianqin.github.io/post/%E3%80%8A-san-ti-%E3%80%8B%E2%80%94%E2%80%94-da-shi.html</link><description>[单词讲解]()
+
+摘自《三体》英语版
+
+《The Three-Body Problem》
+
+| 单词原型       | 中文解释               | 记忆建议                                   |
+|--------------|----------------------|------------------------------------------|
+| snippet      | 片段                 | 'snip'（剪）→ 剪下的碎片（动作具象化）              |
+| hymnal       | 赞美诗集             | 'hymn'（圣歌）+ '-al'→ 宗教音乐集合（词缀构词）       |
+| rehearsal    | 排练                 | 're-'（重复）+ 'hearse'（耙地）→ 反复练习（农耕隐喻）  |
+| dove         | 鸽子                 | 古英语'dūfe'→ 和平象征（文化符号联想）              |
+| crawl        | 爬行                 | 拟声词→ 昆虫移动的窸窣声（听觉形象记忆）             |
+| intersection | 交叉路口             | 'inter-'（之间）+ 'section'（部分）→ 道路交汇（空间概念）|
+| tow          | 拖拽                 | 古英语'togian'→ 船舶牵引场景（航海术语）            |
+| drag         | 拖动                 | 与'draw'同源 → 费力拉拽（力量感差异）              |
+| puff         | 喷吐                 | 拟声词→ 蒸汽喷发声（工业革命联想）                 |
+| tripe        | 牛肚/废话            | 拉丁语'trippa'→ 食物与垃圾话双关（词义分化）         |
+| churn        | 搅拌                 | 古英语'cyrin'→ 黄油制作动作（传统工艺场景）          |
+| slurp        | 啜饮                 | 拟声词→ 吸面条的声音（饮食文化联想）                |
+| chomp        | 大声咀嚼             | 'champ'变体 → 马嚼燕麦声（动物进食强化）            |
+| et cetera    | 等等                 | 拉丁语缩写'etc.'→ 列举未尽（学术写作标记）           |
+| mortgage     | 抵押贷款             | 'mort'（死亡）+ 'gage'（质押）→ 终身债务（金融术语）   |
+| fishy        | 可疑的               | '鱼腥味'→ 不靠谱的感觉（嗅觉联想）                 |
+| crappy       | 劣质的               | 'crap'（废物）→ 质量低劣（俚语强化）               |
+| slumber      | 睡眠                 | 拟声词'slum-'→ 打鼾声（睡眠状态联想）              |
+| ripple       | 涟漪                 | 'rip'（撕裂）→ 水面裂痕（视觉动态）                |
+| moat         | 护城河               | 古法语'mote'→ 城堡防御设施（历史场景）              |
+| laureate     | 获奖者               | 'laurel'（月桂）→ 古希腊桂冠（荣誉象征）            |
+| mob          | 暴民                 | 拉丁语'mobile'（易变的）→ 乌合之众（群体心理学）      |
+| trivial      | 琐碎的               | 'tri-'（三）+ 'via'（路）→ 十字路口的闲聊（词源故事） |
+| rustic       | 乡村的               | 'rural'（农村）的同源词 → 田园风光（场景联想）       |
+| perceptive   | 敏锐的               | 'per-'（穿透）+ 'ceive'（获取）→ 洞察力（认知过程）  |
+| pseudoscience| 伪科学               | 'pseudo-'（假）+ 'science'→ 科学外衣（批判思维）    |
+| hoax         | 骗局                 | 魔术师'hocus pocus'→ 虚假把戏（表演艺术关联）       |
+| conspiracy   | 阴谋                 | 'con-'（共）+ 'spire'（呼吸）→ 秘密勾结（呼吸隐喻）  |
+| ruthless     | 无情的               | 'ruth'（怜悯）+ '-less'→ 毫无同情（情感剥夺）       |。</description><guid isPermaLink="true">https://russianqin.github.io/post/%E3%80%8A-san-ti-%E3%80%8B%E2%80%94%E2%80%94-da-shi.html</guid><pubDate>Sun, 22 Jun 2025 10:08:07 +0000</pubDate></item><item><title>《三体》——宇宙闪烁</title><link>https://russianqin.github.io/post/%E3%80%8A-san-ti-%E3%80%8B%E2%80%94%E2%80%94-yu-zhou-shan-shuo.html</link><description>[单词讲解]()
 
 摘自《三体》英语版
 
