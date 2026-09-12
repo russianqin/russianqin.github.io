@@ -8,6 +8,7 @@ on:
     branches: [main]
     paths:
       - "config.json"
+      - "data/**"
       - "static/**"
       - "scripts/**"
       - ".github/workflows/Gmeek.yml"
@@ -64,6 +65,12 @@ jobs:
           cp -a /opt/Gmeek/docs ${{ github.workspace }} 
           cp -a /opt/Gmeek/backup ${{ github.workspace }} 
           cp /opt/Gmeek/blogBase.json ${{ github.workspace }} 
+
+      - name: Sync 日日新 page
+        run: python scripts/sync_refreshment.py docs
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
 
       - name: Optimize docs (SEO / 图片懒加载 / sitemap)
         run: python scripts/optimize_docs.py docs
