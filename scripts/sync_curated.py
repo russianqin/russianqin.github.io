@@ -396,12 +396,8 @@ def localize_images(article, cache_dir, mode, stats):
 # ---------------------------------------------------------------- 渲染
 
 def markdown_to_html(text):
-    try:
-        import markdown  # type: ignore
-
-        return markdown.markdown(text, extensions=["extra", "sane_lists", "nl2br", "tables"])
-    except Exception:  # noqa: BLE001 - 没有 markdown 包时用内置渲染器
-        return fallback_markdown(text)
+    """统一用内置渲染器：不依赖第三方库，本地预览与线上产物完全一致。"""
+    return fallback_markdown(text)
 
 
 def inline_html(text):
@@ -414,12 +410,14 @@ def inline_html(text):
 
     text = html.escape(text, quote=False)
     text = re.sub(
-        r"!\[[^\]]*\]\((https?://[^)\s]+)(?:\s+\"[^\"]*\")?\)",
-        lambda m: stash('<img src="%s" alt="" loading="lazy" decoding="async">' % m.group(1)),
+        r"!\[([^\]]*)\]\(([^)\s]+)(?:\s+\"[^\"]*\")?\)",
+        lambda m: stash(
+            '<img src="%s" alt="%s" loading="lazy" decoding="async">' % (m.group(2), m.group(1))
+        ),
         text,
     )
     text = re.sub(
-        r"\[([^\]]+)\]\((https?://[^)\s]+)\)",
+        r"\[([^\]]+)\]\(([^)\s]+)(?:\s+\"[^\"]*\")?\)",
         lambda m: stash('<a href="%s" rel="nofollow">%s</a>' % (m.group(2), m.group(1))),
         text,
     )
@@ -645,12 +643,15 @@ def render_article(article, shell, site, body_html):
     canonical = "%s/%s/%s.html" % (base, INDEX_SLUG, article["slug"])
     plain = re.sub(r"\s+", " ", re.sub(r"[#*>`\[\]!]", "", article["body"]))[:150]
     description = "%s（收藏自%s，个人存档）" % (plain, article["host"])
+    og_image = article.get("og_image")
+    if og_image and og_image.startswith("/"):
+        og_image = base + og_image
     head = build_head(
         shell["head"],
         "%s - 文章收藏" % article["title"],
         description,
         canonical,
-        og_image=article.get("og_image"),
+        og_image=og_image,
         article=True,
         source_url=article["url"],
     )
