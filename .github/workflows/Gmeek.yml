@@ -4,6 +4,13 @@ on:
   workflow_dispatch:
   issues:
     types: [opened, edited]
+  push:
+    branches: [main]
+    paths:
+      - "config.json"
+      - "static/**"
+      - "scripts/**"
+      - ".github/workflows/Gmeek.yml"
   schedule:
     - cron: "0 16 * * *"
     
@@ -11,6 +18,9 @@ jobs:
   build:
     name: Generate blog
     runs-on: ubuntu-24.04
+    concurrency:
+      group: gmeek-build
+      cancel-in-progress: false
     if: ${{ github.event.repository.owner.id == github.event.sender.id || github.event_name == 'schedule' }}
     permissions: write-all
     steps:
@@ -54,6 +64,9 @@ jobs:
           cp -a /opt/Gmeek/docs ${{ github.workspace }} 
           cp -a /opt/Gmeek/backup ${{ github.workspace }} 
           cp /opt/Gmeek/blogBase.json ${{ github.workspace }} 
+
+      - name: Optimize docs (SEO / 图片懒加载 / sitemap)
+        run: python scripts/optimize_docs.py docs
           
       - name: update html
         run: |

@@ -77,3 +77,126 @@
     }
     [data-color-mode="dark"] .title-right > a::after { color: #8b949e; }
 }
+
+/* --- 中文正文排版：字体栈 + 行距（原模板只用 sans-serif / line-height 1.25，中文偏挤） --- */
+html body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", "PingFang SC",
+        "Hiragino Sans GB", "Microsoft YaHei", "Source Han Sans SC", "WenQuanYi Micro Hei", sans-serif;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+}
+.markdown-body {
+    font-size: 16.5px;
+    line-height: 1.85;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+.markdown-body p { margin-bottom: 1.15em; }
+.markdown-body li { line-height: 1.85; }
+.markdown-body h2, .markdown-body h3, .markdown-body h4 { line-height: 1.4; }
+.markdown-body blockquote { line-height: 1.75; }
+.markdown-body code, .markdown-body pre, .markdown-body tt {
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+}
+
+/* --- 图片与图注：图片居中圆角、图注居中弱化（原图注是普通引用块，视觉上和正文混在一起） --- */
+.markdown-body img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+    border-radius: 8px;
+    cursor: zoom-in;
+}
+.markdown-body p:has(img) { margin-bottom: 4px; }
+.markdown-body p:has(img) + blockquote {
+    margin: 0 0 20px;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: #57606a;
+    font-size: 14px;
+    line-height: 1.6;
+    text-align: center;
+}
+[data-color-mode="dark"] .markdown-body p:has(img) + blockquote { color: #8b949e; }
+
+/* --- 回到顶部按钮 --- */
+#toTop {
+    position: fixed;
+    right: 20px;
+    bottom: 24px;
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    border: 1px solid var(--color-border-default, #d0d7de);
+    border-radius: 50%;
+    background: var(--color-canvas-default, #fff);
+    color: var(--color-fg-muted, #57606a);
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    z-index: 60;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(6px);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: opacity 0.2s, transform 0.2s, visibility 0.2s, color 0.2s;
+}
+#toTop.show { opacity: 1; visibility: visible; transform: none; }
+#toTop:hover { color: var(--color-accent-fg, #0969da); }
+
+/* --- 图片灯箱（点击正文图片放大查看） --- */
+.img-lightbox {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: rgba(0, 0, 0, 0.88);
+    z-index: 100;
+    cursor: zoom-out;
+}
+.img-lightbox.show { display: flex; }
+.img-lightbox img {
+    max-width: 100%;
+    max-height: calc(100vh - 96px);
+    border-radius: 6px;
+    cursor: default;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
+}
+.img-lightbox-caption {
+    position: fixed;
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+    color: #d0d7de;
+    font-size: 14px;
+    text-align: center;
+}
+.img-lightbox-close {
+    position: fixed;
+    top: 12px;
+    right: 16px;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+}
+.img-lightbox-close:hover { background: rgba(255, 255, 255, 0.24); }
+body.lightbox-open { overflow: hidden; }
+
+@media (max-width: 600px) {
+    #toTop { right: 12px; bottom: 16px; width: 38px; height: 38px; }
+    .markdown-body { font-size: 16px; }
+}

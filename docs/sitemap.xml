@@ -6,38 +6,38 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://russianqin.github.io/page2.html</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://russianqin.github.io/page3.html</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://russianqin.github.io/page4.html</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://russianqin.github.io/tag.html</loc>
-    <changefreq>monthly</changefreq>
+    <loc>https://russianqin.github.io/link.html</loc>
+    <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://russianqin.github.io/link.html</loc>
-    <changefreq>monthly</changefreq>
+    <loc>https://russianqin.github.io/page2.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://russianqin.github.io/page3.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://russianqin.github.io/page4.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://russianqin.github.io/quest%20in%20Moscow.html</loc>
+    <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://russianqin.github.io/refreshment.html</loc>
-    <changefreq>monthly</changefreq>
+    <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://russianqin.github.io/quest in Moscow.html</loc>
-    <changefreq>monthly</changefreq>
+    <loc>https://russianqin.github.io/tag.html</loc>
+    <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
