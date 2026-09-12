@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="dark" data-light-theme="light" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href='https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css' rel='stylesheet' /><style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style><style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+
+</style>
+    <script src='https://blog.meekdai.com/Gmeek/plugins/GmeekBSZ.js'></script><link rel="alternate" type="application/rss+xml" title="五环魔法师" href="/rss.xml"><link rel="stylesheet" href="/custom.css"><script defer src="/custom.js"></script>
+    <link rel="icon" href="https://avatars.githubusercontent.com/u/6659289?v=4"><script>
+        let theme = localStorage.getItem("meek_theme") || "light";
+        document.documentElement.setAttribute("data-color-mode", theme);
+    </script>
+<title>解构筛选机制 - 文章收藏</title>
+
+
+
+<meta name="description" content="https://mp.weixin.qq.com/s/wyY5cjIhBlVZTpIpNkmjvw 今天继续探讨一些规律性、根源性的东西。 教育考试制度是一个相对公平的筛查器。 从宏观讲，一个社会存在10个好岗位、30个中岗位、60个差岗位。 通过中考、高考、考研，来筛选出具备某种努力特质的人，然后（收藏自微信公众号，个人存档）"><link rel="canonical" href="https://russianqin.github.io/curated/203.html"><meta property="og:title" content="解构筛选机制 - 文章收藏"><meta property="og:description" content="https://mp.weixin.qq.com/s/wyY5cjIhBlVZTpIpNkmjvw 今天继续探讨一些规律性、根源性的东西。 教育考试制度是一个相对公平的筛查器。 从宏观讲，一个社会存在10个好岗位、30个中岗位、60个差岗位。 通过中考、高考、考研，来筛选出具备某种努力特质的人，然后（收藏自微信公众号，个人存档）"><meta property="og:type" content="article"><meta property="og:url" content="https://russianqin.github.io/curated/203.html"><meta name="twitter:card" content="summary"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"解构筛选机制 - 文章收藏","url":"https://russianqin.github.io/curated/203.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://russianqin.github.io/curated/203.html"},"inLanguage":"zh-CN","description":"https://mp.weixin.qq.com/s/wyY5cjIhBlVZTpIpNkmjvw 今天继续探讨一些规律性、根源性的东西。 教育考试制度是一个相对公平的筛查器。 从宏观讲，一个社会存在10个好岗位、30个中岗位、60个差岗位。 通过中考、高考、考研，来筛选出具备某种努力特质的人，然后（收藏自微信公众号，","isPartOf":{"@type":"Blog","name":"五环魔法师","url":"https://russianqin.github.io/"},"isBasedOn":"https://mp.weixin.qq.com/s/wyY5cjIhBlVZTpIpNkmjvw"}</script></head>
+
+
+
+
+
+
+
+</head>
+<body>
+
+    <div id="header">
+<h1 class="postTitle">解构筛选机制</h1>
+<div class="title-right">
+    <a href="https://russianqin.github.io" id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+
+</div>
+</div>
+    <div id="content">
+<div class="curated-source">
+<span>收藏自 <b>微信公众号</b></span><a class="btn btn-sm" href="https://mp.weixin.qq.com/s/wyY5cjIhBlVZTpIpNkmjvw" target="_blank" rel="noopener noreferrer">看原文评论 ↗</a><div class="curated-note">本文为个人存档，版权归原作者所有；评论请点上方按钮前往原文查看。</div></div>
+<div class="markdown-body" id="postBody"><p>https://mp.weixin.qq.com/s/wyY5cjIhBlVZTpIpNkmjvw</p>
+<p>今天继续探讨一些规律性、根源性的东西。</p>
+<p>教育考试制度是一个相对公平的筛查器。</p>
+<p>从宏观讲，一个社会存在10个好岗位、30个中岗位、60个差岗位。</p>
+<p>通过中考、高考、考研，来筛选出具备某种努力特质的人，然后投放到社会去分层占据这些岗位。</p>
+<p>如此便能够公平合理的解决优劣分配问题。</p>
+<p>这个机制本身无可指摘。</p>
+<p>其实，对社会来说，根本不是太在乎谁是前10%，谁是后60%，只要大致加以筛选，大家情绪稳定、秩序井然就行了。</p>
+<p>差的人只要到了好的岗位，大概率也能胜任、还能相应变强。人嘛，本身就是会变的，没有绝对优劣之说。</p>
+<p>但问题在于，对每个个体来说，不幸被淘汰为底层，却是件毁天灭地的事情，而且基本上很难翻身，任何人都不能接受。</p>
+<p><strong>因此，唯一的办法是卷——既然每个人都不肯放弃，那么就只能卷到精疲力尽、再分出层来为止。</strong></p>
+<p>当然，这里面有一个误区值得一提。</p>
+<p>很多人都反对卷，觉得卷都是瞎折腾，没用。</p>
+<p>其实不是。</p>
+<p>卷出来的分层，确实比没卷过的分层要强、要合理、要公平。</p>
+<p>所以，卷相比不卷还是有效的。</p>
+<p><strong>主要关键点在于成本。</strong></p>
+<p>同样是分层，如果只花100块钱，让大家适当竞争、筛选一下，既经济、又达到了目标，自然是高效管用、皆大欢喜。</p>
+<p>但如果，大家都倾家荡产，卷到了死。那最后，哪怕结果是精确合理了一点，可这成本和受益相比，就太得不偿失、连底裤都赔光了。</p>
+<p>所以，你看现在的教改就是，不得不按着简易筛选的思路在改。它减少了大考关卡，取缔了培训行业，禁止了日常考试评分。</p>
+<p>根本原因，就是要降低筛选成本。</p>
+<p>100块筛一筛也足够用了，别往死里筛，筛得成本飞上了天，年轻人都不敢生孩子了，这不是赔光了底裤是什么？</p>
+<p>-</p>
+<p>这个道理搬到职场，也同样适用。</p>
+<p>100个人里面，总要有人当CEO总经理，总有5.6个人当总监副总，还总有十几二十个中层人员，以及七八十个底层小兵。</p>
+<p>谁来当领导这件事，当然是可以筛的。</p>
+<p>通过某种业绩、喜好、考核、关系，来筛选出更心仪的人，来分层担任职务，最后达到合适的单位层级。</p>
+<p>但问题是，对每一个个体来说，要直接承认底层命运是很难的。</p>
+<p>年轻人难以接受自己一辈子拧螺丝直到退休的命运；中层也难以接受自己从此止步于此的命运；高管也觉得凭什么我当不了顶流？</p>
+<p><strong>于是，唯一的办法还是卷。</strong></p>
+<p><strong>——我不接受命运，我相信胜天半子，我要卷到死，卷到大家都累死，卷到自己被提拔为止。</strong></p>
+<p>而且，比教育考试更可怕的是，学生再卷，最多就是折腾自己和父母，消耗的是小家庭的资源。</p>
+<p>可员工一卷，领导一卷，消耗的可能是一整个系统，是各项事业的发展。</p>
+<p>为了筛选出谁来当boss、谁来当中层，消耗了如此天量的资源，这无疑是卷过头了。</p>
+<p>所以，这里面有一个很矛盾的事。</p>
+<p>一方面，下面卷、对上面似乎是有利的。</p>
+<p>卷，解决了人物筛选的问题；卷，也能创造出一定的成绩；卷，还能为上一级的业绩添砖加瓦。</p>
+<p>但另一方面，资源被耗尽了，该精进的事业被荒废、大批大批人不干正事儿，都被带偏了。</p>
+<p>就像高考一样，大家疯狂刷题，刷得都忘了自己为什么要学这个，究竟要获得什么知识，究竟要用在哪里？</p>
+<p>所以，卷，于胜利者而言也许是有益的，但对宏观事业却得不偿失，属于是标准的亏本买卖。</p>
+<p>-</p>
+<p>讲完宏观的，再来聚焦一下个人。</p>
+<p><strong>就个人来说，为了竞争、为了筛选、为了卷，真的是丢失和放弃了很多。</strong></p>
+<p>比如，学生时代，放弃了集体游戏、放弃了当灌篮高手，小男生小女生还放弃了情窦初开。</p>
+<p>要知道，学生时代，哪怕一个牵手、一个吻也是弥足珍贵的。</p>
+<p>结果，都得学习。</p>
+<p>又比如，小时候看动漫，真的是极为感动的，可以说是种沉浸式享受。</p>
+<p>但不得不压抑自己，要好好学习，要竞争筛选。</p>
+<p>等到年纪大了，哪怕有了时间和机会，那种痴迷和悸动却再也回不来了。</p>
+<p><strong>当然，这不是说要去玩物丧志，而是人类天性如此，在最具备游戏天性的时候疯狂卷学习，只能说一言难尽。</strong></p>
+<p>职场生涯也是一样。</p>
+<p>其实，人生追求的广度和深度是无限的，可身在职场，却变得非常狭隘，总是不自主地陷在那些筛选（工作表现）之中，除此之外不知道自己还能干什么、还想干什么。</p>
+<p>当然，退休之后，是可以解脱出来的，但人生很关键的三十年已经没了。</p>
+<p>真的可以放弃掉三分之一的人生吗？</p>
+<p><strong>总之，为了这个筛选，无论是宏观的系统还是微观的个人，都消耗了太多，失去了太多。</strong></p>
+<p>最后，得到的结果，说句不好听的，还不如直接抓阄公平省力，只是人类不太能接受抓阄罢了。</p>
+<p>当然，体系的事情我们无法改变，整个体系要卷，那也只能随它去了。</p>
+<p>可以，个人的命运却是掌握在自己手中的。</p>
+<p><strong>把自己的人生和资源，带出那个无尽的筛选循环，乃是对于自己，最大的救赎～</strong></p>
+<p>-</p>
+<p>今天的话题是要聊根源性的问题，那么，就不能止步于此，要再深一层解构一下原因。</p>
+<p>前面说了，“卷”是人类社会基于分层筛选的一种对应性操作。</p>
+<p>现实情况是，社会确实是分层的，清北复交和三流大专、大boss和小员工之间有着天壤之别。</p>
+<p>你让任何人甘当小员工都是没道理的，小员工一定是不服的。</p>
+<p>所以，卷一卷、筛一筛，其实是合理必要的。</p>
+<p>可一旦卷起来，似乎必然就会陷入无尽的扩大化，大家竞争起来就没边儿了，这问题究竟出在哪里了呢？</p>
+<p>其实是筛的方式错了。</p>
+<p>我举个例子大家就明白了。</p>
+<p>假设，上级公司要评选一个模范人物，应该怎么评？</p>
+<p>一般的操作是这样的，首先下发通知，要求各单位上报事迹。</p>
+<p>然后，根据名额配比和事迹文采进行取舍，确定了模范人物。</p>
+<p>最后，后开会表彰宣布，模范人物产生，评选结束。</p>
+<p>那么，这套传统的评选方式，有什么问题呢？</p>
+<p>问题就在于，上级公司作为评选方，其实根本不真正了解模范人物。</p>
+<p>名额是配比的，事迹是单位上报的，实际情况是单位写手代拟的，或者干脆就是让本人写的。</p>
+<p>公司评选方见过模范人物吗？和他聊过吗？了解过他的具体工作吗？知道他的作息吗？有没有询证过他的身边人？有没有暗访过？有没有对他知根知底？有没有比较过其他人？还是下面报谁就是谁？</p>
+<p>如果什么都没有，就凭别人写的事迹评出了奖，那么，各种翻车事件也就不足为奇了。</p>
+<p>前天刚评的模范人物，今天微信群里就爆出偷情短信了，这种事还少吗？</p>
+<p>所以，你会发现，上级公司虽然轰轰烈烈评了模范人物，但它其实啥都没干。</p>
+<p>它就是发了个通知，好像“掀起了高潮”，然后就闭着眼睛收材料，按着配比名额直接确定，再开个会、让人物自己读事迹就完了。</p>
+<p>也就是说，在评选模范这个筛选工作中，责任最大的决策部门躺赢了，坐在那里当老爷了。</p>
+<p>别人提交事迹，别人来展示，别人作事迹报告，别人准备台账迎检汇报。</p>
+<p>什么都是别人，别人尽情表演，谁演的最好谁可以上～</p>
+<p>如此一来，评选者只要看看戏，点评点评就可以了，筛选工作竟变得如此简单。等于把筛选这项关键而艰苦的工作，全权下放了。</p>
+<p>下面的单位，可就卷了起来。</p>
+<p>因为，所有的评选事迹、评选材料都要靠自己挖掘、上报。你如果不主动提供，不拼命展示，那你永远也不可能成为模范。</p>
+<p>而尽管名额可能只有一个，但大家都不肯白白放弃，那就不得不申报，也许光候选材料就报了99份，还一份比一份花哨突出。</p>
+<p><strong>这就是当今，内卷逻辑之所以会大行其道的原因了。上级公司采取了当老爷的机制，那么下面就只能高成本的卷了。</strong></p>
+<p>回过头，你看学生筛选，是不是也一样，定了一套变态考题，反正你们自己考、自己卷，分高者上，其他就不管了，根本没有细致认真的对学生进行考察？</p>
+<p>然后，你看晋升提拔，也是你自己拉关系、自己表现、自己整活儿，让领导看见了、记着了，就有机会了。</p>
+<p>至于，你是不是真的兢兢业业、是不是真的有某方面能力、是不是真的有管理之才，工作的成效有多少是真的实的，领导才没空去细细了解呢？</p>
+<p>写到这里，我们也差不多可以做个总结了。</p>
+<p><strong>我们的筛选机制，根本上是一个躺筛机制，无论是学生考试、员工晋升还是模范评选，逻辑都是一样的。</strong></p>
+<p><strong>筛选者躺平，下面拼命动。</strong></p>
+<p><strong>这就造成了广泛而无尽的瞎卷，大幅抬高了内卷的激烈程度，也使得筛选成本无限的扩大化。</strong></p>
+<p>因为，这相当于是每个人都产生了应和筛选的工作量，你想想社会均摊成本有多高？</p>
+<p>而且，应筛的方向也不对，不是凭真本事、真智慧、真人品，而是靠应试、靠逢迎、靠表现。</p>
+<p>所以，你会发现，尽管大家似乎很努力、社会似乎很努力，可分层的结果总是不尽如人意，原因盖乎如此。</p>
+<p>事实上，筛选应当是一个苦上易下、实事求是的行为。</p>
+<p>只有上级通过主动发现、主动收集、多方求证、主动评判，才能既经济、又准确的来筛选分层。</p>
+<p>这样的话，当然筛选者会非常的辛苦，会有很多的困难，筛选变成了极高难度的工作，也许要投入很大的资源工作量。</p>
+<p>但我们要认识到，筛选者的工作量再大，也只是一个部分，和全民飞卷相比，它的总成本还是低的。</p>
+<p>而且，由筛选者主动筛选，才能发现真实的情况、日常的情况、本质的情况，而不是打造出来的假象。</p>
+<p><strong>所以，无论从筛选有效性，还是成本经济性来看，破除自下而上的展示性竞争，改为自上而下的主动性筛选，才是让公司真正提质增效的出路。</strong></p>
+<p>**苦领导，准没错儿。<br>
+**</p>
+<p>-</p>
+<p>尾声。</p>
+<p>当我们将眼光放开拓展，就会发现不光是筛选，就连一般的工作，也遵崇了以上的逻辑。</p>
+<p>比如说，公司开展某项学习教育工作。</p>
+<p>虽然，我一贯的理论是成年人根本无法被教育，但是，如果你真的想要教别人做人的话，还是有路径的。</p>
+<p>我说了，方法就是，你要用极高质量的内容，去构建大流量池，先把人们牢牢的吸引住。</p>
+<p>然后，以此为阵地，在内容中夹带大量教育的内容。</p>
+<p>现代人的口味太刁钻了，西方资本主义可不就是用满足口味来攻陷我们的嘛。所以，真要卷，就得在这个上面卷，要卷内容，把对手都卷下去。</p>
+<p>然后，大家就“独尊儒术”了。</p>
+<p><strong>这个玩法，需要在观念上放得开，在内容上过得硬，关键是公司的教育者自身要在构建阵地、填充内容上下真功夫，要把受教育者当成客户一样，俯下身子努力、努力吸引。</strong></p>
+<p><strong>只有这样才有可能教育成年人。</strong></p>
+<p>现在呢？</p>
+<p>现在变成了大爷无脑操作。</p>
+<p>直接要求开大会、拍照、留台账；报数据、填表格、写感想；做记录、抄笔记、划旧书。</p>
+<p>拼命写各种材料往上级公司送，就算教育过了。</p>
+<p>这不就是该用力的地方不用力，不该用力的地方狂用力吗？</p>
+<p>最后，和筛选成本过高不堪重负一样，工作的成本也过高，事倍功半、还文不对题。</p></div>
+<div class="curated-footer"><a href="/curated.html">← 返回收藏列表</a></div>
+</div>
+<div id="footer"><div id="footer1">Copyright © <span id="copyrightYear"></span> <a href="https://russianqin.github.io">五环魔法师</a></div>
+<div id="footer2">
+    <span id="runday"></span><span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a></span>
+</div>
+
+<script>
+var now=new Date();
+document.getElementById("copyrightYear").innerHTML=now.getFullYear();
+
+if("06/01/2025"!=""){
+    var startSite=new Date("06/01/2025");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("runday").innerHTML="网站运行 "+diffDay+" 天"+" • ";
+}
+</script></div>
+</body>
+<script>
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z'};
+var utterancesLoad=0;
+
+let themeSettings={
+    "dark": ["dark","moon","#00f0ff","dark-blue"],
+    "light": ["light","sun","#ff5000","github-light"],
+    "auto": ["auto","sync","","preferred-color-scheme"]
+};
+function changeTheme(mode, icon, color, utheme){
+    document.documentElement.setAttribute("data-color-mode",mode);
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList[icon]);
+    document.getElementById("themeSwitch").parentNode.style.color=color;
+    if(utterancesLoad==1){utterancesTheme(utheme);}
+}
+function modeSwitch(){
+    let currentMode=document.documentElement.getAttribute('data-color-mode');
+    let newMode = currentMode === "light" ? "dark" : currentMode === "dark" ? "auto" : "light";
+    localStorage.setItem("meek_theme", newMode);
+    if(themeSettings[newMode]){
+        changeTheme(...themeSettings[newMode]);
+    }
+}
+function utterancesTheme(theme){
+    const message={type:'set-theme',theme: theme};
+    const iframe=document.getElementsByClassName('utterances-frame')[0];
+    iframe.contentWindow.postMessage(message,'https://utteranc.es');
+}
+if(themeSettings[theme]){changeTheme(...themeSettings[theme]);}
+console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n","padding:5px 0;background:#02d81d;color:#fff");
+</script>
+
+<script>
+document.getElementById("pathHome").setAttribute("d",IconList["home"]);
+document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
+
+
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.disabled=true;
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","russianqin/russianqin.github.io");
+    script.setAttribute("issue-term","title");
+    
+    if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
+    else if(localStorage.getItem("meek_theme")=="light") {script.setAttribute("theme","github-light");}
+    else{script.setAttribute("theme","preferred-color-scheme");}
+    
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+
+
+
+</script>
+
+
+</html>

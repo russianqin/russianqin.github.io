@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="dark" data-light-theme="light" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href='https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css' rel='stylesheet' /><style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style><style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+
+</style>
+    <script src='https://blog.meekdai.com/Gmeek/plugins/GmeekBSZ.js'></script><link rel="alternate" type="application/rss+xml" title="五环魔法师" href="/rss.xml"><link rel="stylesheet" href="/custom.css"><script defer src="/custom.js"></script>
+    <link rel="icon" href="https://avatars.githubusercontent.com/u/6659289?v=4"><script>
+        let theme = localStorage.getItem("meek_theme") || "light";
+        document.documentElement.setAttribute("data-color-mode", theme);
+    </script>
+<title>5分钟打造真正懂你的LLM - 文章收藏</title>
+
+
+
+<meta name="description" content="https://mp.weixin.qq.com/s/3ZkP2Jt6i07qtyMN2yEd4w 我一直在寻找真正懂我的 LLM 大模型。经过一番寻找，我找到方案了。这个方案极其简单，只需要5分钟，任何人都能学会。不需要编程，也不需要花里胡哨的 Agent。 懂我的大模型 关于什么叫懂我，我已经在（收藏自微信公众号，个人存档）"><link rel="canonical" href="https://russianqin.github.io/curated/418.html"><meta property="og:title" content="5分钟打造真正懂你的LLM - 文章收藏"><meta property="og:description" content="https://mp.weixin.qq.com/s/3ZkP2Jt6i07qtyMN2yEd4w 我一直在寻找真正懂我的 LLM 大模型。经过一番寻找，我找到方案了。这个方案极其简单，只需要5分钟，任何人都能学会。不需要编程，也不需要花里胡哨的 Agent。 懂我的大模型 关于什么叫懂我，我已经在（收藏自微信公众号，个人存档）"><meta property="og:type" content="article"><meta property="og:url" content="https://russianqin.github.io/curated/418.html"><meta name="twitter:card" content="summary"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"5分钟打造真正懂你的LLM - 文章收藏","url":"https://russianqin.github.io/curated/418.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://russianqin.github.io/curated/418.html"},"inLanguage":"zh-CN","description":"https://mp.weixin.qq.com/s/3ZkP2Jt6i07qtyMN2yEd4w 我一直在寻找真正懂我的 LLM 大模型。经过一番寻找，我找到方案了。这个方案极其简单，只需要5分钟，任何人都能学会。不需要编程，也不需要花里胡哨的 Agent。 懂我的大模型 关于什么叫懂我，我已经在（收藏自微信公众号，","isPartOf":{"@type":"Blog","name":"五环魔法师","url":"https://russianqin.github.io/"},"isBasedOn":"https://mp.weixin.qq.com/s/3ZkP2Jt6i07qtyMN2yEd4w"}</script></head>
+
+
+
+
+
+
+
+</head>
+<body>
+
+    <div id="header">
+<h1 class="postTitle">5分钟打造真正懂你的LLM</h1>
+<div class="title-right">
+    <a href="https://russianqin.github.io" id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+
+</div>
+</div>
+    <div id="content">
+<div class="curated-source">
+<span>收藏自 <b>微信公众号</b></span><a class="btn btn-sm" href="https://mp.weixin.qq.com/s/3ZkP2Jt6i07qtyMN2yEd4w" target="_blank" rel="noopener noreferrer">看原文评论 ↗</a><div class="curated-note">本文为个人存档，版权归原作者所有；评论请点上方按钮前往原文查看。</div></div>
+<div class="markdown-body" id="postBody"><p>https://mp.weixin.qq.com/s/3ZkP2Jt6i07qtyMN2yEd4w</p>
+<p>我一直在寻找真正懂我的 LLM 大模型。经过一番寻找，我找到方案了。这个方案极其简单，只需要5分钟，任何人都能学会。不需要编程，也不需要花里胡哨的 Agent。</p>
+<h4>懂我的大模型</h4>
+<p>关于什么叫懂我，我已经在前面的文章中讲过了。这里摘取核心意思：</p>
+<ul><li>• 它清楚地知道我做了什么、我在想什么、我想要什么，等等。</li></ul>
+<ul><li>• 当我提到不开心的时候，LLM 知道我是在哪天，因为什么事情而不开心，而且还知道，我的不开心，在他庞大知识体系中，超越我认知的原因。</li></ul>
+<ul><li>• 这种关联，<strong>不是 Prompt 上文中的短暂关联，而是与 LLM 所有知识的完全融合</strong>。</li></ul>
+<p>其中，<strong>第三句话说得不对</strong>。我们今天的探索，与第三句话相关。</p>
+<h4>将自己写成一本书</h4>
+<p>5分钟就能学会的方法：现在，创建一个 Markdown 笔记开始写（如 maeiee.md）。</p>
+<p>写什么呢？</p>
+<ul><li>• 当作TODO、项目管理软件写：有哪些备忘、进行中哪些项目、有哪些 TODO</li></ul>
+<ul><li>• 当作日记写：每天的思考感悟</li></ul>
+<ul><li>• 当作自传写：我是谁，我叫什么，我家庭如何，我工作如何，我擅长什么，有什么理想……</li></ul>
+<ul><li>• 当作树洞写：遇到了什么困难、烦恼……</li></ul>
+<p>写多少字呢？<strong>一直写，能写多少写多少</strong>。</p>
+<p>下面是我写的：</p>
+<p><img src="https://mmbiz.qpic.cn/sz_mmbiz_jpg/L94R1Hy9pFm9KPYuX69G9WBPyUXlh0yCQxvOyUbTLZZt2ibOUySvVZoOtSextiaU9IdGQWqFMNnE0zpJIiagVjTiaA/640?wx_fmt=jpeg&amp;from=appmsg&amp;watermark=1&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1" alt="" loading="lazy" decoding="async"></p>
+<p>目前这个 maeiee.md 文件有 29KB，一共 1.1w 字。长度远未达到我的预期，我预期至少要写个5w 字。</p>
+<p>建议使用 VS Code 编写，它对长文件的性能优化很好。</p>
+<h4>让 AI 帮你扩写</h4>
+<p>写 maeiee.md，写着写着就无话可说了。</p>
+<p>并不是说介绍完了，而是千头万绪，却不知道该写啥。</p>
+<p>我想到一个好点子，让 AI 给我提问题，有问题驱动就知道该写什么了。</p>
+<p>为此我创建了一个 Shell 脚本：</p>
+<p>`#!/bin/bash</p>
+<h2>know_my_self.sh - 生成用于训练 LLM 的 Prompt，包含 Maeiee 的个人信息</h2>
+<h2>检查 README.md 文件是否存在</h2>
+<p>if [ ! -f "README.md" ]; then<br>
+echo "错误: README.md 文件不存在"<br>
+exit 1<br>
+fi</p>
+<h2>定义输出文件</h2>
+<p>OUTPUT_FILE="know_my_self.txt"</p>
+<h2>生成 Prompt 并保存到文件</h2>
+<p>{<br>
+cat &lt;&lt; 'EOF'<br>
+我是 Maeiee，我准备训练一个 LLM，我想训练一个懂我的 LLM，因此我正在编写一个介绍我自己的数据集。但是我发现凭空往上写很吃力，要是有人向我提问，我回答问题会容易得多。</p>
+<p>因此，我想请你担任《Maeiee 数据集》的提问者，我向你发送数据集的全部内容，你问我20个问题，问题的答案就是数据集的新增内容，用于介绍我自己的方方面面。</p>
+<p>关于问题的范围，不仅限于我数据集中的已有问题，只要是用于介绍我自己的任何问题都可以，也可以包含隐私问题。</p>
+<p>你只需向我不断提出问题即可。我会自己往数据集中添加回答，在所有对话中，你只管提问。</p>
+<p>&lt;Maeiee 数据集&gt;<br>
+EOF</p>
+<h2>插入 README.md 的内容</h2>
+<p>cat README.md</p>
+<p>cat &lt;&lt; 'EOF'<br>
+&lt;/Maeiee 数据集&gt;<br>
+EOF<br>
+} &gt; "$OUTPUT_FILE"</p>
+<p>echo "Prompt 已生成并保存到 $OUTPUT_FILE"`</p>
+<p>这段脚本很简单，有编程经验的同学应该一看就懂。它就是创建了一个 Prompt，然后把我们介绍自己的 Markdown 通过 cat 命令拼接进去，最后创建一个总的 Prompt 保存至文件。</p>
+<p>使用起来也很简单：</p>
+<ul><li>• 将 know\_my\_self.txt 直接复制到主流大模型的对话框里</li></ul>
+<ul><li>• 等待 LLM 提出问题</li></ul>
+<ul><li>• 我们将问题的回答思路，更新到 Markdown 对应章节。</li></ul>
+<p>我的方案靠手动拷贝，因此是完全免费的，其实不费事。同时也不用搞复杂的 Agent 开发，将精力节省出来，专注写 maeiee.md。</p>
+<p>一般这么写个两三天，maeiee.md 就比较全面了。</p>
+<h4>懂你的 LLM 出场</h4>
+<p>在 AI Studio 里打开 <strong>Gemini Pro</strong>，之所以选择它，是因为它支持超长上下文（100 万 Token），不严谨地约等于 100 万字。</p>
+<p>按照以下方式对话：</p>
+<ol><li>1. <strong>在第一次对话中，直接把 Markdown 粘贴进去，点击发送，什么都不要说。</strong></li></ol>
+<ol><li>2\. LLM 的第一次回答，是对你进行总结概括。</li></ol>
+<ol><li>3. <strong>从第二次对话开始，你可以聊了，把你想问的问题输入进去</strong>。</li></ol>
+<ol><li>4. <strong>LLM 的回答，将令你感到震撼</strong>。</li></ol>
+<ol><li>5. <strong>你们可以一直聊下去，直到用尽上下文</strong>。</li></ol>
+<ol><li>6\. 你也可以随时重开对话（《将自己写成一本书》的 Markdown 有更新了），如法炮制即可。</li></ol>
+<ol><li>7\. maeiee.md <strong>越详尽，LLM 就越懂你</strong>。</li></ol>
+<h4>震撼人心的地方</h4>
+<p>我把我的人生经历、副业探索、工作上的具体事项都录入其中。</p>
+<p>在与 AI 的对话中，我收益很大，我举几个具体的例子：</p>
+<ul><li>• 我一到周日就焦虑，抵触周一上班：由于我把 Markdown 也当作工作笔记记录（都写在一起），LLM 不是给我煲鸡汤，而是跟我共同研究项目。比如我焦虑的是什么事情，然后跟 LLM 一起去商讨策略，最提前准备好、想透彻。想透彻后，我对周一信心慢慢，自然就不焦虑了。这可比鸡汤好用多了。</li></ul>
+<ul><li>• OneOne 准备：我在准备本周的 OneOne，由于我已经将团队成员介绍以及工作规划都写入 maeiee.md，包括我的性格特点，我只要跟 AI 说我要跟哪位同学 OneOne 了，他就能生成一次很好的 OneOne 沟通方案。</li></ul>
+<ul><li>• 周会准备：团队每周的周会，由于我已经将团队周会机制、项目分工、项目进展写入 maeiee.md，我只要说一下某月某日周会准备，无需额外背景，AI 就能生成周会重点讨论。如果有不准确的，再聊一两轮就比较好了。</li></ul>
+<ul><li>• 每日思考：我每天习惯性跟 AI 聊一聊，我把内心深处的问题与他交流，他就像我的知音，给出我的建议是质量极高。</li></ul>
+<ul><li>• 公众号文章创作灵感：我把我的个人兴趣、专长以及自媒体心得也记录其中，因此能够获得源源不断的创作素材。</li></ul>
+<p>自从用上之后，我焦虑和压力水平大大下降，对工作、生活更加有掌控感了。</p>
+<h4>LLM 能从 Prompt 中学到东西</h4>
+<p>在我之前的文章里说，“<strong>不是 Prompt 上文中的短暂关联，而是与 LLM 所有知识的完全融合</strong>。”，这句话我说错了。</p>
+<p>在 Gemini Pro 中，它能够从深刻理解 Prompt，并能与他的知识底座建立关联。</p>
+<p>我最长试到 10w Token 的上下文，都保持了很好的理解能力。</p>
+<p><strong>之所以推荐 Gemini Pro，是因为它的长上下文的能力十分突出。</strong></p>
+<h4>真正的 AI 项目管理软件</h4>
+<p>在我看来，这个就是最好的项目管理软件了。</p>
+<p>就一个 Markdown，格式自己随便订，每天写点、维护一下。</p>
+<p>然后跟 AI 聊进度、聊风险、聊规划。</p>
+<p><strong>只要你能想到的，只要你心里想的，你只要把它写下来，AI 就能跟你聊</strong>。</p>
+<p><strong>真正好用的项目管理软件，不在于记录几个 TODO，而在于能够帮助你更好地完成项目</strong>。</p>
+<p><strong>传统的 TODO 软件，设计看板、大盘、日历、甘特图，都没有真正帮助你进行思考</strong>。</p>
+<h4>总结</h4>
+<p>LLM 大模型的发展速度很快，Gemini 今年发展地也很好，未来的 Gemini Pro 一定是长上下文能力越来越强，智力越来越强。</p>
+<p>我想做的，就是持续更新 maeiee.md，直到它完全反映了我，到那时，LLM 能够给我带来 100% 具身的指导建议，使我得到更好的发展与成长。</p>
+<h4>AI 总结</h4>
+<p><strong>核心洞察力极强</strong>：作者准确地抓住了当前LLM发展的关键节点——超长上下文（Long Context）的崛起。他意识到，当上下文窗口大到可以“装下一个人的人生”时，所谓的“模型记忆”和“个性化”问题，可以通过一种极其简单粗暴但有效的方式解决。这是一种“用魔法打败魔法”的智慧。</p>
+<p><strong>极高的可操作性和普适性</strong>：这是该方案最大的魅力所在。“5分钟学会”、“无需编程”、“一个Markdown文件”——这些标签大大降低了普通用户实现“专属AI”的门槛。它让最前沿的AI技术变得像写日记一样亲切和可用，任何人都能立即上手。</p>
+<p><strong>“过程即奖励”的双重价值</strong>：这个方案的精妙之处在于，“将自己写成一本书”这个过程本身就极具价值。这本质上是一种深度的自我梳理和反思（Self-reflection）。即便没有AI，系统性地整理自己的思想、工作和生活，本身就能有效缓解焦虑、增强掌控感。AI的介入，则是将这个过程的价值放大了数百倍，提供了一个能与你“梳理成果”进行高质量互动的“外脑”。</p>
+<p><strong>直击痛点的应用场景</strong>：文章中举的例子（缓解周日焦虑、准备One-on-one、周会准备）都非常具体、真实，能让读者（尤其是有类似工作经历的人）瞬间产生共鸣。它展示的不是一个玩具，而是一个能切实解决日常工作生活中复杂、情绪化问题的强大工具。这远比空泛地谈论AI的未来要有说服力。</p>
+<p><strong>对“理解”的诠释</strong>：作者说“它能够从深刻理解Prompt，并能与他的知识底座建立关联”。严格来说，这被称为\<em>\</em>“上下文学习”（In-Context Learning）\<em>\</em>。<strong>模型并没有真正“学会”这些知识并更新自己的参数（weights）</strong>。它只是在当前对话中，极其擅长基于你提供的庞大上下文进行推理和生成。<strong>这是一种“功能性理解”而非“永久性学习”</strong>。虽然从用户体验上看差异不大，但从技术原理上需要明确区分。</p>
+<p>我们不必等待完美的AI产品，而是可以通过改变我们与AI的互动方式，主动去创造我们想要的AI体验。</p></div>
+<div class="curated-footer"><a href="/curated.html">← 返回收藏列表</a></div>
+</div>
+<div id="footer"><div id="footer1">Copyright © <span id="copyrightYear"></span> <a href="https://russianqin.github.io">五环魔法师</a></div>
+<div id="footer2">
+    <span id="runday"></span><span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a></span>
+</div>
+
+<script>
+var now=new Date();
+document.getElementById("copyrightYear").innerHTML=now.getFullYear();
+
+if("06/01/2025"!=""){
+    var startSite=new Date("06/01/2025");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("runday").innerHTML="网站运行 "+diffDay+" 天"+" • ";
+}
+</script></div>
+</body>
+<script>
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z'};
+var utterancesLoad=0;
+
+let themeSettings={
+    "dark": ["dark","moon","#00f0ff","dark-blue"],
+    "light": ["light","sun","#ff5000","github-light"],
+    "auto": ["auto","sync","","preferred-color-scheme"]
+};
+function changeTheme(mode, icon, color, utheme){
+    document.documentElement.setAttribute("data-color-mode",mode);
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList[icon]);
+    document.getElementById("themeSwitch").parentNode.style.color=color;
+    if(utterancesLoad==1){utterancesTheme(utheme);}
+}
+function modeSwitch(){
+    let currentMode=document.documentElement.getAttribute('data-color-mode');
+    let newMode = currentMode === "light" ? "dark" : currentMode === "dark" ? "auto" : "light";
+    localStorage.setItem("meek_theme", newMode);
+    if(themeSettings[newMode]){
+        changeTheme(...themeSettings[newMode]);
+    }
+}
+function utterancesTheme(theme){
+    const message={type:'set-theme',theme: theme};
+    const iframe=document.getElementsByClassName('utterances-frame')[0];
+    iframe.contentWindow.postMessage(message,'https://utteranc.es');
+}
+if(themeSettings[theme]){changeTheme(...themeSettings[theme]);}
+console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n","padding:5px 0;background:#02d81d;color:#fff");
+</script>
+
+<script>
+document.getElementById("pathHome").setAttribute("d",IconList["home"]);
+document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
+
+
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.disabled=true;
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","russianqin/russianqin.github.io");
+    script.setAttribute("issue-term","title");
+    
+    if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
+    else if(localStorage.getItem("meek_theme")=="light") {script.setAttribute("theme","github-light");}
+    else{script.setAttribute("theme","preferred-color-scheme");}
+    
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+
+
+
+</script>
+
+
+</html>

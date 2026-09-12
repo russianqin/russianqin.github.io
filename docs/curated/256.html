@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="dark" data-light-theme="light" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href='https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css' rel='stylesheet' /><style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style><style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+
+</style>
+    <script src='https://blog.meekdai.com/Gmeek/plugins/GmeekBSZ.js'></script><link rel="alternate" type="application/rss+xml" title="五环魔法师" href="/rss.xml"><link rel="stylesheet" href="/custom.css"><script defer src="/custom.js"></script>
+    <link rel="icon" href="https://avatars.githubusercontent.com/u/6659289?v=4"><script>
+        let theme = localStorage.getItem("meek_theme") || "light";
+        document.documentElement.setAttribute("data-color-mode", theme);
+    </script>
+<title>究竟如何推拉博弈？ - 文章收藏</title>
+
+
+
+<meta name="description" content="https://mp.weixin.qq.com/s/-0odRmQ2ZSMzqvbZmNdIoQ 熟悉浪漫谈的朋友，应该经常会注意到一个核心概念：推拉博弈。 推拉博弈是解决很多问题的方法论，不管是现象、心态、关系、逻辑，最终还是要落到方法论上来，不然就是空谈。 而我们本来就受够了材料的空谈，自然不（收藏自微信公众号，个人存档）"><link rel="canonical" href="https://russianqin.github.io/curated/256.html"><meta property="og:title" content="究竟如何推拉博弈？ - 文章收藏"><meta property="og:description" content="https://mp.weixin.qq.com/s/-0odRmQ2ZSMzqvbZmNdIoQ 熟悉浪漫谈的朋友，应该经常会注意到一个核心概念：推拉博弈。 推拉博弈是解决很多问题的方法论，不管是现象、心态、关系、逻辑，最终还是要落到方法论上来，不然就是空谈。 而我们本来就受够了材料的空谈，自然不（收藏自微信公众号，个人存档）"><meta property="og:type" content="article"><meta property="og:url" content="https://russianqin.github.io/curated/256.html"><meta name="twitter:card" content="summary"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"究竟如何推拉博弈？ - 文章收藏","url":"https://russianqin.github.io/curated/256.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://russianqin.github.io/curated/256.html"},"inLanguage":"zh-CN","description":"https://mp.weixin.qq.com/s/-0odRmQ2ZSMzqvbZmNdIoQ 熟悉浪漫谈的朋友，应该经常会注意到一个核心概念：推拉博弈。 推拉博弈是解决很多问题的方法论，不管是现象、心态、关系、逻辑，最终还是要落到方法论上来，不然就是空谈。 而我们本来就受够了材料的空谈，自然不（收藏自微信公众号，","isPartOf":{"@type":"Blog","name":"五环魔法师","url":"https://russianqin.github.io/"},"isBasedOn":"https://mp.weixin.qq.com/s/-0odRmQ2ZSMzqvbZmNdIoQ"}</script></head>
+
+
+
+
+
+
+
+</head>
+<body>
+
+    <div id="header">
+<h1 class="postTitle">究竟如何推拉博弈？</h1>
+<div class="title-right">
+    <a href="https://russianqin.github.io" id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+
+</div>
+</div>
+    <div id="content">
+<div class="curated-source">
+<span>收藏自 <b>微信公众号</b></span><a class="btn btn-sm" href="https://mp.weixin.qq.com/s/-0odRmQ2ZSMzqvbZmNdIoQ" target="_blank" rel="noopener noreferrer">看原文评论 ↗</a><div class="curated-note">本文为个人存档，版权归原作者所有；评论请点上方按钮前往原文查看。</div></div>
+<div class="markdown-body" id="postBody"><p>https://mp.weixin.qq.com/s/-0odRmQ2ZSMzqvbZmNdIoQ</p>
+<p>熟悉浪漫谈的朋友，应该经常会注意到一个核心概念：推拉博弈。</p>
+<p>推拉博弈是解决很多问题的方法论，不管是现象、心态、关系、逻辑，最终还是要落到方法论上来，不然就是空谈。</p>
+<p>而我们本来就受够了材料的空谈，自然不能在公众号里继续空谈。</p>
+<p>所以，今天重点讲推拉博弈。</p>
+<p>你可以想象一下推拉这个东西，把人狠狠地推出去，但在他即将失控摔倒的同时，又牢牢地将其抓住。</p>
+<p>没什么高深莫测的理论，推拉确实就是如此这样的操作。</p>
+<p>但是，如果我们细细拆解推拉的过程，会发现，它其实是由四个部分组成的。</p>
+<p>首先是缘由。</p>
+<p>你既然要推，那么一定是有缘由的。</p>
+<p>那就是存在某种不合理、不公平、反人类的安排。</p>
+<p>比如，上司说你去巡个山、看看附近有没有四个奇怪人物出没。</p>
+<p>这是合理的，也是你的本职工作，没什么好反驳的。</p>
+<p>但上司如果说你去把唐僧师徒除掉，那就是明显不符合常理的要求了。</p>
+<p><img src="https://mmbiz.qpic.cn/sz_mmbiz_jpg/L5HzPcCdOz8kr5SftMUjWQs19CIjFbj94bPzJ9rrWZctqaDp1VvIPeLnOdXy2CQIoDwicJrVbKdOviaViciacGDcPw/640?wx_fmt=jpeg&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="" loading="lazy" decoding="async"></p>
+<p>对于这样的要求，我们得牢牢地占据道德制高点：</p>
+<p>——我不是不肯巡山，我也不是抗命不从，而是领导你实在是特么太扯淡了。</p>
+<p>你自己除得掉唐僧师徒吗？让我去除？</p>
+<p>你知道干这件事需要什么样的资源吗？你给资源了吗？</p>
+<p>操作路径研究过了吗？可行性到底有没有？</p>
+<p>再退一步，做了这个那山是不是可以不巡了，其他事是不是减负了？还有，落实这项任务能不能给提一级，以兹奖励？</p>
+<p>什么都没有，什么都不提，空手套白狼？还让我去送？就为了你的一己私利、为了你某个不切实际的idea？</p>
+<p>真是“领导动动嘴、手下跑断腿，老板一句话、手下全火化”啊。</p>
+<p>这样的活儿是不是不合理、不公平、反人类？</p>
+<p>那就对了。强化缘由，厘清认知，是推拉的重要基础。</p>
+<p>其次就是“推”了。</p>
+<p>推的表现形式是多样的。</p>
+<p>比如，你可以狠狠地怼上去说，除掉唐僧四人、滚你M个蛋，你想让我死啊，这个我干不了、绝对不可能。</p>
+<p>然后气呼呼的一个人EMO去了。</p>
+<p>当然，你也可以一脸诚恳的说，我也想为您分忧，可是我实在是无能为力，你看我家里面。。。你看我的身份级别。。。你看对方的实力难度。。。你看。。。巴拉巴拉。</p>
+<p>说到底，推其实没啥花头，就是拒绝而已。</p>
+<p>但，推的结果一定是不做、少做、或者是烂做。</p>
+<p>这里要注意，有的人，推得时候严词拒绝很给力，结果他活儿还是干了，甚至干得还不错。</p>
+<p>这就不叫推了，这叫口嗨，属于吃力还不讨好那种。</p>
+<p>所以，“推”除了要动得了嘴、还得下的了手，关键是要下的了手，说不做就不做。</p>
+<p>有人说，我推不了，感觉很难拒绝领导。</p>
+<p>这就要回到我为什么特意讲到第一环节“缘由”的原因了。</p>
+<p>如果你的认知不清晰、理由不充分、信念不坚定，那么自然是推不了的。</p>
+<p>你没有觉得让你除掉唐僧四人这个任务有多么的恶心和不负责任，那么你就鼓不起推的勇气。</p>
+<p>只有当你充分认识到这一命令的戏谑性，你才无论如何也想要拒绝它。</p>
+<p>浪漫谈的诸多文章，之所以唠唠叨叨的解构这个体系，就是要尽可能的认清它的细节、懂得它的机理，这样，才能真的懂，那么推的时候，理由和信念也就充分了。</p>
+<p>再次，推完之后，自然就是“拉”了。</p>
+<p>拉这个东西，很多人没有这个概念。</p>
+<p>一方面，很多人不敢推。既然都没推，自然也不存在拉。</p>
+<p>另一方面，即使推了，也不知道怎么拉，就这么把人推出去，任由对方摔倒了。</p>
+<p>所以，要细细解构“拉”这个概念。</p>
+<p>你想，当你一脸不悦、拒绝领导的要求、然后拍拍屁股不再落实领导任务的时候，领导会怎么想？</p>
+<p>很显然，领导也怒了。</p>
+<p>下级怼到上级头上来了，反了！</p>
+<p>那么一个正常的领导，必然会纠集一切力量来对付你、来报复你、来压服你，不然，今后他还混不混了？</p>
+<p>而且，这个过程是个循序渐增的过程。</p>
+<p>刚开始是被怼了有点懵；</p>
+<p>后来觉得自己是不是要求确实有点过分；</p>
+<p>但接着又觉得不管怎样你这个态度太造反了；</p>
+<p>再然后认为自己是领导提什么要求都是对的应该被尊重被执行；</p>
+<p>进而觉得自己一点儿没错就是你的问题；</p>
+<p>最后决定好好收拾你，不彻底打服你决不罢休。</p>
+<p>于是，“一场战争”开始了。</p>
+<p>事先声明，我不是说不能战争。</p>
+<p>针对不同的环境特性，有些情况下，正面硬碰硬说不定效果也很好。</p>
+<p>但大多数情况下，和领导硬刚不是我们本来的目的，我们虽然少干了一件活儿但是需要花更多的精力来应付领导。</p>
+<p>我们变成了领导的矛头，还损失了更多长短期的利益（领导可分配的）。</p>
+<p>所以，“拉”的目的很简单，就是要趁着领导还处于懵逼、甚至反思的阶段，主动“承认错误”，让领导正欲攥紧的拳头又泄了下来。</p>
+<p>对方本来是要压服你、防止你就此骑到你头上来的，结果你主动伏低做小了，它的后续蓄力就被打断了。</p>
+<p>这样，他就被你“拉”住了。</p>
+<p>就好比，奔波儿灞怒拒九头虫、没有执行任务。</p>
+<p>但就在九头虫准备杀一儆百、严厉惩治的时候，奔波儿灞又回来了，表示自己刚才有点欠考虑，主要是自己能力不足。</p>
+<p>对于领导的要求，还是应该研究解决方案的，自己可以先去巡巡山，先看看情况再说。</p>
+<p>通过拉的手段，来安抚领导的心情，防止领导走向极端。</p>
+<p>这样，其实也是巩固推的成果，避免斗争升级。万一最后没斗过领导，又被强制把活儿领回来，岂不是更惨。</p>
+<p>这时，有人说，你说的拉，最后自己去认了个怂，那领导不又来劲了？继续让你去除掉唐僧师徒怎么办？</p>
+<p>所以，推拉的最后一个环节，就是“反复”，这是一个动态的过程。</p>
+<p>推拉怎么会是一劳永逸的呢？它必然是反反复复的。</p>
+<p>如果领导继续要求，那么又可以重新酝酿起新的情绪，然后再给对方一击：</p>
+<p>“之前我是反思了，想好好配合，但你这要求还是瞎扯淡，这样的话还是干不了”。</p>
+<p>拒绝之后，记得继续去拉住对方。</p>
+<p>就这样和对方扯皮下去。</p>
+<p>这就是推拉的大致全部操作了。</p>
+<p>-</p>
+<p>那么，推拉的意义究竟何在呢？</p>
+<p>第一，这实际上是你最低成本不执行命令的一种方式。</p>
+<p>你想，如果你无奈执行命令了，那就是无尽的任务，甚至可能“把命都送了”。这成本相当于是高的没边儿了。</p>
+<p>但如果你明确硬刚住就不做，那么领导的反噬也会及其强烈，以至于你需要大量精力应对，那成本其实也不低。（虽然可能很解气）</p>
+<p>而唯有推拉，事实上让你处于一个薛定谔的状态，没把话说死，但又没按要求执行。</p>
+<p>在这种情况下，推拉成为了一种持续反对的作用力。</p>
+<p>要知道，拒绝这个东西，从来都不是一句“我不做”就能解决的。</p>
+<p>你可能先要祥装做了，然后做得短斤缺两，从而让对方知道你没那么好搞定。</p>
+<p>你可能要拖上两倍三倍的时间才勉强完成，让对方感受到这事确实也没那么容易。</p>
+<p>你要不断的推推拉拉，让对方陷在里面又不得结束，让对方反思自己的决策并不是那么正确、或者没那么一言九鼎。</p>
+<p>这样，对方才会建立新的心理预期：今后不能这么逼你干了，或者明白这么干会有反噬也很正常。</p>
+<p>作为一名下属，你终究不可能去当个锤子去锤领导，你能做的，就是变成一块粗沙皮，反反复复把领导给磨圆了。</p>
+<p>第二，推拉是表达自己意见的合适方式，只有推拉才能较好的触动领导。</p>
+<p>有些人，你不推他一把，他是永远不知道轻重的。</p>
+<p>人是感性动物，高高在上的领导，见惯了阿谀奉承，自然不会好好接受你的意见。</p>
+<p>这时候，一个推的过程是必要的。等他一屁股坐在地上的时候，想法才会变。</p>
+<p>说不定，你会发现领导也很怂，只是面子上牛，真被推了也就那样，承认现实了。</p>
+<p>通过“推拉”这种情绪波动，能够有效的去触及领导的灵魂，让他开始思考你，思考他的idea，让他开始衡量得失，产生“再不切实际的搞下去大家都累还没什么好结果”的认识。</p>
+<p>这是除了推拉以外，很难达到的触动效果。</p>
+<p>第三，当然，推拉的最终目的是实现工作平衡和个人舒适。</p>
+<p>有人觉得，你说的推拉看着是不错，但是，推拉的过程也很消耗精力不是么？为什么你说推拉的成本比索性彻底和领导硬扛要低呢？</p>
+<p>关于这个问题，我们可以看看老张。</p>
+<p>就像老张一样，对什么事、什么工作、什么任务都要推拉上几回。</p>
+<p>推拉的道理有理有据，推拉的言语深入浅出，推拉的操作进退有序，可谓推拉界的炉火纯青。</p>
+<p>因此，纵然是领导，要给老张布置什么任务，眉头都得皱三皱。</p>
+<p>倒不是说怕老张拒绝或者不给面子，而是推拉起来太费力了，要费很多脑细胞、要找很多理由，要反复酝酿很多情绪，要陪着老张玩儿，才能去撬动老张。至于是不是真能推动，也还不好说。</p>
+<p>但领导又没法儿和老张撕破脸，因为老张一直在推拉呢～就跟太极拳似的，既不让你近身，也不让你撤走，活活把领导憋死。</p>
+<p>关键是，老张有的是时间陪你玩儿，大不了今天圆滑地承认一通，回去想好对策了明天再来找你“复聊”。</p>
+<p>领导事那么多，耗得起吗？</p>
+<p>所以，一想到要叫老张做事，领导自己血压都高了，竟主动挤去了水分，变得务实了起来。</p>
+<p>所以，推拉和彻底硬扛的区别在于，推拉是在没有破坏原有关系体系的基础上，还可以给对方很强的拒止效应。</p>
+<p>一旦像老张那样推拉过几次后，领导自己也看开了、务实了。领导一旦务实了，无论是员工还是工作，就都变得舒适了起来。（仅对推拉的人有效）</p>
+<p>连带着这份工作，都变得更有性价比了，这不就是推拉最大的意义么。</p>
+<p>-</p>
+<p>尾声。</p>
+<p>最后提一嘴博弈。</p>
+<p>如果说推拉是一种短期操作策略的话，那么博弈就算是种长期生存方案。</p>
+<p>毕竟，你也不是老张这样的临退人员，也不可能事事都娴熟的推拉扯皮一番。</p>
+<p>所以，要针对工作外部环境，选择自己的长期策略。</p>
+<p>_就像下围棋一样，选择在什么地方开局、用什么方式对垒？_</p>
+<p>_什么形势下需要多做点、多干点，什么时候则必须要推拉了；_</p>
+<p>_面对什么样的领导采取什么样的应对方式？面对什么样的工作选择什么样的工作态度？_</p>
+<p>总得来说，对待好的领导，可以适当奉献合作一些；而对于无良领导，自然是推拉反复，一套太极拳纠缠着来。</p>
+<p>同样，对待务实的业务，可以认真钻研、尽心负责；而对于务虚的那一套，有多远滚多远，能和它推拉到天荒地老。</p>
+<p>这就是大的博弈策略了。一步一步、不断调整，走到自己最适宜、最平衡的状态，就好。</p>
+<p>至于更精彩的生活，就是另一个领域的事了。</p>
+<p>over。</p></div>
+<div class="curated-footer"><a href="/curated.html">← 返回收藏列表</a></div>
+</div>
+<div id="footer"><div id="footer1">Copyright © <span id="copyrightYear"></span> <a href="https://russianqin.github.io">五环魔法师</a></div>
+<div id="footer2">
+    <span id="runday"></span><span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a></span>
+</div>
+
+<script>
+var now=new Date();
+document.getElementById("copyrightYear").innerHTML=now.getFullYear();
+
+if("06/01/2025"!=""){
+    var startSite=new Date("06/01/2025");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("runday").innerHTML="网站运行 "+diffDay+" 天"+" • ";
+}
+</script></div>
+</body>
+<script>
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z'};
+var utterancesLoad=0;
+
+let themeSettings={
+    "dark": ["dark","moon","#00f0ff","dark-blue"],
+    "light": ["light","sun","#ff5000","github-light"],
+    "auto": ["auto","sync","","preferred-color-scheme"]
+};
+function changeTheme(mode, icon, color, utheme){
+    document.documentElement.setAttribute("data-color-mode",mode);
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList[icon]);
+    document.getElementById("themeSwitch").parentNode.style.color=color;
+    if(utterancesLoad==1){utterancesTheme(utheme);}
+}
+function modeSwitch(){
+    let currentMode=document.documentElement.getAttribute('data-color-mode');
+    let newMode = currentMode === "light" ? "dark" : currentMode === "dark" ? "auto" : "light";
+    localStorage.setItem("meek_theme", newMode);
+    if(themeSettings[newMode]){
+        changeTheme(...themeSettings[newMode]);
+    }
+}
+function utterancesTheme(theme){
+    const message={type:'set-theme',theme: theme};
+    const iframe=document.getElementsByClassName('utterances-frame')[0];
+    iframe.contentWindow.postMessage(message,'https://utteranc.es');
+}
+if(themeSettings[theme]){changeTheme(...themeSettings[theme]);}
+console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n","padding:5px 0;background:#02d81d;color:#fff");
+</script>
+
+<script>
+document.getElementById("pathHome").setAttribute("d",IconList["home"]);
+document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
+
+
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.disabled=true;
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","russianqin/russianqin.github.io");
+    script.setAttribute("issue-term","title");
+    
+    if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
+    else if(localStorage.getItem("meek_theme")=="light") {script.setAttribute("theme","github-light");}
+    else{script.setAttribute("theme","preferred-color-scheme");}
+    
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+
+
+
+</script>
+
+
+</html>
