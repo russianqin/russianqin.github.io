@@ -1,0 +1,72 @@
+/* ===== 五环魔法师 自定义样式 ===== */
+
+/* --- 文章页元信息条（日期 + 标签） --- */
+.post-meta {
+    color: #57606a;
+    font-size: 14px;
+    margin: 2px 0 6px;
+}
+.post-meta .post-label {
+    display: inline-block;
+    background: #ddf4ff;
+    color: #0969da;
+    border-radius: 10px;
+    padding: 1px 10px;
+    margin-left: 6px;
+    font-size: 12px;
+    line-height: 18px;
+    text-decoration: none;
+}
+.post-meta .post-label:hover { background: #b6e3ff; }
+[data-color-mode="dark"] .post-meta { color: #8b949e; }
+[data-color-mode="dark"] .post-meta .post-label { background: #1f3a52; color: #58a6ff; }
+
+/* --- 文章页 上一篇 / 下一篇 导航 --- */
+.prev-next {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    border-top: 1px solid #d0d7de;
+    margin-top: 28px;
+    padding-top: 14px;
+    font-size: 14px;
+}
+.prev-next a { text-decoration: none; }
+.prev-next .pn-cell { max-width: 48%; min-width: 0; }
+.prev-next .pn-next { margin-left: auto; text-align: right; }
+.prev-next .pn-hint {
+    display: block;
+    color: #57606a;
+    font-size: 12px;
+    margin-bottom: 2px;
+}
+.prev-next .pn-title {
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+[data-color-mode="dark"] .prev-next { border-top-color: #30363d; }
+[data-color-mode="dark"] .prev-next .pn-hint { color: #8b949e; }
+
+/* --- 生词表格优化：横向滚动 + 斑马纹 --- */
+.markdown-body table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+}
+.markdown-body table table { display: table; } /* 防御嵌套 */
+.markdown-body tbody tr:nth-child(2n) { background: rgba(175, 184, 193, 0.15); }
+.markdown-body th { white-space: nowrap; }
+
+/* --- 导航图标补文字标签（宽屏显示，窄屏保持纯图标） --- */
+@media (min-width: 761px) {
+    .title-right > a::after {
+        content: attr(title);
+        font-size: 12px;
+        margin-left: 4px;
+        color: #57606a;
+        white-space: nowrap;
+    }
+    [data-color-mode="dark"] .title-right > a::after { color: #8b949e; }
+}
