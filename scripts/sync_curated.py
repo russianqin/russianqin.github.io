@@ -20,6 +20,7 @@
 """
 
 import argparse
+import concurrent.futures
 import hashlib
 import html
 import json
@@ -29,6 +30,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import time
 import urllib.parse
 import urllib.request
 from pathlib import Path
@@ -296,7 +298,7 @@ def image_headers(url):
     return headers
 
 
-def download_image(url, cache_dir):
+def download_image(url, cache_dir, timeout=25):
     """下载单张图片，返回缓存文件名；失败返回 None。"""
     digest = hashlib.sha1(url.encode("utf-8")).hexdigest()[:20]
     ext = os.path.splitext(urllib.parse.urlparse(url).path)[1].lower()
@@ -308,7 +310,7 @@ def download_image(url, cache_dir):
         return name
     try:
         request = urllib.request.Request(url, headers=image_headers(url))
-        with urllib.request.urlopen(request, timeout=25) as response:
+        with urllib.request.urlopen(request, timeout=timeout) as response:
             data = response.read()
         if not data:
             return None
@@ -317,6 +319,42 @@ def download_image(url, cache_dir):
         return name
     except Exception:  # noqa: BLE001
         return None
+
+
+def collect_image_urls(articles):
+    """收集正文图片与留言头像的地址（去重）。"""
+    urls = []
+    for article in articles:
+        urls += [m.group("url") for m in MD_IMAGE_RE.finditer(article["body"])]
+        urls += [m.group("url") for m in HTML_IMAGE_RE.finditer(article["body"])]
+        for record in article.get("comments", []):
+            if record.get("avatar"):
+                urls.append(record["avatar"])
+            for reply in record.get("replies", []):
+                if reply.get("avatar"):
+                    urls.append(reply["avatar"])
+    return urls
+
+
+def download_many(urls, cache_dir, stats, workers=8, timeout=15, budget_seconds=600):
+    """并发下载图片；超出总时长预算的剩余图片保持外链，页面不会因此出错。"""
+    started = time.time()
+
+    def work(url):
+        if time.time() - started > budget_seconds:
+            return url, None
+        return url, download_image(url, cache_dir, timeout=timeout)
+
+    done = 0
+    with concurrent.futures.ThreadPoolExecutor(max_workers=workers) as pool:
+        for _url, name in pool.map(work, urls):
+            done += 1
+            if name:
+                stats["downloaded"] += 1
+            else:
+                stats["failed"] += 1
+            if done % 200 == 0:
+                log("图片进度 %d/%d（成功 %d，失败 %d）" % (done, len(urls), stats["downloaded"], stats["failed"]))
 
 
 def localize_images(article, cache_dir, mode, stats):
@@ -333,9 +371,8 @@ def localize_images(article, cache_dir, mode, stats):
             name = download_image(url, cache_dir)
             article["_images"][url] = name
         if not name:
-            stats["failed"] += 1
             return url
-        stats["downloaded"] += 1
+        stats["localized"] += 1
         article["_local_images"].add(name)
         return "/%s/%s" % (IMAGE_DIR_NAME, name)
 
@@ -745,11 +782,20 @@ def main():
         cache_dir = root / "data" / IMAGE_DIR_NAME
         out_dir = docs / "curated"
         image_out = docs / IMAGE_DIR_NAME
-        stats = {"downloaded": 0, "failed": 0}
+        stats = {"downloaded": 0, "failed": 0, "localized": 0}
 
         for article in articles:
             article["_images"] = {}
             article["_local_images"] = set()
+
+        if args.images == "download":
+            urls = collect_image_urls(articles)
+            unique = sorted(set(urls))
+            log("图片任务：%d 个引用 / %d 张唯一图片，开始并发下载" % (len(urls), len(unique)))
+            download_many(unique, cache_dir, stats)
+            log("图片下载结束：成功 %d，失败 %d" % (stats["downloaded"], stats["failed"]))
+
+        for article in articles:
             localize_images(article, cache_dir, args.images, stats)
 
         if args.images == "download":
@@ -765,8 +811,8 @@ def main():
                         if not target.exists() or target.stat().st_size != source.stat().st_size:
                             shutil.copyfile(str(source), str(target))
             log(
-                "图片：下载 %d 张，失败 %d 张，落地文件 %d 个"
-                % (stats["downloaded"], stats["failed"], len(wanted))
+                "图片：下载 %d 张，失败 %d 张，页面引用 %d 处，落地文件 %d 个"
+                % (stats["downloaded"], stats["failed"], stats["localized"], len(wanted))
             )
 
         # 先清掉上一轮生成的页面，源仓库里删掉的收藏不会留下残页

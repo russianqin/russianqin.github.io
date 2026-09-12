@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-24.04
     concurrency:
       group: gmeek-build
-      cancel-in-progress: false
+      cancel-in-progress: true
     if: ${{ github.event.repository.owner.id == github.event.sender.id || github.event_name == 'schedule' }}
     permissions: write-all
     steps:
