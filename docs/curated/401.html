@@ -5,12 +5,25 @@
     <meta content="text/html; charset=utf-8" http-equiv="content-type" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link href='https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css' rel='stylesheet' /><style>
+    <link href='https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css' rel='stylesheet' />
+    <script src='https://blog.meekdai.com/Gmeek/plugins/GmeekBSZ.js'></script><link rel="alternate" type="application/rss+xml" title="五环魔法师" href="/rss.xml"><link rel="stylesheet" href="/custom.css"><script defer src="/custom.js"></script>
+    <link rel="icon" href="https://avatars.githubusercontent.com/u/6659289?v=4"><script>
+        let theme = localStorage.getItem("meek_theme") || "light";
+        document.documentElement.setAttribute("data-color-mode", theme);
+    </script>
+<title>概率（Probability）的本质是什么？ - 文章收藏</title>
+
+
+
+<meta name="description" content="https://www.zhihu.com/question/26895086/answer/1902631238348576065 恭喜，当你思考起关于“概率”的问题，并发出疑惑时，你应该已经开始认识到，这绝不是一个简单的事情了。事实上，如果你展开探究的话，最终会发现这是一个深不见底的大坑。直到今（收藏自知乎，个人存档）"><link rel="canonical" href="https://russianqin.github.io/curated/401.html"><meta property="og:title" content="概率（Probability）的本质是什么？ - 文章收藏"><meta property="og:description" content="https://www.zhihu.com/question/26895086/answer/1902631238348576065 恭喜，当你思考起关于“概率”的问题，并发出疑惑时，你应该已经开始认识到，这绝不是一个简单的事情了。事实上，如果你展开探究的话，最终会发现这是一个深不见底的大坑。直到今（收藏自知乎，个人存档）"><meta property="og:type" content="article"><meta property="og:url" content="https://russianqin.github.io/curated/401.html"><meta name="twitter:card" content="summary_large_image"><meta property="og:image" content="https://russianqin.github.io/curated-images/f3310403b0c88cb8bc0c.webp"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"概率（Probability）的本质是什么？ - 文章收藏","url":"https://russianqin.github.io/curated/401.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://russianqin.github.io/curated/401.html"},"inLanguage":"zh-CN","description":"https://www.zhihu.com/question/26895086/answer/1902631238348576065 恭喜，当你思考起关于“概率”的问题，并发出疑惑时，你应该已经开始认识到，这绝不是一个简单的事情了。事实上，如果你展开探究的话，最终会发现这是一个深不见底的大坑。直到今（收藏自知乎，个人存","isPartOf":{"@type":"Blog","name":"五环魔法师","url":"https://russianqin.github.io/"},"isBasedOn":"https://www.zhihu.com/question/26895086/answer/1902631238348576065"}</script></head>
+<style>
 body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
 #header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
 #footer {margin-top:64px; text-align: center;font-size: small;}
 
-</style><style>
+</style>
+
+<style>
 .postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
 .title-right{display:flex;margin:auto 0 0 auto;}
 .title-right .circle{padding: 14px 16px;margin-right:8px;}
@@ -25,19 +38,6 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 }
 
 </style>
-    <script src='https://blog.meekdai.com/Gmeek/plugins/GmeekBSZ.js'></script><link rel="alternate" type="application/rss+xml" title="五环魔法师" href="/rss.xml"><link rel="stylesheet" href="/custom.css"><script defer src="/custom.js"></script>
-    <link rel="icon" href="https://avatars.githubusercontent.com/u/6659289?v=4"><script>
-        let theme = localStorage.getItem("meek_theme") || "light";
-        document.documentElement.setAttribute("data-color-mode", theme);
-    </script>
-<title>概率（Probability）的本质是什么？ - 文章收藏</title>
-
-
-
-<meta name="description" content="https://www.zhihu.com/question/26895086/answer/1902631238348576065 恭喜，当你思考起关于“概率”的问题，并发出疑惑时，你应该已经开始认识到，这绝不是一个简单的事情了。事实上，如果你展开探究的话，最终会发现这是一个深不见底的大坑。直到今（收藏自知乎，个人存档）"><link rel="canonical" href="https://russianqin.github.io/curated/401.html"><meta property="og:title" content="概率（Probability）的本质是什么？ - 文章收藏"><meta property="og:description" content="https://www.zhihu.com/question/26895086/answer/1902631238348576065 恭喜，当你思考起关于“概率”的问题，并发出疑惑时，你应该已经开始认识到，这绝不是一个简单的事情了。事实上，如果你展开探究的话，最终会发现这是一个深不见底的大坑。直到今（收藏自知乎，个人存档）"><meta property="og:type" content="article"><meta property="og:url" content="https://russianqin.github.io/curated/401.html"><meta name="twitter:card" content="summary"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"概率（Probability）的本质是什么？ - 文章收藏","url":"https://russianqin.github.io/curated/401.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://russianqin.github.io/curated/401.html"},"inLanguage":"zh-CN","description":"https://www.zhihu.com/question/26895086/answer/1902631238348576065 恭喜，当你思考起关于“概率”的问题，并发出疑惑时，你应该已经开始认识到，这绝不是一个简单的事情了。事实上，如果你展开探究的话，最终会发现这是一个深不见底的大坑。直到今（收藏自知乎，个人存","isPartOf":{"@type":"Blog","name":"五环魔法师","url":"https://russianqin.github.io/"},"isBasedOn":"https://www.zhihu.com/question/26895086/answer/1902631238348576065"}</script></head>
-
-
-
 
 
 
@@ -70,14 +70,14 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <p>恭喜，当你思考起关于“概率”的问题，并发出疑惑时，你应该已经开始认识到，这绝不是一个简单的事情了。事实上，如果你展开探究的话，最终会发现这是一个深不见底的大坑。直到今天，科学家和哲学家们仍然在为这个问题苦苦思索。</p>
 <p>什么是“概率”？如果你去问数学家的话，他们会抛出一连串晦涩的名词，诸如样本空间、<a href="https://zhida.zhihu.com/search?content_id=725892446&amp;content_type=Answer&amp;match_order=1&amp;q=%CF%83%E5%87%BD%E6%95%B0&amp;zhida_source=entity" rel="nofollow">σ函数</a>、<a href="https://zhida.zhihu.com/search?content_id=725892446&amp;content_type=Answer&amp;match_order=1&amp;q=%E5%8B%92%E8%B4%9D%E6%A0%BC%E7%A7%AF%E5%88%86&amp;zhida_source=entity" rel="nofollow">勒贝格积分</a>或者<a href="https://zhida.zhihu.com/search?content_id=725892446&amp;content_type=Answer&amp;match_order=1&amp;q=%E6%A6%82%E7%8E%87%E6%B5%8B%E5%BA%A6&amp;zhida_source=entity" rel="nofollow">概率测度</a>之类，不过，我们在这里不需要深入细节，只需要知道这个东西在数学上有着完善的定义即可。</p>
 <p>但问题是，数学上定义良好的东西，未必在现实里存在。比方说数学上可以定义一个完美的正圆，但它显然并不存在于物理世界。从历史上看，“概率”的概念起源于赌场里的经验，我们无法预测一颗骰子投掷的具体结果，但直觉告诉我们，可以把它分成6种“均等的可能性”。因此，不妨假设每种可能性的“概率”都是1/6。基于这种简单的理念，卡尔达诺、帕斯卡、费马、伯努利、棣莫弗等人前仆后继，为概率的数学理论打下了基础，最终由拉普拉斯集而大成，建立起了古典概率论的完整大厦。</p>
-<p><img src="https://pic1.zhimg.com/80/v2-bae0b351e406a33353bd53477e76ed11_1440w.webp?source=2c26e567" alt="" loading="lazy" decoding="async"></p>
+<p><img src="/curated-images/f3310403b0c88cb8bc0c.webp" alt="" loading="lazy" decoding="async"></p>
 <p>“概率”起源于赌博</p>
 <p>然而，我们的核心问题仍然没有得到回答。所谓“均等的可能性”，究竟是真实存在的，还只是因为我们的能力不足，不得已而采取的一种假设呢？</p>
 <p>有趣的是，在拉普拉斯看来，答案无疑是后者。拉普拉斯生活在18世纪，当时正是牛顿力学一统天下的时代，在牛顿的世界里，整个宇宙就像是环环相扣的精密时钟，每一个粒子都要严格地遵循物理定律运转，根本没有任何“随机”的空间。很明显，如果我们能知道每次扔骰子的全部信息，那么理论上，所有结果都是可以精确计算出来的，根本用不着什么“概率”。</p>
 <p>因此，在他的巨著《概率论的哲学探究》一书中，拉普拉斯写下了一段名扬天下的话：</p>
 <blockquote><p>我们可以把宇宙现在的状态视为其过去的果以及未来的因。如果一位智者知道在某一时刻宇宙里所有的力，以及所有组成自然物体的位置。并且他也能对这些数据进行分析，那么，在整个宇宙里，从最大的物体到最小的粒子，它们的运动就都会包含在一条简单的公式之中。对于这位智者来说，没有任何事物是不确定的，未来会像过去一样，清晰地出现在他眼前。</p></blockquote>
 <p>这就是鼎鼎大名的“<a href="https://zhida.zhihu.com/search?content_id=725892446&amp;content_type=Answer&amp;match_order=1&amp;q=%E6%8B%89%E6%99%AE%E6%8B%89%E6%96%AF%E5%A6%96&amp;zhida_source=entity" rel="nofollow">拉普拉斯妖</a>”。它让整个概率论都笼罩在一种悲剧式的色彩当中：从出生的那一刻起，其嫡亲的创始人竟然就宣称“概率”其实只是一个虚拟的概念，不过是由于我们人类知识不足而导致的幻觉而已。而对于无所不知的“上帝”来说，物理世界是早就“决定好的”，根本不存在什么“概率”。</p>
-<p><img src="https://picx.zhimg.com/50/v2-99cea5f196b4a10fc8e071007d6b6a3b_720w.jpg?source=2c26e567" alt="" loading="lazy" decoding="async"></p>
+<p><img src="/curated-images/4e86129b9601f5a697ad.jpg" alt="" loading="lazy" decoding="async"></p>
 <p>皮埃尔·西蒙·拉普拉斯</p>
 <p>然而，概率论并没有因此而消沉，它很快就茁壮地成长起来，并迅速成为数学领域里一门最复杂和最有活力的学科。到了19世纪末，它“复仇”的时刻终于到来了，麦克斯韦、玻尔兹曼、吉布斯等人把“概率”重新引入了物理领域，并在其基础上创立了一门新的学科——热力学。人们突然发现，诸如气体的膨胀、温度的传导、能量和压力的分布，乃至化学反应的方向，这些再“客观”不过，再“物理”不过的现象，其实都可以从“概率”出发，严格地推导出来。由此总结出的热力学定律，尤其是第二定律，其威力一点也不逊色于牛顿力学，甚至很多人开始认为，其实热力学定律才是宇宙中最坚实，最不可违背的规律。著名科学家爱丁顿就说过：“如果你的理论违反了牛顿定律，那也许是牛顿错了，但如果你的理论违反了<a href="https://zhida.zhihu.com/search?content_id=725892446&amp;content_type=Answer&amp;match_order=1&amp;q=%E7%83%AD%E5%8A%9B%E5%AD%A6%E7%AC%AC%E4%BA%8C%E5%AE%9A%E5%BE%8B&amp;zhida_source=entity" rel="nofollow">热力学第二定律</a>，那不好意思，你没指望了，唯一的出路就是丢脸和下台。”</p>
 <p>而进入20世纪20年代之后，新的物理学革命又开始爆发，给我们带来了量子理论。这一次，“概率”更是在物理学当中扮演起了核心角色，以玻尔的“<a href="https://zhida.zhihu.com/search?content_id=725892446&amp;content_type=Answer&amp;match_order=1&amp;q=%E5%93%A5%E6%9C%AC%E5%93%88%E6%A0%B9%E6%B4%BE&amp;zhida_source=entity" rel="nofollow">哥本哈根派</a>”为代表，整整一代物理学家都开始坚信，我们的世界就是建立在不确定，建立在概率的基础之上的。</p>
@@ -90,7 +90,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <p><strong>那请问什么才叫“随机”地扔硬币？答：只有当正面出现的频率为50%时，这个实验才是“随机”的。</strong></p>
 <p>这是典型的“没有真正苏格兰人”谬误，即只要实验没有扔出50%的结果，你永远都可以声称它“不真正随机”。反过来，如果我扔一枚“不均匀”的硬币，结果正面占60%，你又会怎么想呢？你是否会很高兴地觉得，实验已经“证明”了这枚硬币有着60%的“正面概率”？但这一次，为什么你就不质疑我的手法可能“不随机”呢？想想看，如果硬币实际上的正面概率是70%，而我用某种偏差的手法扔出了60%，这是完全可能的。但你光凭实验结果，根本无法分辨我扔的到底是“随机”还是“不随机”。归根到底，你对于概率的认知并不是来源于实验，而是出自某种先验的信念。</p>
 <p>（限于篇幅，我在这里说的有点简化，对这个问题感兴趣的同学，可以进一步参考阅读E.T.Jaynes《概率论沉思录》的第10章。）</p>
-<p><img src="https://picx.zhimg.com/50/v2-fb33a76e443092ad69f40910c7d5b545_720w.jpg?source=2c26e567" alt="" loading="lazy" decoding="async"></p>
+<p><img src="/curated-images/fb595904023ffd43000f.jpg" alt="" loading="lazy" decoding="async"></p>
 <p>第三，“无穷频率”的定义完全不适用于“单一事件”。比方说，如果我们问：明天下雨的概率是多少？应该怎么回答呢？是要假设在未来无穷个日子里，雨天在其中所占的相对频率吗？然而这显然不对，因为问的是“明天”下雨的概率，所以就算你知道后天、大后天是否下雨，这跟问题也没关系。按照严格的定义，你必须把“明天”重复无穷次，然后同时进行观察才行，但显然这没有任何的可操作性。</p>
 <p>所以，频率学派不得不强调说：单一事件是没有概率的。如果你问：巴西队获得3026年世界杯的概率是多少？这是一个无意义的问题。一个特定的事件只能发生一次，巴西队到时候要么夺冠，要么不夺冠，你无法谈论此事发生的“概率”。</p>
 <p>但是，如果我们真要“咬文嚼字”的话，任何事情其实都是“单一事件”。好比如果现在你拿起一枚硬币，问：“它投出正面的概率会是多少？”那你事实上是在问：“我在X年X月X日X点X时X分X秒，在特定的X地点，以特定的X方式，投掷一枚特定的硬币X，问：出现正面的概率是多少？”</p>
@@ -98,7 +98,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <p>最后，当我们考虑到连续和无穷的问题时，情况就变得更加复杂了。我们知道，古典概率论建立在有限的基础之上。它默认问题可以被分割成M种“等可能事件”，然后符合条件的有N种，那么N/M就是所谓的“概率”。但是，如果M和N都是无穷大呢？这时候，古典概率论就无能为力了。比方说，在线段\[0,1\]上随机取一个点，它小于0.5的概率是多少呢？直觉也许告诉我们应该是50%，但具体如何计算？难道我们能把一条线段上的点全部“数出来”，再去计算其中小于0.5的比例吗？</p>
 <p>为了解决无穷带来的困难，20世纪初，在数学大师柯尔莫果洛夫等人的努力下，现代概率论终于建立起来了。如本文开头所说的，这是一个关于“测度”的理论，它在很大程度上可以处理和无穷相关的问题。然而，和康托尔当初带来的冲击一样，把无穷引入概率论也会带来不少“反直觉”的结论。</p>
 <p>还是拿上面的例子，在线段\[0,1\]上随机取一个点，我们问：它“正好”等于0.5的概率是多少？回答是概率为0。请注意，是“严格等于0”，而不是“比0稍微大一点点”或者“无穷小”。你也许会觉得奇怪：这是否意味着取到0.5是不可能的？不，它是“可能”的，只不过概率正好为0而已。本质上，这跟“0.9循环是否等于1”其实是类似的问题，你需要从头理解实数和测度的基础概念，否则就总是会钻到牛角尖里。</p>
-<p><img src="https://pic1.zhimg.com/80/v2-a0493fe3a90cd754d40b46aedb6e743f_1440w.webp?source=2c26e567" alt="" loading="lazy" decoding="async"></p>
+<p><img src="/curated-images/40c0b7ab96c79b95d9aa.webp" alt="" loading="lazy" decoding="async"></p>
 <p>在线段上“正好”取到0.5的概率严格等于0</p>
 <p>但是，这有现实意义吗？或者说，这种奇怪的数学是否真的反应了现实世界的真实情况？我们可以想象一个粒子的波函数在\[0,1\]上均匀分布，那么，当“观测”它的时候，这个粒子会“正好”出现在0.5的位置上吗？如前所述，理论上，粒子出现在任何一个“精确”的位置，其概率都应该严格为0，这在现实中真的可能发生吗？还是说，其实在真实世界里，粒子并不会“绝对精确”，它的实际位置其实是一个微小的区间，从而使得其“概率”是一个虽小，但终究不为0的数字？</p>
 <p>反过来，有些日常听起来“很合理”的问题，概率论却无法从数学上回答。比方说“从所有的自然数里随机取出一个，发现它是偶数的概率是多少？”你也许会直觉地认为答案应该是1/2，但其实这个问题本身存在前提错误，因为自然数和实数不一样（它是可数集），我们无法在它上面构造出一个合法的、均匀的概率空间。通俗地说，你无法做到将所有的自然数都取相同概率，然后全体加起来还能正好等于1。所以，从全体自然数里面“随机”地取一个数，这件事本身就是不可能的。</p>
@@ -111,7 +111,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <p>但讽刺的是，暴胀理论本身就是为了解决概率问题而诞生的。问题的起源，在于我们发现可观测宇宙接近于完全平坦，这很不“自然”。意思是说，理论上空间曲率可以是任何数，但它偏偏极其接近于0，如果你仅仅把这归结于“巧合”的话，那概率就太小了。所以暴胀理论的本意是想给出一种解释，证明在一个典型的观测者看来，暴胀结束后空间接近完全平直是一个“大概率事件”。然而，如果我们无法定义什么才是“客观概率”的话，那这个目的就会变成一场彻底的空谈。无怪乎有人会说，“测度问题”是如今宇宙学面临的最大危机。</p>
 <p>总而言之，你想得越多，就越会发现：概率作为一种“客观的频率”，在很大程度上是无法自圆其说的。于是不知不觉间，拉普拉斯的鬼魂又再次降临，另一派学者又开始重新思考起“概率的本质”。从凯恩斯，到德·菲尼蒂，从H.杰弗里斯，到E.T.杰尼斯，一种被称为“贝叶斯观点”的思潮在悄悄崛起。本质上，这种观点认为：概率其实就是人的主观信念，是我们在信息有限的条件下对某个命题的综合判断，自然，它也会随着我们的认识变化而发生改变，不管怎么说，世界上压根就不存在“客观的”、“永恒不变的”概率。</p>
 <p>这种想法最早可以追溯到牛顿时代的英国牧师贝叶斯，因此便以他而得名，不过，将其真正筑造成完整思想体系的，还是归功于伟大的拉普拉斯本人，大名鼎鼎的“贝叶斯公式”，实际上也是出自其手。总之，从血统来看，虽然该理论曾一度被主流学界排斥，甚至被称为“贝叶斯异端”（Bayesian Heresy），但论起“根正苗红”，其实它比任何对手都不遑多让。</p>
-<p><img src="https://pic1.zhimg.com/80/v2-d988441ab61abf86861862180dbf12c9_1440w.webp?source=2c26e567" alt="" loading="lazy" decoding="async"></p>
+<p><img src="/curated-images/1c8aab461027c93e9f7d.webp" alt="" loading="lazy" decoding="async"></p>
 <p>贝叶斯公式</p>
 <p>关于贝叶斯学派的主要理念和思考方式，以前回答过一个问题，可以参考。当然篇幅所限，我在这里简化了贝叶斯理论的描述，实际上该理论分成许多不同的流派，各学者之间的观点也颇有不同，有些人会更倾向于“客观”甚至频率描述，想要更详细的了解，可以参考Weatherford所著Philosophical Foundations of Probability Theory。</p>
 <p><a href="https://www.zhihu.com/question/330972557/answer/761885795" rel="nofollow">有人说「骰子掷一次掷出6的概率为50%，因为只有是6、不是6两种事件」，请问如何反驳？1.9 万赞同 · 933 评论</a> 回答</p>
@@ -121,7 +121,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <p>因此，“概率”就是我们对世界最好的，也是唯一的描述方式，它本质上是基于当前所有证据进行的“最合情推理”。我不关心，也不必真的知道硬币或者量子是不是本质上“随机”的，如果它们之前表现得像随机，我就对实验结果安排一个随机的概率预测。反之，如果哪天它们突然变得“有规律”了，我也会因此而调整我的信念，相应更改预测的数值。拿牛顿的名言来说：“我不立任何假设”。事情有几分证据，我就给出几分的“概率”。至于它“本质上”是真是假，这是一个没有意义的问题。</p>
 <p>不过很遗憾，贝叶斯学派也并不能一劳永逸地解决我们对于“概率”的终极疑问。如果概率只是人的主观信念，那建立在概率之上的物理学呢？一团气体的压力，一个封闭系统的熵，一次观测后的量子态“坍塌”，这些难道都不是客观存在，而是“主观”的吗？再说了，也许我们没法把硬币扔上无数次，也说不清楚究竟什么才叫“随机扔”，但如果走进一间陌生的赌场，真金白银地去和庄家赌大小，我恐怕还是宁愿先默认硬币是五五开，而不是凭“主观”认定正面只有10%。道理很简单，当我对某个硬币没有任何知识的时候，它的正面和反面是完全“对称”的，我没有任何理由去“偏向”某一面，因此，“一视同仁”就是我的“最佳策略”，这也被称为“无差别原则”。</p>
 <p>但是，这种原则真的是最合理的吗？还是某种经不起检验的幻觉？如果现在老板告诉你：这个赌场里采用的实际上是某种不均匀的硬币，它某个面朝上的概率要大大高于另一个面。这时候你应该如何“调整”自己的信念呢？如果按照无差别原则，虽然你已经知道硬币不是五五开，但对方并没有具体说明哪一面更高，此时正面和反面对你而言，仍然是“对称”的，你仍然没有理由偏好任何一边。所以，你应该在明知硬币不对称的情况下，继续坚持五五开的信念吗？如果不是，又该如何选择呢？</p>
-<p><img src="https://pica.zhimg.com/80/v2-2c3c6802182bd56a15445dea87a3f1b2_1440w.webp?source=2c26e567" alt="" loading="lazy" decoding="async"></p>
+<p><img src="/curated-images/2a7a9c97ea5fdb0b8224.webp" alt="" loading="lazy" decoding="async"></p>
 <p>一枚明知不均匀的硬币，该如何分配主观先验概率？</p>
 <p>其次，对于同一个事件，我们也仍然面临类似于“测度”的问题，即我们可以通过不同方式来为特定对象指定不同的“概率”。著名的贝特朗悖论告诉我们，很多时候光说“随机”是没有意义的，你必须从很多可能的方案中选择某一种特定的“随机”。同样，对于任何单独的事件，你空谈它“本身的概率”也是没有意义的，你必须先把这个事件指定到某个“参考类”下面，然后才能谈论其概率。从某种程度上讲，概率其实是“参考类”的属性，而不是某个单独事件的属性。</p>
 <p>举个例子，张三是一位30岁的中国男性，住在北京，职业是老师。出于好奇，他想知道自己明年不幸身亡的“概率”究竟是多少。为此，他找来一张最新的生命统计表，表上显示就目前状况而言，所有31岁的中国男性每年会有0.1007%的人因各种原因身故。张三心想，自己明年也到31岁了，所以死亡的“概率”自然就是0.1007%。</p>
@@ -130,7 +130,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <p>回答是：所有的数字都是对的，但它们并不针对张三这个“个人”而言，而是针对某个“参考类”而言的。作为一个“单独事件”，正如前文所述，张三本人的“死亡概率”是没有意义的，因为你无法把他明年的经历“重复实验”无数次。但是，你可以把张三“主观指定”到某一个“类别”下面，或者是“男人”，或者是“中国人”，等等。对于一个类别而言，其全体下属成员就有了统计意义，可以谈论“概率”了。因此，当张三作为“31岁中国人”中的一员时，他的死亡概率就是0.0778%，而当他作为“北京男老师”的一员时，死亡概率也许就是0.0932%，等等。这些数字并不彼此矛盾，它们只是反应了张三在不同“分类”下的不同“属性”。</p>
 <p>有意思的是，这种“分类”可以变得十分任意，比方说，你甚至可以把张三指定为“哺乳动物”中的一员，或者“多细胞生物”中的一员，甚至是“碳基生命”中的一员。这时候算出来的“死亡概率”可能就会非常夸张。绝大多数的碳基生物应该都是微生物之类，很可能根本活不到一年，因此，如果非要把张三算作“碳基生命”的话，那他明年的“死亡概率”可能高达99%以上！</p>
 <p>你也许要质疑：这样的分类是否真的有意义？但也有学者坚持认为，所谓“概率”本身就是由我们主观视角而指定的，不存在一个“合理”的标准。关键在于，就跟相对论下我们不能脱离参考系而谈论“绝对时间”一样，我们也不能脱离参考类而谈论“绝对概率”。一个事件本身并没有概率，概率取决于你如何对它进行“分类”！</p>
-<p><img src="https://pica.zhimg.com/50/v2-1345ae1badf1ebe71191ae86798a2356_720w.jpg?source=2c26e567" alt="" loading="lazy" decoding="async"></p>
+<p><img src="/curated-images/f046f0a342d5fc49312c.jpg" alt="" loading="lazy" decoding="async"></p>
 <p>张三应该将自己归为什么“类别”？</p>
 <p>在物理学里，我们通常把某个参考类称为“系综”。因此，在量子力学里，有一种“<a href="https://zhida.zhihu.com/search?content_id=725892446&amp;content_type=Answer&amp;match_order=1&amp;q=%E7%B3%BB%E7%BB%BC%E8%A7%A3%E9%87%8A&amp;zhida_source=entity" rel="nofollow">系综解释</a>”，这种解释认为：空谈某一个粒子的“随机性”是没有意义的，有意义的只有整个“系综”的统计属性。因此，我们只能说，如果我们准备一个实验，让N个粒子通过非均匀磁场（斯特恩-格拉赫实验），那么，在这个特定实验的“系综”里，有一半粒子会偏向上面，另一半会偏向下面。以50%的概率向上，这是N个参与实验的“全体粒子”的属性。</p>
 <p>但是，我们不能脱离实验设置，把其中的某个粒子单独拿出来，去空谈它的“随机性”。因为在系综解释看来，所谓“概率”，是“参与特定实验的全体粒子”的性质，而不是某个粒子单独的性质。当然，这只是量子论五花八门的解释之一，不过如果你接受这一点，就再一次证明“概率”并不是某种客观的属性，而是由主观指定的。</p>
@@ -139,7 +139,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <p>这听上去似乎理所当然。但在某些情况下，无条件应用该原则似乎就会导致一些奇怪的结论。比方说，如果有两个可能的宇宙，A宇宙有1亿人，B宇宙有99亿人，那么你认为自己“更可能”生存在哪个宇宙？</p>
 <p>如果你坚持认为自己只是这100亿人中间“随机”抽取出来的一个，那你应该回答：我有99%的概率生活在B宇宙，而只有1%的概率生活在A宇宙。但照此推论的话，你会发现宇宙里的人“越多越好”。如果我们相信在永恒暴胀中，所有的宇宙都是“可能”的话，那你应该100%地坚信，自己其实生活在一个无穷多人的宇宙里。</p>
 <p>换句话说，我可以不需要任何实际的观测证据，光凭“概率推理”就能知道自己宇宙的某些特征，这是可能的吗？</p>
-<p><img src="https://pic1.zhimg.com/50/v2-7032eb78728160223cc3fe3941b3d467_720w.jpg?source=2c26e567" alt="" loading="lazy" decoding="async"></p>
+<p><img src="/curated-images/383e44e683a0e5b2f10d.jpg" alt="" loading="lazy" decoding="async"></p>
 <p>我“更可能”生活在哪个宇宙？</p>
 <p>1983年，宇宙学家布兰登·卡特根据“自我采样假设”，提出了著名的“末日论证”，引起了无穷的争论。卡特的想法很简单：假设“我”是在“所有人类”这个集合当中被“随机抽取”出来的话，那么通过我在集合中的“序号”，就能对“人类总数”做出一个概率判断。</p>
 <p>打个比方，一个盒子里有若干小球，总数未知，但每个小球都按照顺序编号。现在我们随机抽取一个球，发现是10号，那我们完全可以通过这个信息，来“倒推”球的总数有多少。计算也很简单：如果小球总数是N个，在\[0, N\]区间进行随机采样，得到结果x，那x应该有5%的概率落在\[0, N/20\]区间，95%的概率落在\[N/20, N\]区间。换句话说，x&lt;N/20的概率为5%，x&gt;N/20的概率则为95%。现在已知x=10，不等式两边再各乘20，就得到：N&gt;200的概率为5%，N&lt;200的概率则为95%。</p>
@@ -147,7 +147,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <p>类似的抽样估计在历史上曾经有过很实际的应用，著名的“德国坦克问题”就是典型的例子。二战期间，通过对缴获坦克零件上的序号分析，盟军对德国坦克的总产量做出了非常准确的估计。因此可以说，这种方法是完全有效的。</p>
 <p>同样，我们可以假设人类从诞生到最终灭亡，总共会产生N个人，N当然是未知的。但是，如果“我”是一个典型的观察者，是从“所有人类”当中“随机抽取”出来的，那就和抽小球是一个道理。假设我发现自己是人类中的第x号，就可以得出结论：人类总数N&lt;20x的概率为95%。</p>
 <p>卡特和后来的一些学者估计，作为一个现代人，你大约是有史以来的第600亿号。因此可以预言：人类总数有95%的概率不超过1.2万亿，50%的概率不超过1200亿。</p>
-<p><img src="https://pica.zhimg.com/50/v2-56aabdd390b5d3a21532ae0320f0043a_720w.jpg?source=2c26e567" alt="" loading="lazy" decoding="async"></p>
+<p><img src="/curated-images/71428c7b26f368efe8cf.jpg" alt="" loading="lazy" decoding="async"></p>
 <p>你“随机投胎”，发现自己是第600亿号人类，这是否给出了关于人类总数N的某些信息？</p>
 <p>“末日论证”自发表以来，引起了广泛的争论，也产生了众多变体，至今仍未达成共识。有人会说，如果我们真的认为自己应该是“所有观察者”中的随机一员，那这些“观察者”不仅仅应该只包括人类，或许还有外星智慧生命等等。甚至我们可能会啼笑皆非地推论出，自己其实有极大的概率不是“真实人类”，而应该是玻尔兹曼大脑涨落出的幻觉或者虚拟世界当中的信息。</p>
 <p>但不管怎样，采样假设毕竟提出了一个有趣的问题：通过观察有限的样本，是否能够从中得到关于其“概率空间”的某些信息？比方说我们的宇宙年龄大约是138亿年，这也是我们能观察的唯一样本。但如果真的有N种“可能的平行宇宙”，其年龄分布是否应该在大致同等的数量级上？不然的话，如果绝大多数宇宙都有几亿亿亿亿亿年的寿命，那我们的宇宙年龄就会“不合情理”地短，换句话说，我们的宇宙将以很大的标准差远离“宇宙全集”的均值，变成一个“极其小概率的事件”。这就需要额外的理论来“解释”，而不能视为理所当然。</p>
@@ -158,7 +158,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <p>（关于人择原理，末日论证，自我采样假设等问题，有兴趣的同学可以参考阅读Nick Bostrom的著作Anthropic Bias。）</p>
 <p>除了自我采样之外，一个更令人困惑的问题是“自我定位”。想象以下的实验：某疯狂科学家告诉你，他不久后会将你催眠，然后扔一枚公平的硬币。如果扔出正面，他就会把你送到“蓝岛”上，关进一间房子里，其他什么也不做。反之，如果扔出反面，他就会把你送到“红岛”上，在那里，他会先将你克隆出一个“复制品”，然后把你们俩关进两间不同的房子。注意，这个复制品同样有思想有记忆，跟你本人一模一样，他完全无法意识到自己其实是复制的。</p>
 <p>第二天，催眠效果过去，现在你苏醒了。疯狂科学家发问：你觉得我昨天扔硬币，是扔出了正面还是反面？两者的概率分别是多少？</p>
-<p><img src="https://pic1.zhimg.com/50/v2-5ca73de1ce2a29cdce0a5ae1b91f99c5_720w.jpg?source=2c26e567" alt="" loading="lazy" decoding="async"></p>
+<p><img src="/curated-images/003de5b007e2e2ac2038.jpg" alt="" loading="lazy" decoding="async"></p>
 <p>克隆岛上的“概率推理”</p>
 <p>关于这个问题，有人会做如下推理：醒来时，我可能是蓝岛上的那个我，也可能是红岛上的我，还可能是红岛上的“复制品”。但因为完全无法分辨，我只能认为这三种情况都是“同样可能”的。所以，总共3种可能性，其中1种是在蓝岛上，而2种是在红岛上。以此反推，我只能认为科学家昨天抛出正面的概率是1/3，反面则是2/3。</p>
 <p>也有人强烈反对：既然已经告诉你硬币是“公平”的，那抛出正面的概率自然是1/2。如果在实验开始的时候就问你，你肯定也会这样说。问题是，之后从被催眠到醒来，这过程当中你也没有得到任何新的信息啊。你从一开始就知道不管结果如何，肯定是会苏醒的。那么，为什么苏醒之后，你就会突然改变看法呢？不管怎样，硬币正面的概率应该维持1/2不变。</p>
@@ -168,7 +168,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <p>近年来，越来越多的科学家开始认为，量子论的“概率”本质，很可能也是出自相同的原因。量子论本身，即薛定谔方程其实是完全“确定”的，和牛顿理论并没有任何本质不同。奇怪的是所谓的“坍缩”假设，即每次观察，量子态都会按照波恩法则，以确定的概率坍缩到某一个本征态上。这个过程其实跟量子论本身是矛盾的，完全是为了解释观测结果而生硬地附加到理论之上。</p>
 <p>一种想法是，我们应该彻底否定任何“坍缩”的存在，坚持整个宇宙始终严格按照量子论进行幺正演化，这其实就是埃弗莱特的“多世界”理论。宇宙的波函数可以被分解为无数个不同“世界”的叠加，每个世界都是希尔伯特空间中的一个投影，而我们的各种“分身”则存在于不同的世界当中。随着波函数的演化过程，绝大多数世界都彼此退相干了，只有在极小的尺度上仍然产生明显的量子干涉和叠加。这样，从“上帝”的视角来看，整个宇宙仍然是确定的，完全可预测的。</p>
 <p>那么，“概率”又是从哪里来的呢？只能从我们的主观视角产生。从客观上来看，“我们”其实是所有世界中的总体叠加，但在“主观”上，我们却只能认知到其中的某一个世界。问题是，任何一个“主观的我”都无法准确地进行自我定位，不知道自己位于哪一个具体的“世界”，于是，就跟前面例子里的克隆人一样，在“我”的眼里，概率出现了。比方说，在世界A当中，“1号我”看到薛定谔的猫死去，而在世界B当中，“2号我”则看到薛定谔的猫活着。薛定谔的猫其实没有概率，它只是严格按照量子论方程演化而已，概率在于“我”不知道自己究竟是1号还是2号。这是我的问题，而不是猫的问题。</p>
-<p><img src="https://picx.zhimg.com/50/v2-199a25c4775546c70bdb2d604bb5f67e_720w.jpg?source=2c26e567" alt="" loading="lazy" decoding="async"></p>
+<p><img src="/curated-images/6cd302ce3346ddc75414.jpg" alt="" loading="lazy" decoding="async"></p>
 <p>多世界中的薛定谔猫</p>
 <p>所以你发现，多世界中的“概率”，本质上其实就是量子版的睡美人问题。很多科学家都在尝试，是否能从自我定位的假设出发，不附加任何条件，自动推导出量子论的玻恩法则，乃至所有的概率论原则。这样的话，我们就可以彻底抛弃“波函数坍缩”的假设了。然而，因为睡美人悖论本身仍然争论激烈，究竟如何“合理”地判定主观概率仍然是一个悬而未决的问题。如果概率是可以主观随意指定的，那何以玻恩法则却是一个客观的规律？在这个问题上，也许争论还会长期继续下去。</p>
 <p>（对这个问题感兴趣的同学，可以进一步参考Charles Sebens和Sean Carroll的文章：Self-Locating Uncertainty and the Origin of Probability in Everettian Quantum Mechanics）</p>
