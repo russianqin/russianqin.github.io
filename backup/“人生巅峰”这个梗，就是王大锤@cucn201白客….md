@@ -22,8 +22,8 @@
 作为一条公文狗，我无数次收到这样的要求——我的报告要求见人见事见思想，把自己摆进去，所以你要认真写。
 把你摆进去……我要认真写……你……我……啊？真给我CPU干烧了。黑色幽默*3。
 
-![](https://russianqin.github.io/legacy-images/456de21e9ccf2fcc4756.webp)
-![](https://russianqin.github.io/legacy-images/7d3db924e78120a3a5a4.webp)
+![](https://raw.githubusercontent.com/russianqin/russianqin.github.io/main/data/legacy-images/456de21e9ccf2fcc4756.webp)
+![](https://raw.githubusercontent.com/russianqin/russianqin.github.io/main/data/legacy-images/7d3db924e78120a3a5a4.webp)
 
 <sub>[原微博](https://weibo.com/1675591540/NC0eBaQrD) · 2024-01-15 22:29</sub>
 <!-- ## {"timestamp": 1705328950, "source": "weibo", "sourceId": "NC0eBaQrD", "sourceUrl": "https://weibo.com/1675591540/NC0eBaQrD"} ## -->
