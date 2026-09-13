@@ -45,17 +45,18 @@ ASSET_HOSTS = (
     "chuapp.com/wp-content", "mpres", "equation",
 )
 IMAGE_EXT = (".jpg", ".jpeg", ".png", ".gif", ".webp", ".bmp")
+ASSETS_OUT_DIR = "curated-assets"
 
 TITLE_LINK_RE = re.compile(r"^#{0,6}\s*\[(?P<title>.+?)\]\((?P<url>https?://[^)]+)\)\s*$")
 TITLE_PLAIN_RE = re.compile(r"^#{1,6}\s+(?P<title>.+?)\s*$")
 NUM_PREFIX_RE = re.compile(r"^(\d{1,4})[.\-_\s]")
-MD_IMAGE_RE = re.compile(r"!\[[^\]]*\]\((?P<url>https?://[^)\s]+)(?:\s+\"[^\"]*\")?\)")
-HTML_IMAGE_RE = re.compile(r"<img\b[^>]*\bsrc=[\"'](?P<url>https?://[^\"']+)[\"']", re.I)
+MD_IMAGE_RE = re.compile(r"!\[[^\]]*\]\((?P<url>[^)\s]+)(?:\s+\"[^\"]*\")?\)")
+HTML_IMAGE_RE = re.compile(r"<img\b[^>]*\bsrc=[\"'](?P<url>[^\"']+)[\"']", re.I)
 ANY_URL_RE = re.compile(r"https?://[^\s\)\]\">]+")
 COMMENT_MARKER_RE = re.compile(r"^\*{0,2}\s*(精选留言|全部留言|留言)\s*\*{0,2}$")
 META_LINE_RE = re.compile(r"^(阅读\s*[\d.]+万?|文章已于.*修改|发布于.*|编辑于.*)$")
-AVATAR_ITEM_RE = re.compile(r"^-\s*!\[[^\]]*\]\((?P<url>https?://[^)\s]+)\)\s*$")
-AVATAR_PLAIN_RE = re.compile(r"^!\[[^\]]*\]\((?P<url>https?://[^)\s]+)\)\s*$")
+AVATAR_ITEM_RE = re.compile(r"^-\s*!\[[^\]]*\]\((?P<url>[^)\s]+)\)\s*$")
+AVATAR_PLAIN_RE = re.compile(r"^!\[[^\]]*\]\((?P<url>[^)\s]+)\)\s*$")
 LIKES_RE = re.compile(r"^赞\s*(\d+)$")
 
 IMAGE_REFERER = (
@@ -248,6 +249,20 @@ def parse_comments(lines):
             records.append(current)
             continue
 
+        # 没有头像的留言（手工粘贴的评论）：以 "- 昵称" 起一条
+        plain_item = re.match(r"^-\s+(?P<nick>[^\s!].*)$", stripped)
+        if plain_item:
+            current = {
+                "avatar": "",
+                "nick": plain_item.group("nick").strip(),
+                "author": False,
+                "likes": "",
+                "text_lines": [],
+                "replies": [],
+            }
+            records.append(current)
+            continue
+
         reply = AVATAR_PLAIN_RE.match(stripped)
         if reply and current is not None:
             current = {
@@ -365,6 +380,9 @@ def localize_images(article, cache_dir, mode, stats):
     def localize(url):
         if not url:
             return url
+        if not re.match(r"^https?://", url):
+            # 相对路径（采集工具放进收藏仓库的 assets/…）本身就在本地，不需要下载
+            return url
         if url in article["_images"]:
             name = article["_images"][url]
         else:
@@ -391,6 +409,46 @@ def localize_images(article, cache_dir, mode, stats):
             reply["avatar"] = localize(reply.get("avatar"))
     if article.get("_first_body_image"):
         article["og_image"] = article["_first_body_image"]
+
+
+def referenced_assets(article):
+    """收集正文与留言里引用的相对资源（assets/…）"""
+    found = set()
+    for match in re.finditer(r"(?<![\w/])assets/[^\s)\"'<>]+", article["body"] or ""):
+        found.add(match.group(0))
+    for record in article.get("comments", []):
+        for target in [record] + list(record.get("replies", [])):
+            avatar = target.get("avatar") or ""
+            if avatar.startswith("assets/"):
+                found.add(avatar)
+    return found
+
+
+def copy_assets(source_repo, docs, articles):
+    """把收藏仓库 assets/ 里被引用的文件复制到 docs/curated-assets/"""
+    source_root = Path(source_repo) / "assets"
+    if not source_root.is_dir():
+        return 0
+    target_root = docs / ASSETS_OUT_DIR
+    copied = 0
+    for article in articles:
+        for rel in referenced_assets(article):
+            source = Path(source_repo) / rel
+            if not source.is_file():
+                continue
+            target = target_root / rel[len("assets/"):]
+            target.parent.mkdir(parents=True, exist_ok=True)
+            if not target.exists() or target.stat().st_size != source.stat().st_size:
+                shutil.copyfile(str(source), str(target))
+            copied += 1
+    return copied
+
+
+def rewrite_asset_urls(html_text):
+    """assets/xxx → /curated-assets/xxx（页面直接引用复制过来的文件）"""
+    for prefix in ('="', "='", "](", "url("):
+        html_text = html_text.replace(prefix + "assets/", prefix + "/" + ASSETS_OUT_DIR + "/")
+    return html_text
 
 
 # ---------------------------------------------------------------- 渲染
@@ -646,6 +704,10 @@ def render_article(article, shell, site, body_html):
     og_image = article.get("og_image")
     if og_image and og_image.startswith("/"):
         og_image = base + og_image
+    if not og_image:
+        match = re.search(r'src="(assets/[^"]+)"', body_html)
+        if match:
+            og_image = "%s/%s/%s" % (base, ASSETS_OUT_DIR, match.group(1)[len("assets/"):])
     head = build_head(
         shell["head"],
         "%s - 文章收藏" % article["title"],
@@ -679,7 +741,7 @@ def render_article(article, shell, site, body_html):
     parts.append('<div class="curated-footer"><a href="/%s.html">← 返回收藏列表</a></div>\n' % INDEX_SLUG)
     parts.append("</div>\n")
     parts.append(shell["footer"])
-    return "".join(parts)
+    return rewrite_asset_urls("".join(parts))
 
 
 def render_index(articles, shell, site):
@@ -799,6 +861,10 @@ def main():
         for article in articles:
             localize_images(article, cache_dir, args.images, stats)
 
+        copied_assets = copy_assets(repo_dir, docs, articles)
+        if copied_assets:
+            log("已复制收藏仓库 assets 资源 %d 个 → %s/" % (copied_assets, ASSETS_OUT_DIR))
+
         if args.images == "download":
             wanted = set()
             for article in articles:
@@ -827,7 +893,7 @@ def main():
         for article in articles:
             body_html = add_lazy_loading(markdown_to_html(article["body"]))
             write_text(out_dir / ("%s.html" % article["slug"]), render_article(article, shell, args.site, body_html))
-        log("已生成 %d 个文章页 → %s" % (len(articles), out_dir.relative_to(root).as_posix()))
+        log("已生成 %d 个文章页 → %s" % (len(articles), out_dir))
 
         write_text(docs / ("%s.html" % INDEX_SLUG), render_index(articles, shell, args.site))
         log("已生成列表页 → %s.html" % INDEX_SLUG)
