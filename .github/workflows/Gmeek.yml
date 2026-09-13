@@ -65,7 +65,8 @@ jobs:
           GMEEK_MD_CACHE_DIR: ${{ github.workspace }}/.md-cache
         run: |
           mkdir -p docs
-          cp -a data/legacy-images docs/legacy-images 2>/dev/null || true
+          mkdir -p docs/legacy-images
+          cp -a data/legacy-images/. docs/legacy-images/ || true
           cp -r ./* /opt/Gmeek/
           cd /opt/Gmeek/
           python Gmeek.py ${{ secrets.GITHUB_TOKEN }} ${{ github.repository }} --issue_number '${{ github.event.issue.number }}'
