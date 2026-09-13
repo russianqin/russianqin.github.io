@@ -4,8 +4,8 @@
 
 在游戏中，玩家作为局外人去充当局中人，在假想中领略“似是而非”的乐趣。这种乐趣来自体验，也来自想象，是一种“假设的体验”和“真实的想象”。局中人的身份保证了体验的真实，局外人的身份保证了想象的自由，因此妙不可言，其乐无穷。
 
-![](https://pic1.zhimg.com/v2-2ab5223d1ec67a10f8dc6367124c866d_r.jpg?source=c8b7c179)
-![](https://pic1.zhimg.com/v2-2ab5223d1ec67a10f8dc6367124c866d_r.jpg?source=c8b7c179)
+![](https://raw.githubusercontent.com/russianqin/russianqin.github.io/main/data/legacy-images/d32caddd2267a13e2012.webp)
+![](https://raw.githubusercontent.com/russianqin/russianqin.github.io/main/data/legacy-images/d32caddd2267a13e2012.webp)
 
 玩家能提出这样深刻的问题，也是游戏产业不断发展、游戏作品艺术性不断提升的成果之一。
 
