@@ -52,12 +52,17 @@ jobs:
           lastTag=$(git describe --tags `git rev-list --tags --max-count=1`)
           if [ $GMEEK_VERSION == 'last' ]; then git checkout $lastTag; else git checkout $GMEEK_VERSION; fi;
 
+      - name: Patch Gmeek (markdown cache & rate limit)
+        run: python scripts/patch_gmeek_md_cache.py /opt/Gmeek/Gmeek.py
+
       - name: Install dependencies
         run: |
           pip install --upgrade pip
           pip install -r /opt/Gmeek/requirements.txt
 
       - name: Generate new html
+        env:
+          GMEEK_MD_CACHE_DIR: ${{ github.workspace }}/.md-cache
         run: |
           cp -r ./* /opt/Gmeek/
           cd /opt/Gmeek/
