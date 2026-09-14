@@ -475,6 +475,10 @@ def build_sitemap(docs, ctx):
     if curated_dir.is_dir():
         for page in sorted(curated_dir.glob("*.html")):
             add("%s/curated/%s" % (ctx["site"], quote(page.name)), changefreq="monthly", priority="0.4")
+    reading_dir = docs / "reading"
+    if reading_dir.is_dir():
+        for page in sorted(reading_dir.glob("*.html")):
+            add("%s/reading/%s" % (ctx["site"], quote(page.name)), changefreq="monthly", priority="0.4")
     for item in ctx["ordered"]:
         add("%s/%s" % (ctx["site"], item["url"]), lastmod=item["date"], priority="0.8")
 

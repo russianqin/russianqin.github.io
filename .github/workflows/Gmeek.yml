@@ -81,6 +81,9 @@ jobs:
       - name: Sync 文章收藏 (Curated Articles)
         run: python scripts/sync_curated.py docs --images download
 
+      - name: Sync 读书心得 (Reading)
+        run: python scripts/sync_reading.py docs
+
       - name: Optimize docs (SEO / 图片懒加载 / sitemap)
         run: python scripts/optimize_docs.py docs
 
