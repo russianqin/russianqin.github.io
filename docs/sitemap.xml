@@ -596,11 +596,6 @@
     <priority>0.4</priority>
   </url>
   <url>
-    <loc>https://russianqin.github.io/curated/081.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
     <loc>https://russianqin.github.io/curated/082.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
@@ -1182,11 +1177,6 @@
   </url>
   <url>
     <loc>https://russianqin.github.io/curated/198.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://russianqin.github.io/curated/199.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>
@@ -2072,11 +2062,6 @@
   </url>
   <url>
     <loc>https://russianqin.github.io/curated/379.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://russianqin.github.io/curated/380.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>
