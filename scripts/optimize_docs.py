@@ -35,9 +35,12 @@ SEO_MARK = "<!-- optimized:seo -->"  # 幂等标记：重复运行不会重复�
 POST_BODY_START = re.compile(r'<div class="markdown-body" id="postBody">', re.I)
 POST_BODY_STOP = re.compile(r'<div style="font-size:small', re.I)
 
-IMG_RE = re.compile(r"<img\b[^>]*>", re.I)
-STYLE_RE = re.compile(r"<style\b[^>]*>.*?</style>", re.I | re.S)
-META_RE = re.compile(r"<meta\b[^>]*>", re.I)
+# 标签体不能简单写 [^>]*：属性值本身可能含 ">"（Gmeek 生成的 description 常以 ">" 开头），
+# 那样匹配到的标签是残缺的，set_meta 会改不动 content，页面就留下脏 description。
+TAG_BODY = r"""(?:[^>"']|"[^"]*"|'[^']*')*?"""
+IMG_RE = re.compile(r"<img\b" + TAG_BODY + r">", re.I)
+STYLE_RE = re.compile(r"<style\b" + TAG_BODY + r">.*?</style>", re.I | re.S)
+META_RE = re.compile(r"<meta\b" + TAG_BODY + r">", re.I | re.S)
 
 STEP_TITLE = re.compile(r"^\s*(?:\u2191|\u2b06|\^|\uff1e|>)\s*")
 
@@ -263,7 +266,7 @@ def move_stray_styles(text):
 
     between_clean = STYLE_RE.sub("", between)
     head = text[:head_end]
-    anchor = re.search(r"<link[^>]*primer\.css[^>]*>", head, re.I)
+    anchor = re.search(r"<link\b" + TAG_BODY + r"primer\.css" + TAG_BODY + r">", head, re.I)
     if anchor:
         head = head[: anchor.end()] + "".join(blocks) + head[anchor.end():]
     else:

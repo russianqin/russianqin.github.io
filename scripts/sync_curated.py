@@ -51,7 +51,16 @@ TITLE_LINK_RE = re.compile(r"^#{0,6}\s*\[(?P<title>.+?)\]\((?P<url>https?://[^)]
 TITLE_PLAIN_RE = re.compile(r"^#{1,6}\s+(?P<title>.+?)\s*$")
 NUM_PREFIX_RE = re.compile(r"^(\d{1,4})[.\-_\s]")
 MD_IMAGE_RE = re.compile(r"!\[[^\]]*\]\((?P<url>[^)\s]+)(?:\s+\"[^\"]*\")?\)")
-HTML_IMAGE_RE = re.compile(r"<img\b[^>]*\bsrc=[\"'](?P<url>[^\"']+)[\"']", re.I)
+# 标签体里不能简单写 [^>]*：属性值本身可能含 ">"（Gmeek 生成的 description 常以 ">" 开头），
+# 那样会把标签截断，甚至把后半截当成正文留在页面上。下面这个写法会跳过成对的引号。
+TAG_BODY = r"""(?:[^>"']|"[^"]*"|'[^']*')*?"""
+META_TAG_RE = re.compile(r"<meta\b" + TAG_BODY + r">", re.I | re.S)
+LINK_TAG_RE = re.compile(r"<link\b" + TAG_BODY + r">", re.I | re.S)
+SEO_META_RE = re.compile(
+    r"""(?:name|property)\s*=\s*["'](?:(?:og|article|twitter):[^"']*|description|author|keywords)["']""",
+    re.I,
+)
+HTML_IMAGE_RE = re.compile(r"<img\b" + TAG_BODY + r"\bsrc=[\"'](?P<url>[^\"']+)[\"']", re.I)
 ANY_URL_RE = re.compile(r"https?://[^\s\)\]\">]+")
 COMMENT_MARKER_RE = re.compile(r"^\*{0,2}\s*(精选留言|全部留言|留言)\s*\*{0,2}$")
 META_LINE_RE = re.compile(r"^(阅读\s*[\d.]+万?|文章已于.*修改|发布于.*|编辑于.*)$")
@@ -572,7 +581,17 @@ def fallback_markdown(text):
 
 
 def add_lazy_loading(body_html):
-    return re.sub(r"<img\b(?![^>]*\bloading=)", '<img loading="lazy" decoding="async"', body_html, flags=re.I)
+    return re.sub(r"<img\b(?!" + TAG_BODY + r"\bloading=)", '<img loading="lazy" decoding="async"', body_html, flags=re.I)
+
+
+def strip_seo_tags(head):
+    """去掉模板里属于"那一篇 post"的 SEO 标签，避免串到收藏页上。"""
+    head = META_TAG_RE.sub(lambda m: "" if SEO_META_RE.search(m.group(0)) else m.group(0), head)
+    head = LINK_TAG_RE.sub(
+        lambda m: "" if re.search(r"""rel\s*=\s*["']canonical["']""", m.group(0), re.I) else m.group(0),
+        head,
+    )
+    return head
 
 
 def load_shell(docs):
@@ -592,12 +611,7 @@ def load_shell(docs):
         return None
     head = text[:body_pos]
     head = re.sub(r"<!-- optimized:seo -->.*?(?=</head>)", "", head, flags=re.S)
-    head = re.sub(r'<meta\s+name="description"[^>]*>\s*', "", head, flags=re.I)
-    head = re.sub(r'<meta\s+property="og:[^"]*"[^>]*>\s*', "", head, flags=re.I)
-    head = re.sub(r'<meta\s+name="twitter:[^"]*"[^>]*>\s*', "", head, flags=re.I)
-    head = re.sub(r'<link\s+rel="canonical"[^>]*>\s*', "", head, flags=re.I)
-    head = re.sub(r'<meta\s+name="author"[^>]*>\s*', "", head, flags=re.I)
-    head = re.sub(r'<meta\s+property="article:[^"]*"[^>]*>\s*', "", head, flags=re.I)
+    head = strip_seo_tags(head)
     header = text[body_pos + len("<body>"):content_pos]
     footer = text[footer_pos:]
     return {"head": head, "header": header, "footer": footer}
