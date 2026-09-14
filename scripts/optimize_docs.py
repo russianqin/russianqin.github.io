@@ -98,7 +98,7 @@ def esc_xml(value):
 
 def strip_tags(value):
     text = re.sub(r"<br\s*/?>", " ", value or "", flags=re.I)
-    text = re.sub(r"<[^>]+>", "", text)
+    text = re.sub(r"<" + TAG_BODY + r">", "", text)
     return re.sub(r"\s+", " ", text).strip()
 
 
@@ -114,7 +114,7 @@ def clean_text(value, limit=160):
     text = value or ""
     text = re.sub(r"!\[[^\]]*\]\([^)]*\)", "", text)          # 图片
     text = re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", text)      # 链接只留文字
-    text = re.sub(r"<[^>]+>", "", text)
+    text = re.sub(r"<" + TAG_BODY + r">", "", text)
     text = re.sub(r"^[ \t]*[#>*+\-]+\s*", "", text, flags=re.M)  # 行首标记
     text = re.sub(r"`+|~+|\*\*?", "", text)
     text = re.sub(r"\s+", " ", text).strip()

@@ -83,6 +83,21 @@ jobs:
 
       - name: Optimize docs (SEO / 图片懒加载 / sitemap)
         run: python scripts/optimize_docs.py docs
+
+      - name: 体检 head 里的裸文本
+        run: |
+          set +e
+          output=$(python scripts/check_head.py docs)
+          code=$?
+          echo "$output"
+          {
+            echo "## head 裸文本体检"
+            echo ""
+            echo '```'
+            echo "$output"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+          exit $code
           
       - name: update html
         run: |

@@ -112,6 +112,24 @@ def host_label(url):
     return host
 
 
+def plain_text(value, limit=150):
+    """把 Markdown 正文压成一行纯文本：图片整段去掉、链接只留文字、去掉行内标记。
+
+    首行是图片的文章（例如 001）如果只按字符删，会留下 `img(/curated-images/….jpg)`
+    这种残渣进 description，所以这里先按语法去掉图片和链接，再处理其余标记。
+    """
+    text = value or ""
+    text = re.sub(r"!\[[^\]]*\]\([^)]*\)", "", text)      # 图片（alt + 地址）整段去掉
+    text = re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", text)  # 链接只留文字
+    text = re.sub(r"https?://\S+", " ", text)             # 正文首行单独的原文链接也不进摘要
+    text = re.sub(r"<" + TAG_BODY + r">", "", text)       # 行内 HTML（跳过成对引号，别被属性里的 > 截断）
+    text = re.sub(r"[#*>`~]", "", text)
+    text = re.sub(r"\s+", " ", text).strip()
+    if limit and len(text) > limit:
+        text = text[:limit].rstrip() + "…"
+    return text
+
+
 # ---------------------------------------------------------------- 数据源
 
 def fetch_source(local_dir):
@@ -475,17 +493,21 @@ def inline_html(text):
         placeholders.append(value)
         return "\x00%d\x00" % (len(placeholders) - 1)
 
+    def attr(value):
+        """上面已做过 html.escape(quote=False)，这里只补引号，避免地址把属性撑破。"""
+        return value.replace('"', "&quot;")
+
     text = html.escape(text, quote=False)
     text = re.sub(
         r"!\[([^\]]*)\]\(([^)\s]+)(?:\s+\"[^\"]*\")?\)",
         lambda m: stash(
-            '<img src="%s" alt="%s" loading="lazy" decoding="async">' % (m.group(2), m.group(1))
+            '<img src="%s" alt="%s" loading="lazy" decoding="async">' % (attr(m.group(2)), attr(m.group(1)))
         ),
         text,
     )
     text = re.sub(
         r"\[([^\]]+)\]\(([^)\s]+)(?:\s+\"[^\"]*\")?\)",
-        lambda m: stash('<a href="%s" rel="nofollow">%s</a>' % (m.group(2), m.group(1))),
+        lambda m: stash('<a href="%s" rel="nofollow">%s</a>' % (attr(m.group(2)), m.group(1))),
         text,
     )
     text = re.sub(r"`([^`]+)`", lambda m: stash("<code>%s</code>" % m.group(1)), text)
@@ -713,7 +735,7 @@ def render_comments(records):
 def render_article(article, shell, site, body_html):
     base = site.rstrip("/")
     canonical = "%s/%s/%s.html" % (base, INDEX_SLUG, article["slug"])
-    plain = re.sub(r"\s+", " ", re.sub(r"[#*>`\[\]!]", "", article["body"]))[:150]
+    plain = plain_text(article["body"])
     description = "%s（收藏自%s，个人存档）" % (plain, article["host"])
     og_image = article.get("og_image")
     if og_image and og_image.startswith("/"):
