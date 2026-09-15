@@ -767,7 +767,7 @@ def render_article(article, shell, site, body_html):
         parts.append('<span>收藏自 <b>%s</b>（原文链接缺失）</span>' % html.escape(article["host"]))
     parts.append('<div class="curated-note">本文为个人存档，版权归原作者所有；评论请点上方按钮前往原文查看。</div>')
     parts.append("</div>\n")
-    parts.append('<div class="markdown-body" id="postBody">%s</div>\n' % body_html)
+    parts.append('<div class="markdown-body">%s</div>\n' % body_html)
     if article.get("meta"):
         parts.append(
             '<div class="curated-article-meta">%s</div>\n'
@@ -775,6 +775,8 @@ def render_article(article, shell, site, body_html):
         )
     parts.append(render_comments(article.get("comments", [])))
     parts.append('<div class="curated-footer"><a href="/%s.html">← 返回收藏列表</a></div>\n' % INDEX_SLUG)
+    # 锚点放在页面最底部：博客的统计脚本会把「本文浏览量」插在 postBody 之后
+    parts.append('<div id="postBody"></div>\n')
     parts.append("</div>\n")
     parts.append(shell["footer"])
     return rewrite_asset_urls("".join(parts))

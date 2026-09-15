@@ -261,7 +261,7 @@ def render_origin(entry):
 
 def render_notes(entry, body_html):
     if body_html.strip():
-        return '<div class="markdown-body reading-notes" id="postBody">%s</div>\n' % body_html
+        return '<div class="markdown-body reading-notes">%s</div>\n' % body_html
     # 卷首的"序"本来就是原文，不提示"还没写解读"
     if entry["num"] and (entry["thoughts"] or entry["origin"]):
         return '<div class="reading-todo">这一则还没写白话解读，先放原文。</div>\n'
@@ -325,6 +325,8 @@ def render_entry_page(book, entry, prev_entry, next_entry, shell, site):
     else:
         parts.append("<span></span>")
     parts.append("</div>\n")
+    # 锚点放在页面最底部：博客的统计脚本会把「本文浏览量」插在 postBody 之后
+    parts.append('<div id="postBody"></div>\n')
     parts.append("</div>\n")
     parts.append(shell["footer"])
     return "".join(parts)
