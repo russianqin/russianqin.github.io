@@ -442,8 +442,8 @@ def render_index_page(books_info, shell, site):
     parts.append('<div id="content">\n')
     parts.append(
         '<div class="reading-home"><p class="reading-home-intro">'
-        "这里放我读过的书：每一则都标出原文、写下白话解读和我自己的心得。"
-        "内容自动同步自我的笔记仓库，随时更新。</p></div>\n"
+        "读书笔记内容自动同步自我的笔记仓库，随时更新。"
+        "</p></div>\n"
     )
     parts.append('<div class="reading-books">%s</div>\n' % "".join(cards))
     parts.append("</div>\n")
