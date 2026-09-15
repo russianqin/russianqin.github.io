@@ -325,10 +325,42 @@
         });
     }
 
+    /* ---------- 莫斯科生存攻略：只给这一页加样式钩子和页内跳转 ---------- */
+    function initMoscowPage() {
+        if (!/quest\s*in\s*moscow\.html$/i.test(decodeURI(location.pathname))) return;
+        document.body.classList.add("page-moscow");
+
+        var content = document.getElementById("content");
+        var body = content && content.querySelector(".markdown-body");
+        if (!body) return;
+
+        var heads = Array.prototype.slice.call(body.querySelectorAll("h1, h2"));
+        if (heads.length < 2) return;
+
+        var toc = document.createElement("div");
+        toc.className = "moscow-toc";
+        var label = document.createElement("span");
+        label.className = "moscow-toc-title";
+        label.textContent = "快速跳转";
+        toc.appendChild(label);
+
+        heads.forEach(function (head, index) {
+            var id = "moscow-" + (index + 1);
+            head.id = id;
+            var link = document.createElement("a");
+            link.href = "#" + id;
+            link.textContent = head.textContent.trim();
+            toc.appendChild(link);
+        });
+
+        body.parentNode.insertBefore(toc, body);
+    }
+
     onReady(function () {
         initToTop();
         initLightbox();
         initShare();
+        initMoscowPage();
         if (isPost) enhancePost();
     });
 })();
