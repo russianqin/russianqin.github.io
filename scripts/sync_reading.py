@@ -22,7 +22,6 @@
 
 import argparse
 import html
-import json
 import re
 import shutil
 import subprocess
@@ -527,28 +526,6 @@ def main():
             }
         )
         log("已生成《%s》%d 个页面 → %s/" % (book["title"], len(entries) + 1, OUT_DIR_NAME))
-
-    # 给首页「书架」卡片用的数据（optimize_docs.py 会读它往首页插入卡片）
-    data_dir = root / "data"
-    data_dir.mkdir(parents=True, exist_ok=True)
-    shelf = [
-        {
-            "slug": info["book"]["slug"],
-            "title": info["book"]["title"],
-            "author": info["book"]["author"],
-            "desc": info["book"]["desc"],
-            "count": info["count"],
-            "volumes": info["volumes"],
-            "volume_label": info["volume_label"],
-            "updated": info["updated"],
-        }
-        for info in books_info
-    ]
-    write_text(
-        data_dir / "reading-books.json",
-        json.dumps(shelf, ensure_ascii=False, indent=2) + "\n",
-    )
-    log("已写出首页书架数据 → data/reading-books.json（%d 本书）" % len(shelf))
 
     write_text(docs / ("%s.html" % INDEX_SLUG), render_index_page(books_info, shell, args.site))
     log("已生成读书心得首页 → %s.html（%d 本书）" % (INDEX_SLUG, len(books_info)))

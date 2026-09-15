@@ -631,41 +631,21 @@ def reorder_header_icons(docs):
     return changed
 
 
-def inject_reading_line(docs, root):
-    """在首页博文列表上方放一行小小的「读书心得」入口（数据来自 sync_reading.py）。"""
+def strip_reading_entry(docs):
+    """历史版本曾在首页插过「读书卡片 / 一行入口」，这里把它们抹掉：首页只留顶栏图标。"""
     index = docs / "index.html"
     if not index.is_file():
         return 0
     text, crlf = read_source(index)
-    # 之前版本插进去的东西（大卡片 / 旧的那行）先清掉，保证重复构建不叠加
-    text = re.sub(r"\s*<!-- reading-shelf:start -->.*?<!-- reading-shelf:end -->", "", text, flags=re.S)
-    text = re.sub(r"\s*<!-- reading-line:start -->.*?<!-- reading-line:end -->", "", text, flags=re.S)
-    books = load_json(root / "data" / "reading-books.json")
-    if not books:
-        write_source(index, text, crlf)
-        return 0
-    book = books[0]
-    volumes = book.get("volume_label") or ("%d 卷" % book.get("volumes", 0))
-    meta = "%s · %d 则" % (volumes, book.get("count", 0))
-    if book.get("updated"):
-        meta += " · 最近更新 " + book["updated"]
-    more = ""
-    if len(books) > 1:
-        more = ' <span class="reading-line-sep">|</span> 共 %d 本' % len(books)
-    block = (
-        '<!-- reading-line:start -->\n'
-        '<div class="reading-line">📖 <a href="/reading.html">读书心得</a>'
-        '<span class="reading-line-sep">·</span>'
-        '<a href="/%s/%s.html">《%s》</a> %s%s</div>\n'
-        '<!-- reading-line:end -->\n'
-        % (READING_DIR, esc_attr(book.get("slug", "")), esc_attr(book.get("title", "")), esc_attr(meta), more)
+    updated = re.sub(
+        r"\s*<!-- reading-(?:shelf|line):start -->.*?<!-- reading-(?:shelf|line):end -->",
+        "",
+        text,
+        flags=re.S,
     )
-    anchor = '<nav class="SideNav border">'
-    if anchor in text:
-        text = text.replace(anchor, block + anchor, 1)
-    else:
-        text = text.replace('<div id="content">', '<div id="content">\n' + block, 1)
-    write_source(index, text, crlf)
+    if updated == text:
+        return 0
+    write_source(index, updated, crlf)
     return 1
 
 
@@ -719,8 +699,8 @@ def main():
             log("处理文章 %s 失败：%s" % (page.name, exc))
 
     icons = reorder_header_icons(docs)
-    line = inject_reading_line(docs, root)
-    log("顶栏图标排序：%d 个页面；首页读书入口：%s" % (icons, "已更新" if line else "无数据"))
+    cleaned = strip_reading_entry(docs)
+    log("顶栏图标排序：%d 个页面；首页入口残留清理：%s" % (icons, "已清理" if cleaned else "无"))
 
     total = build_sitemap(docs, ctx)
     build_404(docs, ctx)
