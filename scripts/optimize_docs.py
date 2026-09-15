@@ -631,47 +631,40 @@ def reorder_header_icons(docs):
     return changed
 
 
-def inject_reading_shelf(docs, root):
-    """在首页顶部插入「读书书架」卡片（静态 HTML，数据来自 sync_reading.py）。"""
+def inject_reading_line(docs, root):
+    """在首页博文列表上方放一行小小的「读书心得」入口（数据来自 sync_reading.py）。"""
     index = docs / "index.html"
     if not index.is_file():
         return 0
     text, crlf = read_source(index)
+    # 之前版本插进去的东西（大卡片 / 旧的那行）先清掉，保证重复构建不叠加
     text = re.sub(r"\s*<!-- reading-shelf:start -->.*?<!-- reading-shelf:end -->", "", text, flags=re.S)
+    text = re.sub(r"\s*<!-- reading-line:start -->.*?<!-- reading-line:end -->", "", text, flags=re.S)
     books = load_json(root / "data" / "reading-books.json")
     if not books:
         write_source(index, text, crlf)
         return 0
-    items = []
-    for book in books[:4]:
-        volumes = book.get("volume_label") or ("%d 卷" % book.get("volumes", 0))
-        meta = "%s · %d 则" % (volumes, book.get("count", 0))
-        if book.get("updated"):
-            meta += " · 最近更新 " + book["updated"]
-        items.append(
-            '<a class="reading-shelf-item" href="/%s/%s.html">'
-            '<span class="reading-shelf-book">《%s》 · %s</span>'
-            '<span class="reading-shelf-meta">%s</span>'
-            '<span class="reading-shelf-desc">%s</span>'
-            '<span class="reading-shelf-more">开始阅读 →</span></a>'
-            % (READING_DIR, esc_attr(book.get("slug", "")), esc_attr(book.get("title", "")),
-               esc_attr(book.get("author", "")),
-               esc_attr(meta), esc_attr(book.get("desc", "")))
-        )
+    book = books[0]
+    volumes = book.get("volume_label") or ("%d 卷" % book.get("volumes", 0))
+    meta = "%s · %d 则" % (volumes, book.get("count", 0))
+    if book.get("updated"):
+        meta += " · 最近更新 " + book["updated"]
     more = ""
-    if len(books) > 4:
-        more = '<span class="reading-shelf-note">共 %d 本</span>' % len(books)
+    if len(books) > 1:
+        more = ' <span class="reading-line-sep">|</span> 共 %d 本' % len(books)
     block = (
-        '<!-- reading-shelf:start -->\n'
-        '<div class="reading-shelf">\n'
-        '<div class="reading-shelf-head"><span class="reading-shelf-title">📖 <a href="/reading.html">读书心得</a></span>'
-        '<span class="reading-shelf-note">每则都有白话解读、我的心得和原文对照</span>%s</div>\n'
-        '<div class="reading-shelf-list">%s</div>\n'
-        '</div>\n'
-        '<!-- reading-shelf:end -->\n'
-        % (more, "".join(items))
+        '<!-- reading-line:start -->\n'
+        '<div class="reading-line">📖 <a href="/reading.html">读书心得</a>'
+        '<span class="reading-line-sep">·</span>'
+        '<a href="/%s/%s.html">《%s》</a> %s%s</div>\n'
+        '<!-- reading-line:end -->\n'
+        % (READING_DIR, esc_attr(book.get("slug", "")), esc_attr(book.get("title", "")), esc_attr(meta), more)
     )
-    text = text.replace('<div id="content">', '<div id="content">\n' + block, 1)
+    anchor = '<nav class="SideNav border">'
+    if anchor in text:
+        text = text.replace(anchor, block + anchor, 1)
+    else:
+        text = text.replace('<div id="content">', '<div id="content">\n' + block, 1)
     write_source(index, text, crlf)
     return 1
 
@@ -726,8 +719,8 @@ def main():
             log("处理文章 %s 失败：%s" % (page.name, exc))
 
     icons = reorder_header_icons(docs)
-    shelf = inject_reading_shelf(docs, root)
-    log("顶栏图标排序：%d 个页面；首页书架卡片：%s" % (icons, "已更新" if shelf else "无数据"))
+    line = inject_reading_line(docs, root)
+    log("顶栏图标排序：%d 个页面；首页读书入口：%s" % (icons, "已更新" if line else "无数据"))
 
     total = build_sitemap(docs, ctx)
     build_404(docs, ctx)
