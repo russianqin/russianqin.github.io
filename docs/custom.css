@@ -474,3 +474,59 @@ body.lightbox-open { overflow: hidden; }
     .reading-nav { font-size: 12px; }
     .reading-ze-title, .reading-book-title { font-size: 20px; }
 }
+
+/* ===== 读书书架（首页卡片） ===== */
+.reading-shelf {
+    margin: 0 0 22px;
+    padding: 16px 18px;
+    border: 1px solid #d0d7de;
+    border-radius: 10px;
+    background: linear-gradient(180deg, rgba(31, 111, 235, .06), rgba(31, 111, 235, 0));
+}
+.reading-shelf-head { display: flex; align-items: baseline; gap: 10px; margin-bottom: 6px; }
+.reading-shelf-title { font-size: 16px; font-weight: 600; }
+.reading-shelf-title a { text-decoration: none; }
+.reading-shelf-title a:hover { text-decoration: underline; }
+.reading-shelf-note { color: #57606a; font-size: 12px; }
+.reading-shelf-list { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+.reading-shelf-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 12px 14px;
+    border: 1px solid #d8dee4;
+    border-radius: 8px;
+    background: #fff;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color .15s, box-shadow .15s, transform .15s;
+}
+.reading-shelf-item:hover {
+    border-color: #1f6feb;
+    box-shadow: 0 3px 12px rgba(31, 111, 235, .12);
+    transform: translateY(-1px);
+}
+.reading-shelf-book { font-size: 15px; font-weight: 600; }
+.reading-shelf-meta { color: #57606a; font-size: 12px; }
+.reading-shelf-desc {
+    color: #3d444d;
+    font-size: 12px;
+    line-height: 1.7;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.reading-shelf-more { color: #1f6feb; font-size: 12px; }
+
+[data-color-mode="dark"] .reading-shelf { border-color: #30363d; background: linear-gradient(180deg, rgba(88, 166, 255, .08), rgba(88, 166, 255, 0)); }
+[data-color-mode="dark"] .reading-shelf-item { background: #161b22; border-color: #30363d; }
+[data-color-mode="dark"] .reading-shelf-item:hover { border-color: #58a6ff; }
+[data-color-mode="dark"] .reading-shelf-note,
+[data-color-mode="dark"] .reading-shelf-meta { color: #8b949e; }
+[data-color-mode="dark"] .reading-shelf-desc { color: #c9d1d9; }
+[data-color-mode="dark"] .reading-shelf-more { color: #58a6ff; }
+
+@media (max-width: 640px) {
+    .reading-shelf { padding: 12px 14px; }
+}
