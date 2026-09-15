@@ -474,11 +474,3 @@ body.lightbox-open { overflow: hidden; }
     .reading-nav { font-size: 12px; }
     .reading-ze-title, .reading-book-title { font-size: 20px; }
 }
-
-/* ===== 读书心得（首页一行入口） ===== */
-.reading-line { margin: 4px 0 14px; font-size: 13px; line-height: 1.9; color: #57606a; }
-.reading-line a { font-weight: 600; text-decoration: none; }
-.reading-line a:hover { text-decoration: underline; }
-.reading-line-sep { margin: 0 6px; color: #d0d7de; }
-[data-color-mode="dark"] .reading-line { color: #8b949e; }
-[data-color-mode="dark"] .reading-line-sep { color: #30363d; }
