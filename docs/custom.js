@@ -188,9 +188,147 @@
             });
     }
 
+    /* ---------- 分享本页 ---------- */
+    function shareTitle() {
+        // 优先用页面自己的标题（文章页 / 收藏页 / 笔记页的 h1），首页没有 h1 就用站点标题
+        var node = document.querySelector("h1.postTitle") || document.querySelector("#content h1");
+        var title = node && node.textContent ? node.textContent.trim() : "";
+        if (!title) title = (document.title || "").trim();
+        return title.replace(/[*`]/g, "").replace(/\s+/g, " ").trim();
+    }
+
+    function fallbackCopy(text) {
+        try {
+            var area = document.createElement("textarea");
+            area.value = text;
+            area.setAttribute("readonly", "");
+            area.style.position = "fixed";
+            area.style.top = "-1000px";
+            document.body.appendChild(area);
+            area.select();
+            var ok = document.execCommand("copy");
+            document.body.removeChild(area);
+            return ok;
+        } catch (e) {
+            return false;
+        }
+    }
+
+    function copyText(text) {
+        return new Promise(function (resolve) {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(
+                    function () { resolve(true); },
+                    function () { resolve(fallbackCopy(text)); }
+                );
+            } else {
+                resolve(fallbackCopy(text));
+            }
+        });
+    }
+
+    function initShare() {
+        if (document.getElementById("shareBtn")) return;
+
+        var url = location.href;
+        var title = shareTitle();
+        var isMobile = /Android|iPhone|iPad|iPod|Mobile|HarmonyOS|MicroMessenger/i.test(navigator.userAgent);
+        var canNative = typeof navigator.share === "function";
+
+        var btn = document.createElement("button");
+        btn.id = "shareBtn";
+        btn.type = "button";
+        btn.title = "分享本页";
+        btn.setAttribute("aria-label", "分享本页");
+        btn.innerHTML =
+            '<svg width="18" height="18" viewBox="0 0 16 16" aria-hidden="true">' +
+            '<path fill="currentColor" d="M11 2.5a2.5 2.5 0 1 1 .78 1.81l-4.4 2.2a2.5 2.5 0 0 1 0 1.98l4.4 2.2a2.5 2.5 0 1 1-.6 1.27l-4.4-2.2a2.5 2.5 0 1 1 0-4.52l4.4-2.2A2.5 2.5 0 0 1 11 2.5Zm-7.5 4a1 1 0 1 0 0 2 1 1 0 0 0 0-2Zm7.5-4a1 1 0 1 0 0 2 1 1 0 0 0 0-2Zm0 9a1 1 0 1 0 0 2 1 1 0 0 0 0-2Z"/>' +
+            "</svg>";
+        document.body.appendChild(btn);
+
+        var panel = document.createElement("div");
+        panel.id = "sharePanel";
+        panel.setAttribute("role", "dialog");
+        panel.setAttribute("aria-label", "分享本页");
+        panel.innerHTML =
+            '<div class="share-head">分享本页</div>' +
+            '<button class="share-item" type="button" data-act="copyLink"><span>📋</span>复制链接</button>' +
+            '<button class="share-item" type="button" data-act="copyTitle"><span>🔗</span>复制标题 + 链接</button>' +
+            '<a class="share-item" data-act="x" target="_blank" rel="noopener noreferrer"><span>𝕏</span>分享到 X</a>' +
+            '<a class="share-item" data-act="weibo" target="_blank" rel="noopener noreferrer"><span>微博</span>分享到微博</a>' +
+            '<a class="share-item" data-act="mail"><span>✉️</span>邮件分享</a>' +
+            (canNative ? '<button class="share-item" type="button" data-act="native"><span>📱</span>系统分享</button>' : "") +
+            '<div class="share-hint" id="shareHint"></div>';
+        document.body.appendChild(panel);
+
+        var hint = panel.querySelector("#shareHint");
+        var hintTimer = null;
+
+        function say(text) {
+            if (!hint) return;
+            hint.textContent = text;
+            if (hintTimer) clearTimeout(hintTimer);
+            hintTimer = setTimeout(function () { hint.textContent = ""; }, 2400);
+        }
+
+        function close() { panel.classList.remove("show"); }
+
+        function open() {
+            var x = panel.querySelector('[data-act="x"]');
+            var weibo = panel.querySelector('[data-act="weibo"]');
+            var mail = panel.querySelector('[data-act="mail"]');
+            if (x) x.href = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(title) + "&url=" + encodeURIComponent(url);
+            if (weibo) weibo.href = "https://service.weibo.com/share/share.php?title=" + encodeURIComponent(title) + "&url=" + encodeURIComponent(url);
+            if (mail) mail.href = "mailto:?subject=" + encodeURIComponent(title) + "&body=" + encodeURIComponent(url);
+            panel.classList.add("show");
+        }
+
+        function nativeShare() {
+            return navigator.share({ title: title, url: url }).catch(function (err) {
+                if (err && err.name === "AbortError") return true;
+                return false;
+            });
+        }
+
+        btn.addEventListener("click", function () {
+            if (isMobile && canNative) {
+                nativeShare().then(function (ok) { if (!ok) open(); });
+                return;
+            }
+            if (panel.classList.contains("show")) close();
+            else open();
+        });
+
+        panel.addEventListener("click", function (event) {
+            var node = event.target.closest("[data-act]");
+            if (!node) return;
+            var act = node.getAttribute("data-act");
+            if (act === "copyLink") {
+                copyText(url).then(function (ok) { say(ok ? "链接已复制 ✓" : "复制失败，请手动复制"); });
+            } else if (act === "copyTitle") {
+                copyText(title + "\n" + url).then(function (ok) { say(ok ? "标题和链接已复制 ✓" : "复制失败，请手动复制"); });
+            } else if (act === "native") {
+                nativeShare();
+            } else {
+                close();
+            }
+        });
+
+        document.addEventListener("click", function (event) {
+            if (!panel.classList.contains("show")) return;
+            if (panel.contains(event.target) || btn.contains(event.target)) return;
+            close();
+        });
+
+        document.addEventListener("keydown", function (event) {
+            if (event.key === "Escape") close();
+        });
+    }
+
     onReady(function () {
         initToTop();
         initLightbox();
+        initShare();
         if (isPost) enhancePost();
     });
 })();
