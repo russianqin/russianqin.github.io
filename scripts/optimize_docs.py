@@ -542,12 +542,150 @@ def sync_static(root, docs):
     return count
 
 
+
+
+READING_DIR = "reading"
+
+
+def prune_stale_posts(docs):
+    """删掉"已经不是博文"的残留页：某个 Issue 被改成独立页面、或已经被删掉。"""
+    base = load_json(docs.parent / "blogBase.json")
+    if not base:
+        return []
+
+    def issue_numbers(key):
+        numbers = set()
+        for item in (base.get(key) or {}).values():
+            if not isinstance(item, dict):
+                continue
+            match = re.search(r"issues/(\d+)", item.get("postSourceUrl") or "")
+            if match:
+                numbers.add(match.group(1))
+        return numbers
+
+    posts = issue_numbers("postListJson")
+    singles = issue_numbers("singeListJson")
+    removed = []
+    post_dir = docs / "post"
+    if not post_dir.is_dir():
+        return removed
+    for page in sorted(post_dir.glob("*.html")):
+        text, _ = read_source(page)
+        match = re.search(r'github\\.com/[^"\\s]*?/issues/(\\d+)', text)
+        if not match:
+            continue
+        number = match.group(1)
+        if number in singles or number not in posts:
+            try:
+                page.unlink()
+                removed.append(page.name)
+            except OSError:
+                pass
+    return removed
+
+
+def reorder_header_icons(docs):
+    """顶栏图标排成固定顺序：文章收藏、读书心得、莫斯科生存攻略、日日新、个人页面。"""
+    order = ["Curated Articles", "读书心得", "莫斯科生存攻略", "日日新", "个人页面"]
+    anchor_re = re.compile(r'<a\b[^>]*class="btn btn-invisible circle"[^>]*>.*?</a>', re.S)
+    title_re = re.compile(r'title="([^"]*)"')
+    dirs = [docs] + [docs / name for name in ("post", "curated", "reading")]
+    changed = 0
+    for folder in dirs:
+        if not folder.is_dir():
+            continue
+        for page in sorted(folder.glob("*.html")):
+            text, crlf = read_source(page)
+            header_start = text.find('<div id="header">')
+            content_start = text.find('<div id="content">')
+            if header_start < 0 or content_start < header_start:
+                continue
+            header = text[header_start:content_start]
+            selected = []
+            for anchor in anchor_re.findall(header):
+                match = title_re.search(anchor)
+                if match and match.group(1) in order:
+                    selected.append((match.group(1), anchor))
+            if len(selected) < 2:
+                continue
+            spans = []
+            for title, anchor in selected:
+                pos = header.find(anchor)
+                spans.append((pos, pos + len(anchor), title, anchor))
+            spans.sort()
+            block = header[spans[0][0]:spans[-1][1]]
+            rest = block
+            for _, _, _, anchor in spans:
+                rest = rest.replace(anchor, "")
+            if rest.strip():
+                continue
+            current = [item[2] for item in spans]
+            wanted = sorted(current, key=order.index)
+            if current == wanted:
+                continue
+            ordered_html = "".join(anchor for _, _, _, anchor in sorted(spans, key=lambda item: order.index(item[2])))
+            new_header = header[:spans[0][0]] + ordered_html + header[spans[-1][1]:]
+            text = text[:header_start] + new_header + text[content_start:]
+            write_source(page, text, crlf)
+            changed += 1
+    return changed
+
+
+def inject_reading_shelf(docs, root):
+    """在首页顶部插入「读书书架」卡片（静态 HTML，数据来自 sync_reading.py）。"""
+    index = docs / "index.html"
+    if not index.is_file():
+        return 0
+    text, crlf = read_source(index)
+    text = re.sub(r"\s*<!-- reading-shelf:start -->.*?<!-- reading-shelf:end -->", "", text, flags=re.S)
+    books = load_json(root / "data" / "reading-books.json")
+    if not books:
+        write_source(index, text, crlf)
+        return 0
+    items = []
+    for book in books[:4]:
+        volumes = book.get("volume_label") or ("%d 卷" % book.get("volumes", 0))
+        meta = "%s · %d 则" % (volumes, book.get("count", 0))
+        if book.get("updated"):
+            meta += " · 最近更新 " + book["updated"]
+        items.append(
+            '<a class="reading-shelf-item" href="/%s/%s.html">'
+            '<span class="reading-shelf-book">《%s》 · %s</span>'
+            '<span class="reading-shelf-meta">%s</span>'
+            '<span class="reading-shelf-desc">%s</span>'
+            '<span class="reading-shelf-more">开始阅读 →</span></a>'
+            % (READING_DIR, esc_attr(book.get("slug", "")), esc_attr(book.get("title", "")),
+               esc_attr(book.get("author", "")),
+               esc_attr(meta), esc_attr(book.get("desc", "")))
+        )
+    more = ""
+    if len(books) > 4:
+        more = '<span class="reading-shelf-note">共 %d 本</span>' % len(books)
+    block = (
+        '<!-- reading-shelf:start -->\n'
+        '<div class="reading-shelf">\n'
+        '<div class="reading-shelf-head"><span class="reading-shelf-title">📖 <a href="/reading.html">读书心得</a></span>'
+        '<span class="reading-shelf-note">每则都有白话解读、我的心得和原文对照</span>%s</div>\n'
+        '<div class="reading-shelf-list">%s</div>\n'
+        '</div>\n'
+        '<!-- reading-shelf:end -->\n'
+        % (more, "".join(items))
+    )
+    text = text.replace('<div id="content">', '<div id="content">\n' + block, 1)
+    write_source(index, text, crlf)
+    return 1
+
+
 def main():
     root = Path(__file__).resolve().parent.parent
     docs = Path(sys.argv[1]).resolve() if len(sys.argv) > 1 else root / "docs"
     if not docs.is_dir():
         log("找不到 docs 目录：%s" % docs)
         return 1
+
+    pruned = prune_stale_posts(docs)
+    if pruned:
+        log("清理已不再是博文的残留页 %d 个：%s" % (len(pruned), "、".join(pruned[:4])))
 
     config = load_json(root / "config.json")
     post_list = load_json(docs / "postList.json")
@@ -586,6 +724,10 @@ def main():
             posts += 1
         except Exception as exc:  # noqa: BLE001
             log("处理文章 %s 失败：%s" % (page.name, exc))
+
+    icons = reorder_header_icons(docs)
+    shelf = inject_reading_shelf(docs, root)
+    log("顶栏图标排序：%d 个页面；首页书架卡片：%s" % (icons, "已更新" if shelf else "无数据"))
 
     total = build_sitemap(docs, ctx)
     build_404(docs, ctx)

@@ -22,6 +22,7 @@
 
 import argparse
 import html
+import json
 import re
 import shutil
 import subprocess
@@ -222,6 +223,19 @@ def group_by_volume(entries):
     return groups
 
 
+CN_NUM = "零一二三四五六七八九十"
+
+
+def volume_label(groups):
+    """给"序 + 七卷"这种描述（序不算卷）"""
+    titles = [group["volume"] for group in groups]
+    if titles and titles[0] == "序":
+        rest = len(titles) - 1
+        number = CN_NUM[rest] if 1 <= rest <= 10 else str(rest)
+        return "序 + %s卷" % number
+    return "%d 卷" % len(titles)
+
+
 def render_thoughts(entry):
     if not entry["thoughts"]:
         return ""
@@ -369,13 +383,14 @@ def render_book_page(book, entries, groups, shell, site):
     parts.append('<div id="content">\n')
     parts.append(
         '<div class="reading-book-head"><h1 class="reading-book-title">%s</h1>'
-        '<div class="reading-book-meta">%s · 共 %d 则</div>'
+        '<div class="reading-book-meta">%s · %s · 共 %d 则</div>'
         '<p class="reading-book-desc">%s</p>'
         '<div class="reading-book-links"><a class="btn btn-sm" href="%s" target="_blank" '
         'rel="noopener noreferrer">在 GitHub 上查看这个项目 ↗</a></div></div>\n'
         % (
             html.escape(book["title"]),
             html.escape(book["author"]),
+            html.escape(volume_label(groups)),
             total,
             html.escape(book["desc"]),
             html.escape(book["repo"].replace(".git", ""), quote=True),
@@ -405,7 +420,7 @@ def render_index_page(books_info, shell, site):
     cards = []
     for info in books_info:
         book = info["book"]
-        meta = [book["author"], "%d 卷 · %d 则" % (info["volumes"], info["count"])]
+        meta = [book["author"], "%s · %d 则" % (info["volume_label"], info["count"])]
         if info["updated"]:
             meta.append("最近更新 " + info["updated"])
         cards.append(
@@ -503,9 +518,37 @@ def main():
 
         write_text(out_dir / ("%s.html" % book["slug"]), render_book_page(book, entries, groups, shell, args.site))
         books_info.append(
-            {"book": book, "count": len(entries), "volumes": len(groups), "updated": updated}
+            {
+                "book": book,
+                "count": len(entries),
+                "volumes": len(groups),
+                "volume_label": volume_label(groups),
+                "updated": updated,
+            }
         )
         log("已生成《%s》%d 个页面 → %s/" % (book["title"], len(entries) + 1, OUT_DIR_NAME))
+
+    # 给首页「书架」卡片用的数据（optimize_docs.py 会读它往首页插入卡片）
+    data_dir = root / "data"
+    data_dir.mkdir(parents=True, exist_ok=True)
+    shelf = [
+        {
+            "slug": info["book"]["slug"],
+            "title": info["book"]["title"],
+            "author": info["book"]["author"],
+            "desc": info["book"]["desc"],
+            "count": info["count"],
+            "volumes": info["volumes"],
+            "volume_label": info["volume_label"],
+            "updated": info["updated"],
+        }
+        for info in books_info
+    ]
+    write_text(
+        data_dir / "reading-books.json",
+        json.dumps(shelf, ensure_ascii=False, indent=2) + "\n",
+    )
+    log("已写出首页书架数据 → data/reading-books.json（%d 本书）" % len(shelf))
 
     write_text(docs / ("%s.html" % INDEX_SLUG), render_index_page(books_info, shell, args.site))
     log("已生成读书心得首页 → %s.html（%d 本书）" % (INDEX_SLUG, len(books_info)))
