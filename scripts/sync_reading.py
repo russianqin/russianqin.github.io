@@ -308,6 +308,8 @@ def render_entry_page(book, entry, prev_entry, next_entry, shell, site):
     parts.append(render_thoughts(entry))
     parts.append(render_origin(entry))
 
+    # 锚点放在正文末尾、上下则导航的上面：博客的统计脚本会把「本文浏览量」插在 postBody 之后
+    parts.append('<div id="postBody"></div>\n')
     parts.append('<div class="reading-nav">')
     if prev_entry:
         parts.append(
@@ -325,8 +327,6 @@ def render_entry_page(book, entry, prev_entry, next_entry, shell, site):
     else:
         parts.append("<span></span>")
     parts.append("</div>\n")
-    # 锚点放在页面最底部：博客的统计脚本会把「本文浏览量」插在 postBody 之后
-    parts.append('<div id="postBody"></div>\n')
     parts.append("</div>\n")
     parts.append(shell["footer"])
     return "".join(parts)
