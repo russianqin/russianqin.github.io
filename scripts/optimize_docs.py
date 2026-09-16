@@ -321,6 +321,20 @@ def detect_site(docs, config):
     return DEFAULT_SITE
 
 
+COMMENT_TERM_RE = re.compile(r'setAttribute\(\s*"issue-term"\s*,\s*"title"\s*\)')
+
+
+def fix_comment_term(text):
+    """
+    评论组件（utterances）默认按 <title> 去仓库里找对应的 Issue，
+    而 <title> 带着「 - 五环魔法师」后缀、Issue 标题没有 → 永远找不到，评论就显示 0 条。
+    页面的 og:title 正好是干净的标题（和 Issue 标题一致），改成用它来匹配。
+    """
+    if not COMMENT_TERM_RE.search(text):
+        return text, 0
+    return COMMENT_TERM_RE.sub('setAttribute("issue-term","og:title")', text), 1
+
+
 def process_post(path, meta, ctx):
     """文章页：SEO + 结构化数据 + 图片增强。"""
     text, crlf = read_source(path)
@@ -376,6 +390,7 @@ def process_post(path, meta, ctx):
     if SEO_MARK not in text:
         text = insert_into_head(text, SEO_MARK + "".join(extras))
     text = move_stray_styles(text)
+    text, _ = fix_comment_term(text)
     write_source(path, text, crlf)
 
 
@@ -451,6 +466,7 @@ def process_page(path, ctx):
     if SEO_MARK not in text:
         text = insert_into_head(text, SEO_MARK + "".join(extras))
     text = move_stray_styles(text)
+    text, _ = fix_comment_term(text)
     write_source(path, text, crlf)
 
 
