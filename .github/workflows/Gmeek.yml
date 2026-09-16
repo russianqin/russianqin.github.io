@@ -124,6 +124,21 @@ jobs:
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
           exit $code
+
+      - name: 体检收藏页隐藏状态
+        run: |
+          set +e
+          output=$(python scripts/check_curated_visibility.py docs)
+          code=$?
+          echo "$output"
+          {
+            echo "## 收藏页隐藏体检"
+            echo ""
+            echo '```'
+            echo "$output"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+          exit $code
           
       - name: update html
         run: |

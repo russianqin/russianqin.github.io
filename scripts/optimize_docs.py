@@ -470,6 +470,15 @@ def process_page(path, ctx):
     write_source(path, text, crlf)
 
 
+def is_noindex_page(path, limit=4000):
+    """页面 head 里带 robots noindex 的（例如被隐藏的收藏页）不写进 sitemap。"""
+    try:
+        head = path.read_text(encoding="utf-8", errors="replace")[:limit]
+    except OSError:
+        return False
+    return 'name="robots"' in head and "noindex" in head
+
+
 def build_sitemap(docs, ctx):
     entries = []
 
@@ -490,6 +499,8 @@ def build_sitemap(docs, ctx):
     curated_dir = docs / "curated"
     if curated_dir.is_dir():
         for page in sorted(curated_dir.glob("*.html")):
+            if is_noindex_page(page):
+                continue
             add("%s/curated/%s" % (ctx["site"], quote(page.name)), changefreq="monthly", priority="0.4")
     reading_dir = docs / "reading"
     if reading_dir.is_dir():

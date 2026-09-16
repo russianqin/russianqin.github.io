@@ -46,6 +46,105 @@ ASSET_HOSTS = (
 )
 IMAGE_EXT = (".jpg", ".jpeg", ".png", ".gif", ".webp", ".bmp")
 ASSETS_OUT_DIR = "curated-assets"
+HIDDEN_DIR_NAME = "hidden"                     # 隐藏记录：data/hidden/<slug>.json
+VISIBILITY_FILE = "curated-visibility.json"    # 构建产物：data/curated-visibility.json
+ADMIN_REPO = "russianqin/russianqin.github.io"  # 管理态按钮指向的仓库
+
+# 管理态脚本：只有在浏览器里记住过管理标记时才创建按钮，非管理态页面里没有这些元素。
+ADMIN_SCRIPT = """
+<script>(function(){
+  var KEY = "curatedAdmin";
+  var mount = document.getElementById("curatedAdminMount");
+  if (!mount) return;
+  var q = new URLSearchParams(location.search);
+  if (q.has("admin")) {
+    if (q.get("admin") === "0") localStorage.removeItem(KEY); else localStorage.setItem(KEY, "1");
+  }
+  if (localStorage.getItem(KEY) !== "1") return;
+  var repo = mount.getAttribute("data-repo");
+  function esc(s){ return String(s == null ? "" : s).replace(/[&<>"']/g, function(c){
+    return {"&":"&amp;","<":"&lt;",">":"&gt;","\\"":"&quot;","'":"&#39;"}[c]; }); }
+  function hideUrl(slug, title){
+    var body = {slug: slug, title: title || "", reason: "", hiddenAt: new Date().toISOString().slice(0,10)};
+    return "https://github.com/" + repo + "/new/main/data/hidden?filename=" +
+      encodeURIComponent(slug + ".json") + "&value=" + encodeURIComponent(JSON.stringify(body, null, 2));
+  }
+  function deleteUrl(slug){
+    return "https://github.com/" + repo + "/delete/main/data/hidden/" + encodeURIComponent(slug + ".json");
+  }
+  var css = document.createElement("style");
+  css.textContent = ".curated-admin-bar{margin:14px 0;padding:12px 14px;border:1px dashed #d0a24c;border-radius:6px;background:#fff9ec;font-size:13px;line-height:1.8}"
+    + ".curated-admin-bar b{color:#8a5a00}"
+    + ".curated-admin-bar a{display:inline-block;margin:0 8px 4px 0;padding:2px 10px;border:1px solid #d0a24c;border-radius:4px;text-decoration:none;color:#8a5a00;background:#fff}"
+    + ".curated-admin-hide{margin-left:8px;font-size:12px;color:#8a5a00;border:1px dashed #d0a24c;border-radius:4px;padding:1px 6px;text-decoration:none;white-space:nowrap}"
+    + ".curated-hidden-item{margin:4px 0;font-size:13px}";
+  document.head.appendChild(css);
+
+  if (mount.getAttribute("data-mode") === "article") {
+    var slug = mount.getAttribute("data-slug");
+    var title = mount.getAttribute("data-title");
+    var hidden = mount.getAttribute("data-hidden") === "1";
+    var bar = document.createElement("div");
+    bar.className = "curated-admin-bar";
+    bar.innerHTML = hidden
+      ? '<b>管理态</b>：这篇当前【已隐藏】，列表与 sitemap 里都没有它。<a href="' + deleteUrl(slug) +
+        '" target="_blank" rel="noopener">恢复展示</a>（提交后约 9 分钟生效）'
+      : '<b>管理态</b>：这篇当前【展示中】。<a href="' + hideUrl(slug, title) +
+        '" target="_blank" rel="noopener">关闭展示</a>（提交后约 9 分钟生效）';
+    mount.parentNode.insertBefore(bar, mount);
+    return;
+  }
+
+  var items = document.querySelectorAll("#curatedList .curated-item");
+  for (var i = 0; i < items.length; i++) {
+    var link = items[i].querySelector("a.curated-link");
+    if (!link) continue;
+    var m = (link.getAttribute("href") || "").match(/\\/([^\\/]+)\\.html$/);
+    if (!m) continue;
+    var a = document.createElement("a");
+    a.className = "curated-admin-hide";
+    a.target = "_blank";
+    a.rel = "noopener";
+    a.href = hideUrl(m[1], (link.textContent || "").trim());
+    a.textContent = "隐藏";
+    a.title = "在 GitHub 上提交隐藏记录";
+    items[i].appendChild(a);
+  }
+
+  var bar = document.createElement("div");
+  bar.className = "curated-admin-bar";
+  bar.innerHTML = '<b>管理态</b>：每条右侧的「隐藏」会跳到 GitHub 提交隐藏记录；下面是已隐藏清单。' +
+    '<div id="curatedHiddenList">正在读取 data/hidden …</div>';
+  var content = mount.parentNode;
+  content.insertBefore(bar, content.firstChild);
+  function fill(text){ var box = document.getElementById("curatedHiddenList"); if (box) box.textContent = text; }
+  fetch("https://api.github.com/repos/" + repo + "/contents/data/hidden", {headers: {"Accept": "application/vnd.github+json"}})
+    .then(function(r){ return r.ok ? r.json() : []; })
+    .then(function(list){
+      if (!Array.isArray(list)) list = [];
+      var files = list.filter(function(x){ return /\\.json$/.test(x.name); });
+      if (!files.length) { fill("（目前没有隐藏的文章）"); return; }
+      return Promise.all(files.map(function(f){
+        return fetch(f.download_url).then(function(r){ return r.ok ? r.json() : {}; }).catch(function(){ return {}; });
+      })).then(function(records){
+        var box = document.getElementById("curatedHiddenList");
+        if (!box) return;
+        var html = "";
+        records.forEach(function(rec){
+          var slug = rec.slug || "";
+          var title = rec.title || slug;
+          html += '<div class="curated-hidden-item">· <b>' + esc(title) + '</b> ' +
+            '<span>（' + esc(slug) + (rec.hiddenAt ? '，' + esc(rec.hiddenAt) : '') + '）</span> ' +
+            (rec.page ? '<a href="' + esc(rec.page) + '" target="_blank" rel="noopener">打开</a>' : '<span>（下次构建后生成链接）</span>') +
+            ' <a href="' + deleteUrl(slug) + '" target="_blank" rel="noopener">恢复展示</a>' +
+            (rec.reason ? ' <span>备注：' + esc(rec.reason) + '</span>' : '') + '</div>';
+        });
+        box.innerHTML = html || "（目前没有隐藏的文章）";
+      });
+    })
+    .catch(function(){ fill("读取失败（可能未联网或触发了 GitHub 限流）"); });
+})();</script>
+"""
 
 TITLE_LINK_RE = re.compile(r"^#{0,6}\s*\[(?P<title>.+?)\]\((?P<url>https?://[^)]+)\)\s*$")
 TITLE_PLAIN_RE = re.compile(r"^#{1,6}\s+(?P<title>.+?)\s*$")
@@ -110,6 +209,79 @@ def host_label(url):
     if "douban.com" in host:
         return "豆瓣"
     return host
+
+
+def hidden_page_name(slug):
+    """隐藏页用不可猜的文件名；编号文件名会在构建时被删掉，避免按编号枚举。"""
+    return "h-%s.html" % hashlib.sha1(("curated:" + slug).encode("utf-8")).hexdigest()[:12]
+
+
+def load_hidden(root):
+    """读取 data/hidden/*.json，返回 {键: 记录}；键支持 slug、三位编号或完整文件名。"""
+    records = {}
+    directory = root / "data" / HIDDEN_DIR_NAME
+    if not directory.is_dir():
+        return records
+    for path in sorted(directory.glob("*.json")):
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except Exception as exc:  # noqa: BLE001
+            log("隐藏记录解析失败：%s（%s）" % (path.name, exc))
+            continue
+        if not isinstance(data, dict):
+            data = {"slug": str(data).strip()}
+        slug = str(data.get("slug") or path.stem).strip()
+        records[slug] = {
+            "slug": slug,
+            "title": str(data.get("title") or "").strip(),
+            "reason": str(data.get("reason") or "").strip(),
+            "hiddenAt": str(data.get("hiddenAt") or "").strip(),
+            "page": str(data.get("page") or "").strip(),
+            "file": path,
+            "matched": False,
+        }
+    return records
+
+
+def match_hidden(article, records):
+    """用 slug / 三位编号 / 文件名三种键匹配隐藏记录。"""
+    if not records:
+        return None
+    for key in (article.get("slug"), "%03d" % int(article.get("order") or 0), article.get("file")):
+        if key and key in records:
+            return records[key]
+    return None
+
+
+def save_hidden_record(record, page_url):
+    """把隐藏页真实地址、标题、日期回写进 data/hidden/<slug>.json（字段保持稳定，不制造无谓 diff）。"""
+    payload = {
+        "slug": record["slug"],
+        "title": record["title"],
+        "reason": record["reason"],
+        "hiddenAt": record["hiddenAt"] or time.strftime("%Y-%m-%d"),
+        "page": page_url,
+    }
+    record["hiddenAt"] = payload["hiddenAt"]
+    record["page"] = page_url
+    write_text(record["file"], json.dumps(payload, ensure_ascii=False, indent=2) + "\n")
+
+
+def admin_mount(mode, article=None):
+    """管理态挂载点。按钮本身由脚本在检测到管理态时才创建，非管理态页面里没有这些元素。"""
+    if mode == "list":
+        return '<div id="curatedAdminMount" data-mode="list" data-repo="%s"></div>\n' % ADMIN_REPO
+    return (
+        '<div id="curatedAdminMount" data-mode="article" data-repo="%s" data-slug="%s" '
+        'data-title="%s" data-file="%s" data-hidden="%s"></div>\n'
+        % (
+            ADMIN_REPO,
+            html.escape(article["slug"], quote=True),
+            html.escape(article["title"], quote=True),
+            html.escape(article["file"], quote=True),
+            "1" if article.get("hidden") else "0",
+        )
+    )
 
 
 def plain_text(value, limit=150):
@@ -639,7 +811,7 @@ def load_shell(docs):
     return {"head": head, "header": header, "footer": footer}
 
 
-def build_head(shell_head, title, description, canonical, og_image=None, article=False, source_url=None):
+def build_head(shell_head, title, description, canonical, og_image=None, article=False, source_url=None, noindex=False):
     head = re.sub(r"<title>.*?</title>", "<title>%s</title>" % html.escape(title), shell_head, count=1, flags=re.S)
     tags = [
         '<meta name="description" content="%s">' % html.escape(description, quote=True),
@@ -652,6 +824,9 @@ def build_head(shell_head, title, description, canonical, og_image=None, article
     ]
     if og_image:
         tags.append('<meta property="og:image" content="%s">' % html.escape(og_image, quote=True))
+    if noindex:
+        # 隐藏的文章页仍然存在，但不希望被搜索引擎收录
+        tags.append('<meta name="robots" content="noindex,nofollow">')
     if article:
         data = {
             "@context": "https://schema.org",
@@ -734,7 +909,9 @@ def render_comments(records):
 
 def render_article(article, shell, site, body_html):
     base = site.rstrip("/")
-    canonical = "%s/%s/%s.html" % (base, INDEX_SLUG, article["slug"])
+    # 隐藏页用不可猜的文件名，canonical 也要跟着改，否则会指回已下线的编号地址
+    page_name = article.get("hidden_page") or ("%s.html" % article["slug"])
+    canonical = "%s/%s/%s" % (base, INDEX_SLUG, page_name)
     plain = plain_text(article["body"])
     description = "%s（收藏自%s，个人存档）" % (plain, article["host"])
     og_image = article.get("og_image")
@@ -752,6 +929,7 @@ def render_article(article, shell, site, body_html):
         og_image=og_image,
         article=True,
         source_url=article["url"],
+        noindex=bool(article.get("hidden")),
     )
     parts = ["<!DOCTYPE html>\n", head, "</head>\n<body>\n"]
     parts.append(clean_header(shell["header"], article["title"]))
@@ -778,6 +956,8 @@ def render_article(article, shell, site, body_html):
     # 锚点放在页面最底部：博客的统计脚本会把「本文浏览量」插在 postBody 之后
     parts.append('<div id="postBody"></div>\n')
     parts.append("</div>\n")
+    parts.append(admin_mount("article", article))
+    parts.append(ADMIN_SCRIPT)
     parts.append(shell["footer"])
     return rewrite_asset_urls("".join(parts))
 
@@ -789,11 +969,12 @@ def render_index(articles, shell, site):
     rows = []
     for article in articles:
         rows.append(
-            '<li class="curated-item" data-title="%s">'
+            '<li class="curated-item" data-title="%s" data-slug="%s">'
             '<a class="curated-link" href="/%s/%s.html">%s</a>'
             '<span class="curated-tag">%s</span></li>'
             % (
                 html.escape((article["title"] + " " + article["host"]).lower(), quote=True),
+                html.escape(article["slug"], quote=True),
                 INDEX_SLUG,
                 article["slug"],
                 html.escape(article["title"]),
@@ -831,6 +1012,8 @@ def render_index(articles, shell, site):
     )
     parts.append('<ul class="curated-list" id="curatedList">%s</ul>\n' % "".join(rows))
     parts.append(script)
+    parts.append(admin_mount("list"))
+    parts.append(ADMIN_SCRIPT)
     parts.append("</div>\n")
     parts.append(shell["footer"])
     return "".join(parts)
@@ -891,6 +1074,23 @@ def main():
             articles = articles[: args.limit]
         log("解析到收藏 %d 篇" % len(articles))
 
+        hidden_records = load_hidden(root)
+        for article in articles:
+            record = match_hidden(article, hidden_records)
+            article["hidden"] = record is not None
+            article["hidden_record"] = record
+            article["hidden_page"] = hidden_page_name(article["slug"]) if record else ""
+            if record:
+                record["matched"] = True
+                if not record["title"]:
+                    record["title"] = article["title"]
+        for record in hidden_records.values():
+            if not record["matched"]:
+                log("隐藏记录没有对应文章（编号写错或文章已删）：%s" % record["slug"])
+        hidden_count = sum(1 for item in articles if item["hidden"])
+        if hidden_count:
+            log("其中 %d 篇标记为隐藏：%s" % (hidden_count, "、".join(item["slug"] for item in articles if item["hidden"])))
+
         cache_dir = root / "data" / IMAGE_DIR_NAME
         out_dir = docs / "curated"
         image_out = docs / IMAGE_DIR_NAME
@@ -941,11 +1141,48 @@ def main():
 
         for article in articles:
             body_html = add_lazy_loading(markdown_to_html(article["body"]))
-            write_text(out_dir / ("%s.html" % article["slug"]), render_article(article, shell, args.site, body_html))
-        log("已生成 %d 个文章页 → %s" % (len(articles), out_dir))
+            name = article["hidden_page"] or ("%s.html" % article["slug"])
+            write_text(out_dir / name, render_article(article, shell, args.site, body_html))
+        log("已生成 %d 个文章页（其中 %d 篇隐藏）→ %s" % (len(articles), hidden_count, out_dir))
 
-        write_text(docs / ("%s.html" % INDEX_SLUG), render_index(articles, shell, args.site))
-        log("已生成列表页 → %s.html" % INDEX_SLUG)
+        visible = [item for item in articles if not item["hidden"]]
+        write_text(docs / ("%s.html" % INDEX_SLUG), render_index(visible, shell, args.site))
+        log("已生成列表页 → %s.html（展示 %d 篇）" % (INDEX_SLUG, len(visible)))
+
+        # 把隐藏页的真实地址回写进记录文件，并产出一份可见性清单供 sitemap 与体检使用
+        hidden_entries = []
+        for article in articles:
+            if not article["hidden"]:
+                continue
+            page_url = "/%s/%s" % (INDEX_SLUG, article["hidden_page"])
+            save_hidden_record(article["hidden_record"], page_url)
+            hidden_entries.append(
+                {
+                    "slug": article["slug"],
+                    "title": article["title"],
+                    "file": article["file"],
+                    "page": page_url,
+                    "numbered": "/%s/%s.html" % (INDEX_SLUG, article["slug"]),
+                    "hiddenAt": article["hidden_record"]["hiddenAt"],
+                    "reason": article["hidden_record"]["reason"],
+                }
+            )
+        write_text(
+            root / "data" / VISIBILITY_FILE,
+            json.dumps(
+                {
+                    "generatedBy": "scripts/sync_curated.py",
+                    "totalCount": len(articles),
+                    "visibleCount": len(visible),
+                    "hidden": hidden_entries,
+                },
+                ensure_ascii=False,
+                indent=2,
+            )
+            + "\n",
+        )
+        if hidden_entries:
+            log("可见性清单已更新：data/%s（隐藏 %d 篇）" % (VISIBILITY_FILE, len(hidden_entries)))
 
         changed = rewrite_nav(docs)
         log("导航链接已改为站内页面：%d 个页面" % changed)
