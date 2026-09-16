@@ -134,12 +134,13 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
   var KEY = "curatedAdmin";
   var mount = document.getElementById("curatedAdminMount");
   if (!mount) return;
+  var mode = mount.getAttribute("data-mode");
+  var repo = mount.getAttribute("data-repo");
   var q = new URLSearchParams(location.search);
   if (q.has("admin")) {
     if (q.get("admin") === "0") localStorage.removeItem(KEY); else localStorage.setItem(KEY, "1");
   }
-  if (localStorage.getItem(KEY) !== "1") return;
-  var repo = mount.getAttribute("data-repo");
+  var isAdmin = localStorage.getItem(KEY) === "1";
   function esc(s){ return String(s == null ? "" : s).replace(/[&<>"']/g, function(c){
     return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]; }); }
   function hideUrl(slug, title){
@@ -147,26 +148,35 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
     return "https://github.com/" + repo + "/new/main/data/hidden?filename=" +
       encodeURIComponent(slug + ".json") + "&value=" + encodeURIComponent(JSON.stringify(body, null, 2));
   }
-  function deleteUrl(slug){
-    return "https://github.com/" + repo + "/delete/main/data/hidden/" + encodeURIComponent(slug + ".json");
-  }
   var css = document.createElement("style");
-  css.textContent = ".curated-admin-bar{margin:14px 0;padding:12px 14px;border:1px dashed #d0a24c;border-radius:6px;background:#fff9ec;font-size:13px;line-height:1.8}"
+  css.textContent = ".curated-admin-entry{text-align:right;margin:18px 2px 4px}"
+    + ".curated-admin-entry a{font-size:12px;color:#8a8f98;text-decoration:none;border:1px solid #e3e3e0;border-radius:4px;padding:2px 9px;background:#fafafa}"
+    + ".curated-admin-entry a:hover{color:#8a5a00;border-color:#d0a24c}"
+    + ".curated-admin-bar{margin:14px 0;padding:12px 14px;border:1px dashed #d0a24c;border-radius:6px;background:#fff9ec;font-size:13px;line-height:1.8}"
     + ".curated-admin-bar b{color:#8a5a00}"
     + ".curated-admin-bar a{display:inline-block;margin:0 8px 4px 0;padding:2px 10px;border:1px solid #d0a24c;border-radius:4px;text-decoration:none;color:#8a5a00;background:#fff}"
-    + ".curated-admin-hide{margin-left:8px;font-size:12px;color:#8a5a00;border:1px dashed #d0a24c;border-radius:4px;padding:1px 6px;text-decoration:none;white-space:nowrap}"
-    + ".curated-hidden-item{margin:4px 0;font-size:13px}";
+    + ".curated-admin-hide{margin-left:8px;font-size:12px;color:#8a5a00;border:1px dashed #d0a24c;border-radius:4px;padding:1px 6px;text-decoration:none;white-space:nowrap}";
   document.head.appendChild(css);
 
-  if (mount.getAttribute("data-mode") === "article") {
+  /* 收藏列表页底部的入口按钮：所有人可见（它只是打开管理态界面，真正的权限在 GitHub） */
+  if (mode === "list") {
+    var entry = document.createElement("div");
+    entry.className = "curated-admin-entry";
+    entry.innerHTML = isAdmin
+      ? '<a href="?admin=0">退出管理态</a>'
+      : '<a href="?admin=1">管理态</a>';
+    mount.parentNode.insertBefore(entry, mount);
+  }
+  if (!isAdmin) return;
+
+  if (mode === "article") {
     var slug = mount.getAttribute("data-slug");
     var title = mount.getAttribute("data-title");
     var hidden = mount.getAttribute("data-hidden") === "1";
     var bar = document.createElement("div");
     bar.className = "curated-admin-bar";
     bar.innerHTML = hidden
-      ? '<b>管理态</b>：这篇当前【已隐藏】，列表与 sitemap 里都没有它。<a href="' + deleteUrl(slug) +
-        '" target="_blank" rel="noopener">恢复展示</a>（提交后约 9 分钟生效）'
+      ? '<b>管理态</b>：本篇当前【已隐藏】，不在收藏列表与 sitemap 里。恢复方式：在 GitHub 上删除 data/hidden/' + esc(slug) + '.json'
       : '<b>管理态</b>：这篇当前【展示中】。<a href="' + hideUrl(slug, title) +
         '" target="_blank" rel="noopener">关闭展示</a>（提交后约 9 分钟生效）';
     mount.parentNode.insertBefore(bar, mount);
@@ -191,36 +201,9 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 
   var bar = document.createElement("div");
   bar.className = "curated-admin-bar";
-  bar.innerHTML = '<b>管理态</b>：每条右侧的「隐藏」会跳到 GitHub 提交隐藏记录；下面是已隐藏清单。' +
-    '<div id="curatedHiddenList">正在读取 data/hidden …</div>';
+  bar.innerHTML = '<b>管理态</b>：每条右侧的「隐藏」会跳到 GitHub 提交隐藏记录，提交后约 9 分钟生效。';
   var content = mount.parentNode;
   content.insertBefore(bar, content.firstChild);
-  function fill(text){ var box = document.getElementById("curatedHiddenList"); if (box) box.textContent = text; }
-  fetch("https://api.github.com/repos/" + repo + "/contents/data/hidden", {headers: {"Accept": "application/vnd.github+json"}})
-    .then(function(r){ return r.ok ? r.json() : []; })
-    .then(function(list){
-      if (!Array.isArray(list)) list = [];
-      var files = list.filter(function(x){ return /\.json$/.test(x.name); });
-      if (!files.length) { fill("（目前没有隐藏的文章）"); return; }
-      return Promise.all(files.map(function(f){
-        return fetch(f.download_url).then(function(r){ return r.ok ? r.json() : {}; }).catch(function(){ return {}; });
-      })).then(function(records){
-        var box = document.getElementById("curatedHiddenList");
-        if (!box) return;
-        var html = "";
-        records.forEach(function(rec){
-          var slug = rec.slug || "";
-          var title = rec.title || slug;
-          html += '<div class="curated-hidden-item">· <b>' + esc(title) + '</b> ' +
-            '<span>（' + esc(slug) + (rec.hiddenAt ? '，' + esc(rec.hiddenAt) : '') + '）</span> ' +
-            (rec.page ? '<a href="' + esc(rec.page) + '" target="_blank" rel="noopener">打开</a>' : '<span>（下次构建后生成链接）</span>') +
-            ' <a href="' + deleteUrl(slug) + '" target="_blank" rel="noopener">恢复展示</a>' +
-            (rec.reason ? ' <span>备注：' + esc(rec.reason) + '</span>' : '') + '</div>';
-        });
-        box.innerHTML = html || "（目前没有隐藏的文章）";
-      });
-    })
-    .catch(function(){ fill("读取失败（可能未联网或触发了 GitHub 限流）"); });
 })();</script>
 <div id="footer"><div id="footer1">Copyright © <span id="copyrightYear"></span> <a href="https://russianqin.github.io">五环魔法师</a></div>
 <div id="footer2">
