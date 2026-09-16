@@ -44,6 +44,19 @@ def main():
     root = docs.resolve().parent
     records = load_records(root / "data" / "hidden")
 
+    # 本次构建真正匹配到文章的隐藏记录（由 sync_curated.py 产出）；
+    # 没匹配上的说明文章被删了或编号写错，只提示、不算失败。
+    matched = set()
+    has_manifest = False
+    manifest_file = root / "data" / "curated-visibility.json"
+    if manifest_file.exists():
+        try:
+            manifest = json.loads(manifest_file.read_text(encoding="utf-8"))
+            matched = {str(item.get("slug") or "") for item in manifest.get("hidden", [])}
+            has_manifest = True
+        except Exception:  # noqa: BLE001
+            matched = set()
+
     index_file = docs / "curated.html"
     index_text = index_file.read_text(encoding="utf-8", errors="replace") if index_file.exists() else ""
     sitemap_file = docs / "sitemap.xml"
@@ -55,6 +68,9 @@ def main():
         slug = record["slug"]
         if record.get("error"):
             problems.append("隐藏记录解析失败：%s（%s）" % (slug, record["error"]))
+            continue
+        if has_manifest and slug not in matched:
+            notes.append("记录没有对应文章（文章已删除或编号写错），本次构建未生成它的隐藏页：%s" % slug)
             continue
         numbered = "/curated/%s.html" % slug
         if numbered in index_text or ('data-slug="%s"' % slug) in index_text:
