@@ -363,6 +363,14 @@
         if (!button || !box) return;
         if (box.querySelector("iframe")) return;            // 已经加载过了
         if (typeof window.openComments !== "function") return;  // 页面没有加载器就不管
+
+        // 评论区上方的提示：想回复某人就用 @
+        if (!box.querySelector(".cm-hint")) {
+            var hint = document.createElement("p");
+            hint.className = "cm-hint";
+            hint.textContent = "想回复某条评论：在评论框里写 @对方的用户名，对方就会收到 GitHub 通知。";
+            box.appendChild(hint);
+        }
         try {
             window.openComments();
         } catch (error) {

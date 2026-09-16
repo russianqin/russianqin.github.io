@@ -678,3 +678,23 @@ body.lightbox-open { overflow: hidden; }
     .page-moscow .markdown-body ul,
     .page-moscow .markdown-body ol { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
 }
+
+/* --- 评论区上方的提示（@ 回复） --- */
+.cm-hint {
+    margin: 0 0 14px;
+    padding: 9px 12px;
+    border: 1px solid var(--color-border-muted, #d8dee4);
+    border-radius: 8px;
+    background: var(--color-canvas-subtle, #f6f8fa);
+    color: var(--color-fg-muted, #57606a);
+    font-size: 13px;
+    line-height: 1.7;
+}
+[data-color-mode="dark"] .cm-hint {
+    background: #161b22;
+    border-color: #30363d;
+    color: #8b949e;
+}
+@media (max-width: 600px) {
+    .cm-hint { font-size: 12px; padding: 8px 10px; }
+}
