@@ -9,6 +9,7 @@ on:
     paths:
       - "config.json"
       - "data/**"
+      - "posts/**"
       - "static/**"
       - "scripts/**"
       - ".github/workflows/Gmeek.yml"
@@ -60,6 +61,13 @@ jobs:
           pip install --upgrade pip
           pip install -r /opt/Gmeek/requirements.txt
 
+      - name: Sync 本地文章 → Issue
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          SITE_BASE_URL: https://russianqin.github.io
+        run: python scripts/sync_local_posts.py publish
+
       - name: Generate new html
         env:
           GMEEK_MD_CACHE_DIR: ${{ github.workspace }}/.md-cache
@@ -83,6 +91,11 @@ jobs:
 
       - name: Sync 读书心得 (Reading)
         run: python scripts/sync_reading.py docs
+
+      - name: Sync 本地文章图片
+        env:
+          SITE_BASE_URL: https://russianqin.github.io
+        run: python scripts/sync_local_posts.py assets docs
 
       - name: Optimize docs (SEO / 图片懒加载 / sitemap)
         run: python scripts/optimize_docs.py docs
