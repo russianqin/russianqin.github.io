@@ -1,3 +1,4 @@
+# 本地写作链路：posts/*.md → GitHub Issue → 博客页面（见 scripts/sync_local_posts.py）
 name: build Gmeek
 
 on:
