@@ -814,6 +814,17 @@ def render_index(articles, shell, site):
     parts.append(clean_header(shell["header"], "文章收藏"))
     parts.append('<div id="content">\n')
     parts.append(
+        '<div class="curated-promo">'
+        '<div class="curated-promo-text">'
+        '<div class="curated-promo-title">这些收藏是怎么来的？</div>'
+        '<div class="curated-promo-desc">用我写的「文章收藏助手」：在浏览器里点一下，'
+        '就能把正文、图片和精选评论存成 Markdown，再自动同步到这一页。开源、免费、数据都在自己手里。</div>'
+        '</div>'
+        '<a class="btn curated-promo-btn" href="https://github.com/russianqin/wzsc-collector" '
+        'target="_blank" rel="noopener noreferrer">看这个项目 →</a>'
+        '</div>\n'
+    )
+    parts.append(
         '<div class="curated-toolbar"><input id="curatedSearch" type="search" class="form-control" '
         'placeholder="搜索标题或来源（共 %d 篇）" aria-label="搜索收藏">'
         '<span id="curatedCount" class="curated-count"></span></div>\n' % len(articles)
