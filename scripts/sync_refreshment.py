@@ -4,7 +4,8 @@
 
 策略：**并集（最大化收容）**
   * 源文件（personal_txt_files/日日新.md）提供最新内容；
-  * 基线（data/refreshment-archive.md，之后累积成 data/refreshment-merged.md）保存历史内容；
+  * 基线只有一份：data/refreshment-merged.md，每次构建都用它和源文件重算并集，
+    所以源文件里删掉的内容不会从页面消失；
   * 两边都有、内容高度相似的条目视为「同一条被改过」，保留信息量更大的版本；
   * 只在一侧的条目一律保留 —— 源文件删掉内容也不会让页面内容消失；
   * 完全相同的文本只保留一条：默认以源文件的日期为准（--prefer 可切换）。
@@ -396,10 +397,9 @@ def main():
     docs = Path(args.docs)
     if not docs.is_absolute():
         docs = root / docs
-    archive_path = root / "data" / "refreshment-archive.md"
     merged_path = root / "data" / "refreshment-merged.md"
 
-    baseline_path = merged_path if merged_path.exists() else archive_path
+    baseline_path = merged_path
     if not baseline_path.exists():
         log("找不到基线文件 %s，无法同步" % baseline_path)
         return 1
