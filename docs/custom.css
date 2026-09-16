@@ -698,3 +698,32 @@ body.lightbox-open { overflow: hidden; }
 @media (max-width: 600px) {
     .cm-hint { font-size: 12px; padding: 8px 10px; }
 }
+
+/* --- 文章收藏页顶部的推荐位 --- */
+.curated-promo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin: 0 0 18px;
+    padding: 14px 16px;
+    border: 1px solid var(--color-border-default, #d0d7de);
+    border-radius: 10px;
+    background: linear-gradient(180deg, rgba(31, 111, 235, .07), rgba(31, 111, 235, 0));
+}
+.curated-promo-text { flex: 1 1 260px; min-width: 0; }
+.curated-promo-title { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+.curated-promo-desc { color: var(--color-fg-muted, #57606a); font-size: 13px; line-height: 1.75; }
+.curated-promo-btn { white-space: nowrap; text-decoration: none; }
+
+[data-color-mode="dark"] .curated-promo {
+    border-color: #30363d;
+    background: linear-gradient(180deg, rgba(88, 166, 255, .08), rgba(88, 166, 255, 0));
+}
+[data-color-mode="dark"] .curated-promo-desc { color: #8b949e; }
+
+@media (max-width: 600px) {
+    .curated-promo { padding: 12px; }
+    .curated-promo-btn { width: 100%; text-align: center; }
+}
