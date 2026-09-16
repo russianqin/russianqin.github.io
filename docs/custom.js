@@ -356,10 +356,26 @@
         body.parentNode.insertBefore(toc, body);
     }
 
+    /* ---------- 评论区自动展开（不用先点"评论"按钮） ---------- */
+    function initAutoComments() {
+        var button = document.getElementById("cmButton");
+        var box = document.getElementById("comments");
+        if (!button || !box) return;
+        if (box.querySelector("iframe")) return;            // 已经加载过了
+        if (typeof window.openComments !== "function") return;  // 页面没有加载器就不管
+        try {
+            window.openComments();
+        } catch (error) {
+            return;                                          // 失败就让读者自己点按钮
+        }
+        button.style.display = "none";                       // 评论已经展开，按钮不再需要
+    }
+
     onReady(function () {
         initToTop();
         initLightbox();
         initShare();
+        initAutoComments();
         initMoscowPage();
         if (isPost) enhancePost();
     });
