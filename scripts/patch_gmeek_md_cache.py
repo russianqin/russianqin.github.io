@@ -15,6 +15,11 @@ patch_gmeek_md_cache.py —— 给 Gmeek 的 markdown 渲染加「本地缓存 +
 用法（在 workflow 里，克隆完 Gmeek 之后、生成 HTML 之前执行）：
     python scripts/patch_gmeek_md_cache.py /opt/Gmeek/Gmeek.py
 
+另一件更耗时的事（2026-09 加入）：Gmeek 原本对**每篇文章**都会各发一个请求去取
+「评论数」和「置顶事件」，500 多篇就是 1000+ 次串行请求，一次构建要跑 8~9 分钟。
+现在改成：评论数直接读 issue 自带的字段，置顶用一次 GraphQL 查询拿到全部编号
+→ 每次构建少发约 1000 次请求，那一步从 8~9 分钟降到几十秒。
+
 可用环境变量调节：
     GMEEK_MD_CACHE_DIR   缓存目录（默认 .md-cache，相对于 Gmeek 运行目录）
     GMEEK_MD_DELAY       每次请求前的间隔秒数（默认 2.0）
@@ -93,6 +98,88 @@ def _md_wrap(orig):
 
 GMEEK.markdown2html = _md_wrap(GMEEK.markdown2html)
 print("[patch] markdown 缓存/限流已启用：cache={} delay={}s".format(_MD_CACHE_DIR, _MD_DELAY))
+
+# ---------------------------------------------------------------------------
+# 注入 2：干掉「每篇一次」的两个 API 请求（这才是构建慢 8~9 分钟的元凶）
+#
+# Gmeek 原本对每一篇文章都会：
+#     issue.get_comments().totalCount   → 1 次请求（只为拿评论数）
+#     for event in issue.get_events():  → 1 次请求（只为判断是否置顶）
+# 500 多篇文章 ≈ 1000+ 次串行请求。
+# 这两件事都不需要逐篇请求：
+#   · 评论数在 issue 数据里本来就有（issue.comments）
+#   · 置顶用一次 GraphQL 查询就能拿到全部置顶编号
+# 注入失败时自动退回原行为，绝不让构建挂掉。
+# ---------------------------------------------------------------------------
+import sys as _api_sys
+
+try:
+    import github as _gh_api
+
+    class _FastComments(object):
+        __slots__ = ("totalCount",)
+
+        def __init__(self, count):
+            self.totalCount = count
+
+    _api_orig_get_comments = _gh_api.Issue.Issue.get_comments
+
+    def _api_fast_get_comments(self, *args, **kwargs):
+        try:
+            return _FastComments(int(getattr(self, "comments", 0) or 0))
+        except Exception:
+            return _api_orig_get_comments(self, *args, **kwargs)
+
+    _gh_api.Issue.Issue.get_comments = _api_fast_get_comments
+
+    _api_pinned = set()
+    try:
+        _api_token = _api_sys.argv[1] if len(_api_sys.argv) > 1 else ""
+        _api_repo = _api_sys.argv[2] if len(_api_sys.argv) > 2 else ""
+        if _api_token and "/" in _api_repo:
+            _api_owner, _api_name = _api_repo.split("/", 1)
+            _api_query = (
+                '{repository(owner:"%s",name:"%s"){pinnedIssues(first:10){nodes{issue{number}}}}}'
+                % (_api_owner, _api_name)
+            )
+            _api_resp = requests.post(
+                "https://api.github.com/graphql",
+                json={"query": _api_query},
+                headers={"Authorization": "bearer " + _api_token},
+                timeout=30,
+            )
+            _api_nodes = (
+                _api_resp.json().get("data", {}).get("repository", {}).get("pinnedIssues", {}).get("nodes", []) or []
+            )
+            for _api_node in _api_nodes:
+                _api_num = (_api_node.get("issue") or {}).get("number")
+                if _api_num:
+                    _api_pinned.add(int(_api_num))
+            print("[patch] 置顶文章编号：{}".format(sorted(_api_pinned)))
+    except Exception as _api_exc:
+        print("[patch] 取置顶列表失败（忽略，按未置顶处理）：{}".format(_api_exc))
+
+    class _FastEvent(object):
+        __slots__ = ("event",)
+
+        def __init__(self, name):
+            self.event = name
+
+    _api_orig_get_events = _gh_api.Issue.Issue.get_events
+
+    def _api_fast_get_events(self, *args, **kwargs):
+        try:
+            if int(getattr(self, "number", 0) or 0) in _api_pinned:
+                return [_FastEvent("pinned")]
+            return []
+        except Exception:
+            return _api_orig_get_events(self, *args, **kwargs)
+
+    _gh_api.Issue.Issue.get_events = _api_fast_get_events
+    print("[patch] 已去掉逐篇请求：评论数取 issue 字段，置顶用一次 GraphQL 查询")
+except Exception as _api_exc:
+    print("[patch] ⚠️ 逐篇请求优化未生效（不影响构建）：{}".format(_api_exc))
+
 __MARKER__
 '''
 
