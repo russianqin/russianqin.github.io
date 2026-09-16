@@ -86,8 +86,17 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
 
+      - name: Checkout 收藏仓库（私有，只读）
+        uses: actions/checkout@v4
+        with:
+          repository: russianqin/WenZhangShouCang
+          token: ${{ secrets.WZSC_TOKEN }}
+          path: .wzsc-source
+          fetch-depth: 1
+          persist-credentials: false
+
       - name: Sync 文章收藏 (Curated Articles)
-        run: python scripts/sync_curated.py docs --images download
+        run: python scripts/sync_curated.py docs --source .wzsc-source --images download
 
       - name: Sync 读书心得 (Reading)
         run: python scripts/sync_reading.py docs
