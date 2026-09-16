@@ -1,0 +1,11 @@
+<p>换个角度吃瓜 看完「我的女友景甜」这个 GitHub 仓库。</p>
+<p>先不聊内容真假，单看技术实现，其实挺有意思。</p>
+<p>它不是普通的“文章转 PDF”，而是把一篇长文做成了一本可以直接下载、收藏、Fork 的小书： 正文 → LaTeX → PDF → GitHub</p>
+<p>里面甚至专门调了书籍尺寸、中文字体、行距、页眉、段落留白和封面。</p>
+<p>但这个东西其实还能再往前走一步。</p>
+<p>完全可以做成一个 longform-publishing-engine： 你只需要维护一份 Markdown， 然后系统自动生成： PDF EPUB 网页版 封面 README GitHub Release 甚至连排版都不用管。</p>
+<p>比如我写一篇 1 万字的 Crypto 长文，只需要： 写完 Markdown → git push 后面自动完成排版、编译和发布。</p>
+<p>技术上也没有多复杂： Markdown + Pandoc + XeLaTeX + GitHub Actions 再加一个 book.yaml，控制书名、作者、字体、尺寸和模板。</p>
+<p>这样以后每写一篇值得长期保存的内容，都不只是“发一条长推”。 而是顺手出版一本小册子。</p>
+<p>这次这个仓库真正让我觉得有意思的地方是它把： Content 变成了 Artifact。</p>
+<p>文章发完会沉下去。 但 PDF、GitHub Repo、Star、Fork、Issue，会让这篇内容继续存在。 对长期做内容的人来说，这套思路其实比这次的瓜本身更值得抄。</p>
