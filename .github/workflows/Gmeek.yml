@@ -4,7 +4,9 @@ name: build Gmeek
 on:
   workflow_dispatch:
   issues:
-    types: [opened, edited]
+    # closed / deleted 也要触发：在 GitHub 上关闭或删除一篇文章的 Issue，
+    # 博客几分钟内就会把它下线（这两个事件走全量重建，见下面的 Generate 步骤）
+    types: [opened, edited, closed, deleted]
   push:
     branches: [main]
     paths:
@@ -72,11 +74,20 @@ jobs:
       - name: Generate new html
         env:
           GMEEK_MD_CACHE_DIR: ${{ github.workspace }}/.md-cache
+          EVENT_ACTION: ${{ github.event.action }}
+          EVENT_ISSUE_NUMBER: ${{ github.event.issue.number }}
         run: |
           mkdir -p docs
           cp -r ./* /opt/Gmeek/
           cd /opt/Gmeek/
-          python Gmeek.py ${{ secrets.GITHUB_TOKEN }} ${{ github.repository }} --issue_number '${{ github.event.issue.number }}'
+          # opened / edited 只更新那一篇；closed / deleted 等情况走全量重建
+          # （Gmeek 的 runOne 对已关闭的 Issue 什么都不做，必须走 runAll 才能把文章下线）
+          ISSUE_NUMBER=0
+          if [ "$EVENT_ACTION" = "opened" ] || [ "$EVENT_ACTION" = "edited" ]; then
+            ISSUE_NUMBER="$EVENT_ISSUE_NUMBER"
+          fi
+          echo "Gmeek 参数：issue_number=$ISSUE_NUMBER（事件=$EVENT_ACTION）"
+          python Gmeek.py ${{ secrets.GITHUB_TOKEN }} ${{ github.repository }} --issue_number "$ISSUE_NUMBER"
           cp -a /opt/Gmeek/docs ${{ github.workspace }} 
           cp -a /opt/Gmeek/backup ${{ github.workspace }} 
           cp /opt/Gmeek/blogBase.json ${{ github.workspace }} 
