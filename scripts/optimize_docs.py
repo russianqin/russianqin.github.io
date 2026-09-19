@@ -28,7 +28,25 @@ from pathlib import Path
 from urllib.parse import quote, unquote
 
 DEFAULT_SITE = "https://russianqin.github.io"
-STATIC_ASSETS = ("custom.css", "custom.js", "robots.txt")
+# 每次构建都强制覆盖的静态文件（其余 static/ 文件只在 docs 里缺失时才拷）
+STATIC_ASSETS = ("custom.css", "custom.js", "robots.txt", "primer.css", "GmeekBSZ.js")
+
+# 原本指向第三方的「首屏阻塞」资源 → 站内副本。
+# primer.css 是 Gmeek 主题样式（第三方镜像站，实测首字节要 2 秒多且会阻塞渲染），
+# GmeekBSZ.js 是「不蒜子」访问统计的加载器。两者都已经放进 static/。
+THIRD_PARTY_LOCALIZE = (
+    (
+        "https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css",
+        "/primer.css",
+    ),
+    (
+        "https://blog.meekdai.com/Gmeek/plugins/GmeekBSZ.js",
+        "/GmeekBSZ.js",
+    ),
+    # 早期页面里留下的第三方预连接提示，顺手清掉
+    ('<link rel="dns-prefetch" href="https://mirrors.sustech.edu.cn">', ""),
+    ('<link rel="preconnect" href="https://mirrors.sustech.edu.cn">', ""),
+)
 SEO_MARK = "<!-- optimized:seo -->"  # 幂等标记：重复运行不会重复插入
 
 # 正文之后的模板内容（用来切出 #postBody 的范围）
@@ -303,7 +321,6 @@ def preconnect_hints():
         '<link rel="preconnect" href="https://avatars.githubusercontent.com" crossorigin>'
         '<link rel="dns-prefetch" href="https://avatars.githubusercontent.com">'
         '<link rel="dns-prefetch" href="https://github.com">'
-        '<link rel="dns-prefetch" href="https://mirrors.sustech.edu.cn">'
     )
 
 
@@ -526,7 +543,7 @@ def build_404(docs, ctx):
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="robots" content="noindex">
-<link href="https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css" rel="stylesheet">
+<link href="/primer.css" rel="stylesheet">
 <link rel="stylesheet" href="/custom.css">
 <link rel="icon" href="%s">
 <title>页面不存在 - %s</title>
@@ -565,6 +582,21 @@ def sync_static(root, docs):
         target = docs / src.name
         if src.name in STATIC_ASSETS or not target.exists():
             target.write_bytes(src.read_bytes())
+            count += 1
+    return count
+
+
+def localize_third_party(docs):
+    """把页面里的第三方阻塞资源换成本站副本，省掉跨域 DNS/TLS 的等待时间。"""
+    count = 0
+    for path in sorted(docs.rglob("*.html")):
+        text, crlf = read_source(path)
+        updated = text
+        for remote, local in THIRD_PARTY_LOCALIZE:
+            if remote in updated:
+                updated = updated.replace(remote, local)
+        if updated != text:
+            write_source(path, updated, crlf)
             count += 1
     return count
 
@@ -731,10 +763,11 @@ def main():
 
     total = build_sitemap(docs, ctx)
     build_404(docs, ctx)
+    localized = localize_third_party(docs)
     synced = sync_static(root, docs)
     log(
-        "完成：%d 个页面、%d 篇文章，sitemap %d 条，同步静态资源 %d 个（站点 %s）"
-        % (pages, posts, total, synced, site)
+        "完成：%d 个页面、%d 篇文章，sitemap %d 条，静态资源 %d 个，第三方资源本地化 %d 个页面（站点 %s）"
+        % (pages, posts, total, synced, localized, site)
     )
     return 0
 

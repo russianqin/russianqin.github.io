@@ -356,7 +356,9 @@
         body.parentNode.insertBefore(toc, body);
     }
 
-    /* ---------- 评论区自动展开（不用先点"评论"按钮） ---------- */
+    /* ---------- 评论区自动展开（滚动到附近才加载） ---------- */
+    // 评论组件来自 GitHub（utteranc.es + api.github.com），首屏就加载会让文章页
+    // 多背两个跨域请求。这里改成滚动到评论区上方约 400px 时再拉起。
     function initAutoComments() {
         var button = document.getElementById("cmButton");
         var box = document.getElementById("comments");
@@ -364,19 +366,39 @@
         if (box.querySelector("iframe")) return;            // 已经加载过了
         if (typeof window.openComments !== "function") return;  // 页面没有加载器就不管
 
-        // 评论区上方的提示：想回复某人就用 @
-        if (!box.querySelector(".cm-hint")) {
-            var hint = document.createElement("p");
-            hint.className = "cm-hint";
-            hint.textContent = "想回复某条评论：在评论框里写 @对方的用户名，对方就会收到 GitHub 通知。";
-            box.appendChild(hint);
+        function load() {
+            if (box.querySelector("iframe")) return;
+            // 评论区上方的提示：想回复某人就用 @
+            if (!box.querySelector(".cm-hint")) {
+                var hint = document.createElement("p");
+                hint.className = "cm-hint";
+                hint.textContent = "想回复某条评论：在评论框里写 @对方的用户名，对方就会收到 GitHub 通知。";
+                box.appendChild(hint);
+            }
+            try {
+                window.openComments();
+            } catch (error) {
+                return;                                      // 失败就让读者自己点按钮
+            }
+            button.style.display = "none";                   // 评论已经展开，按钮不再需要
         }
-        try {
-            window.openComments();
-        } catch (error) {
-            return;                                          // 失败就让读者自己点按钮
+
+        if ("IntersectionObserver" in window) {
+            var observer = new IntersectionObserver(function (entries) {
+                for (var i = 0; i < entries.length; i++) {
+                    if (entries[i].isIntersecting) {
+                        observer.disconnect();
+                        load();
+                        return;
+                    }
+                }
+            }, { rootMargin: "400px 0px" });
+            // #comments 此时是空的（高度 0），换成有高度的按钮当触发点更稳
+            var trigger = box.getBoundingClientRect().height ? box : button;
+            observer.observe(trigger);
+        } else {
+            load();                                          // 老浏览器直接加载，行为跟以前一样
         }
-        button.style.display = "none";                       // 评论已经展开，按钮不再需要
     }
 
     onReady(function () {
