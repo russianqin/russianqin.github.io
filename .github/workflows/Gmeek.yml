@@ -31,6 +31,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 1          # 只取最新一次提交，仓库历史有 190MB+，全量拉太慢
 
       - name: Setup Pages
         id: pages
@@ -41,16 +43,23 @@ jobs:
           echo "====== check config.josn file ======"
           cat config.json
           echo "====== check config.josn end  ======"
-          sudo apt-get install jq
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: 3.8
 
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-gmeek-${{ hashFiles('config.json') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-gmeek-
+
       - name: Clone source code
         run: |
-          GMEEK_VERSION=$(jq -r ".GMEEK_VERSION" config.json)
+          GMEEK_VERSION=$(python -c "import json;print(json.load(open('config.json')).get('GMEEK_VERSION','last'))")
           git clone https://github.com/Meekdai/Gmeek.git /opt/Gmeek;
           cd /opt/Gmeek/
           lastTag=$(git describe --tags `git rev-list --tags --max-count=1`)
@@ -153,7 +162,9 @@ jobs:
           
       - name: update html
         run: |
-          git config --local user.email "$(jq -r ".email" config.json)"
+          # config.json 里没有 email 字段（老写法 jq 会返回字符串 "null"），这里给个正经兜底
+          EMAIL=$(python -c "import json;print(json.load(open('config.json')).get('email') or '')")
+          git config --local user.email "${EMAIL:-${{ github.repository_owner }}@users.noreply.github.com}"
           git config --local user.name "${{ github.repository_owner }}"
           git add .
           git commit -a -m '🎉auto update by Gmeek action' || echo "nothing to commit"

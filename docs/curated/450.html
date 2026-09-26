@@ -22,28 +22,9 @@
 
 
 <meta name="description" content="为什么需要这套系统 做投资、搞研究，Twitter 关注了上百个博主，每天产出的内容量非常大。但实际体验很差： - • 时间线太嘈杂：博主发的内容质量参差不齐，深度分析和随手吐槽混在一起，高价值信息被淹没 - • 刷不过来：一天不看就积压几百条，根本没时间逐条过 - • 碎片化严重：很多博主喜欢发短…（收藏自微信公众号，个人存档）"><link rel="canonical" href="https://russianqin.github.io/curated/450.html"><meta property="og:title" content="用 OpenClaw + RSSHub 搭建个人信息流推送系统 - 文章收藏"><meta property="og:description" content="为什么需要这套系统 做投资、搞研究，Twitter 关注了上百个博主，每天产出的内容量非常大。但实际体验很差： - • 时间线太嘈杂：博主发的内容质量参差不齐，深度分析和随手吐槽混在一起，高价值信息被淹没 - • 刷不过来：一天不看就积压几百条，根本没时间逐条过 - • 碎片化严重：很多博主喜欢发短…（收藏自微信公众号，个人存档）"><meta property="og:type" content="article"><meta property="og:url" content="https://russianqin.github.io/curated/450.html"><meta name="twitter:card" content="summary"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"用 OpenClaw + RSSHub 搭建个人信息流推送系统 - 文章收藏","url":"https://russianqin.github.io/curated/450.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://russianqin.github.io/curated/450.html"},"inLanguage":"zh-CN","description":"为什么需要这套系统 做投资、搞研究，Twitter 关注了上百个博主，每天产出的内容量非常大。但实际体验很差： - • 时间线太嘈杂：博主发的内容质量参差不齐，深度分析和随手吐槽混在一起，高价值信息被淹没 - • 刷不过来：一天不看就积压几百条，根本没时间逐条过 - • 碎片化严重：很多博主喜欢发短…（收藏自微信公众号","isPartOf":{"@type":"Blog","name":"五环魔法师","url":"https://russianqin.github.io/"},"isBasedOn":"https://mp.weixin.qq.com/s/Du_uWB1oO4pRvtTt-xgL3g"}</script></head>
-<style>
-body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
-#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
-#footer {margin-top:64px; text-align: center;font-size: small;}
 
-</style>
 
-<style>
-.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
-.title-right{display:flex;margin:auto 0 0 auto;}
-.title-right .circle{padding: 14px 16px;margin-right:8px;}
-#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
-#postBody hr{height:2px;}
-#cmButton{height:48px;margin-top:48px;}
-#comments{margin-top:64px;}
-.g-emoji{font-size:24px;}
-@media (max-width: 600px) {
-    body {padding: 8px;}
-    .postTitle{font-size:24px;}
-}
 
-</style>
 
 
 
@@ -291,7 +272,7 @@ function openComments(){
     script=document.createElement("script");
     script.setAttribute("src","https://utteranc.es/client.js");
     script.setAttribute("repo","russianqin/russianqin.github.io");
-    script.setAttribute("issue-term","title");
+    script.setAttribute("issue-term","og:title");
     
     if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
     else if(localStorage.getItem("meek_theme")=="light") {script.setAttribute("theme","github-light");}

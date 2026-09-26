@@ -38,6 +38,11 @@ from pathlib import Path
 SOURCE_REPO = "https://github.com/russianqin/WenZhangShouCang.git"
 INDEX_SLUG = "curated"
 IMAGE_DIR_NAME = "curated-images"
+# 图片失败黑名单：下载失败的 URL 记下来，7 天内不再重试。
+# 知乎/豆瓣的失效图与反爬会一直失败，重试只是白等网络超时；
+# 留 7 天是给偶发失败（限流、网络抖动）一个自动恢复的机会。
+FAILURE_LOG = "curated-image-failures.json"
+FAILURE_TTL_SECONDS = 7 * 24 * 3600
 USER_AGENT = "russianqin-blog-curated/1.0 (+https://russianqin.github.io)"
 
 ASSET_HOSTS = (
@@ -156,6 +161,8 @@ IMAGE_REFERER = (
     ("zhimg.com", "https://www.zhihu.com/"),
     ("chuapp.com", "https://www.chuapp.com/"),
     ("weibo.com", "https://weibo.com/"),
+    # 微博图床单独一套域名，防盗链要靠 weibo 的 Referer，否则一律 403
+    ("sinaimg.cn", "https://weibo.com/"),
 )
 
 
@@ -495,31 +502,98 @@ def image_headers(url):
     return headers
 
 
-def download_image(url, cache_dir, timeout=25):
-    """下载单张图片，返回缓存文件名；失败返回 None。"""
+def cache_name(url):
+    """图片 URL → 缓存文件名（URL 的 sha1 前 20 位 + 原扩展名）。"""
     digest = hashlib.sha1(url.encode("utf-8")).hexdigest()[:20]
     ext = os.path.splitext(urllib.parse.urlparse(url).path)[1].lower()
     if ext not in IMAGE_EXT:
         ext = ".jpg"
-    name = digest + ext
-    target = cache_dir / name
+    return digest + ext
+
+
+def lookup_cached_image(url, cache_dir):
+    """只查本地缓存，绝不联网。返回 (文件名 或 None, 'cache'/'miss')。"""
+    name = cache_name(url)
+    target = Path(cache_dir) / name
     if target.exists() and target.stat().st_size > 0:
-        return name
+        return name, "cache"
+    return None, "miss"
+
+
+def load_failures(path):
+    """读取失败黑名单：{url: 最后失败时间戳}。"""
+    try:
+        data = json.loads(read_text(path))
+    except Exception:  # noqa: BLE001 - 文件缺失或损坏都按空处理
+        return {}
+    return data if isinstance(data, dict) else {}
+
+
+def save_failures(path, failures):
+    now = time.time()
+    fresh = {}
+    for url, stamp in failures.items():
+        try:
+            if now - float(stamp) < FAILURE_TTL_SECONDS:
+                fresh[url] = int(stamp)
+        except (TypeError, ValueError):
+            continue
+    write_text(path, json.dumps(fresh, ensure_ascii=False, indent=1, sort_keys=True) + "\n")
+    return len(fresh)
+
+
+def is_known_failure(url, failures):
+    stamp = failures.get(url)
+    if stamp is None:
+        return False
+    try:
+        return (time.time() - float(stamp)) < FAILURE_TTL_SECONDS
+    except (TypeError, ValueError):
+        return False
+
+
+def download_image(url, cache_dir, failures=None, timeout=25):
+    """查缓存 → 命中直接返回；否则下载。
+
+    返回 (文件名 或 None, 状态)，状态取值：
+      cache       缓存命中（没联网）
+      downloaded  本次新下载成功
+      failed      下载失败（会写进 failures 黑名单）
+      skipped     在黑名单里，按 30 天冷却跳过（没联网）
+    """
+    name = cache_name(url)
+    target = Path(cache_dir) / name
+    if target.exists() and target.stat().st_size > 0:
+        return name, "cache"
+
+    if not re.match(r"^https?://", url or ""):
+        # 采集工具留下的坏链接（例如 URL 里带空格）永远不可能成功，直接判死
+        if failures is not None:
+            failures[url] = int(time.time())
+        return None, "failed"
+
+    if failures is not None and is_known_failure(url, failures):
+        return None, "skipped"
+
     try:
         request = urllib.request.Request(url, headers=image_headers(url))
         with urllib.request.urlopen(request, timeout=timeout) as response:
             data = response.read()
         if not data:
-            return None
-        cache_dir.mkdir(parents=True, exist_ok=True)
+            raise ValueError("空响应")
+        target.parent.mkdir(parents=True, exist_ok=True)
         target.write_bytes(data)
-        return name
-    except Exception:  # noqa: BLE001
-        return None
+        if failures is not None:
+            failures.pop(url, None)      # 之前失败过、这次成功了，撤掉黑名单记录
+        return name, "downloaded"
+    except Exception:  # noqa: BLE001 - 单张图失败不影响整体
+        if failures is not None:
+            failures[url] = int(time.time())
+        return None, "failed"
 
 
 def collect_image_urls(articles):
-    """收集正文图片与留言头像的地址（去重）。"""
+    """收集正文图片与留言头像的地址（只留 http(s)，去重交给调用方）。"""
     urls = []
     for article in articles:
         urls += [m.group("url") for m in MD_IMAGE_RE.finditer(article["body"])]
@@ -530,32 +604,47 @@ def collect_image_urls(articles):
             for reply in record.get("replies", []):
                 if reply.get("avatar"):
                     urls.append(reply["avatar"])
-    return urls
+    return [url for url in urls if re.match(r"^https?://", url or "")]
 
 
-def download_many(urls, cache_dir, stats, workers=8, timeout=15, budget_seconds=600):
-    """并发下载图片；超出总时长预算的剩余图片保持外链，页面不会因此出错。"""
+def download_many(urls, cache_dir, stats, failures=None, workers=8, timeout=15, budget_seconds=600):
+    """并发下载图片；超出总时长预算的剩余图片保持外链，页面不会因此出错。
+
+    stats 按真实情况分别累计 cache / downloaded / failed / skipped。
+    """
     started = time.time()
 
     def work(url):
         if time.time() - started > budget_seconds:
-            return url, None
-        return url, download_image(url, cache_dir, timeout=timeout)
+            return url, None, "skipped"
+        name, status = download_image(url, cache_dir, failures=failures, timeout=timeout)
+        return url, name, status
 
     done = 0
     with concurrent.futures.ThreadPoolExecutor(max_workers=workers) as pool:
-        for _url, name in pool.map(work, urls):
+        for _url, name, status in pool.map(work, urls):
             done += 1
-            if name:
-                stats["downloaded"] += 1
-            else:
-                stats["failed"] += 1
+            stats[status] = stats.get(status, 0) + 1
             if done % 200 == 0:
-                log("图片进度 %d/%d（成功 %d，失败 %d）" % (done, len(urls), stats["downloaded"], stats["failed"]))
+                log(
+                    "图片进度 %d/%d（缓存 %d，新下载 %d，失败 %d，黑名单跳过 %d）"
+                    % (
+                        done,
+                        len(urls),
+                        stats.get("cache", 0),
+                        stats.get("downloaded", 0),
+                        stats.get("failed", 0),
+                        stats.get("skipped", 0),
+                    )
+                )
 
 
-def localize_images(article, cache_dir, mode, stats):
-    """把正文图片和留言头像换成本地路径（hotlink 模式保持外链）。"""
+def localize_images(article, cache_dir, mode, stats, failures=None):
+    """把正文图片和留言头像换成本地路径（hotlink 模式保持外链）。
+
+    这里只查本地缓存，绝不再联网：预热阶段（download_many）已经下过一遍了，
+    在正文里再下载一次，只会把已知失败的图片重新走一遍超时。
+    """
     if mode != "download":
         return
 
@@ -568,8 +657,10 @@ def localize_images(article, cache_dir, mode, stats):
         if url in article["_images"]:
             name = article["_images"][url]
         else:
-            name = download_image(url, cache_dir)
+            name, status = lookup_cached_image(url, cache_dir)
             article["_images"][url] = name
+            if status != "cache":
+                stats["miss"] = stats.get("miss", 0) + 1
         if not name:
             return url
         stats["localized"] += 1
@@ -1077,7 +1168,9 @@ def main():
         cache_dir = root / "data" / IMAGE_DIR_NAME
         out_dir = docs / "curated"
         image_out = docs / IMAGE_DIR_NAME
-        stats = {"downloaded": 0, "failed": 0, "localized": 0}
+        stats = {"cache": 0, "downloaded": 0, "failed": 0, "skipped": 0, "localized": 0, "miss": 0}
+        failures_path = root / "data" / FAILURE_LOG
+        failures = load_failures(failures_path)
 
         for article in articles:
             article["_images"] = {}
@@ -1086,12 +1179,19 @@ def main():
         if args.images == "download":
             urls = collect_image_urls(articles)
             unique = sorted(set(urls))
-            log("图片任务：%d 个引用 / %d 张唯一图片，开始并发下载" % (len(urls), len(unique)))
-            download_many(unique, cache_dir, stats)
-            log("图片下载结束：成功 %d，失败 %d" % (stats["downloaded"], stats["failed"]))
+            known = sum(1 for url in unique if is_known_failure(url, failures))
+            log(
+                "图片任务：%d 个引用 / %d 张唯一图片（其中 %d 个在失败黑名单里，本次不再联网）"
+                % (len(urls), len(unique), known)
+            )
+            download_many(unique, cache_dir, stats, failures=failures)
+            log(
+                "图片阶段结束：缓存命中 %d，新下载 %d，失败 %d，黑名单跳过 %d"
+                % (stats["cache"], stats["downloaded"], stats["failed"], stats["skipped"])
+            )
 
         for article in articles:
-            localize_images(article, cache_dir, args.images, stats)
+            localize_images(article, cache_dir, args.images, stats, failures=failures)
 
         copied_assets = copy_assets(repo_dir, docs, articles)
         if copied_assets:
@@ -1110,9 +1210,15 @@ def main():
                         if not target.exists() or target.stat().st_size != source.stat().st_size:
                             shutil.copyfile(str(source), str(target))
             log(
-                "图片：下载 %d 张，失败 %d 张，页面引用 %d 处，落地文件 %d 个"
-                % (stats["downloaded"], stats["failed"], stats["localized"], len(wanted))
+                "图片：缓存命中 %d，新下载 %d，失败 %d，黑名单跳过 %d"
+                % (stats["cache"], stats["downloaded"], stats["failed"], stats["skipped"])
             )
+            log(
+                "     页面引用 %d 处，其中 %d 处没有本地缓存（保持外链），落地文件 %d 个"
+                % (stats["localized"], stats["miss"], len(wanted))
+            )
+            saved = save_failures(failures_path, failures)
+            log("     失败黑名单：%d 条 → data/%s（失败后 7 天内不再重试）" % (saved, FAILURE_LOG))
 
         # 先清掉上一轮生成的页面，源仓库里删掉的收藏不会留下残页
         if out_dir.is_dir():
