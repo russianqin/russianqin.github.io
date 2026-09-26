@@ -20,11 +20,16 @@ patch_gmeek_md_cache.py —— 给 Gmeek 的 markdown 渲染加「本地缓存 +
 现在改成：评论数直接读 issue 自带的字段，置顶用一次 GraphQL 查询拿到全部编号
 → 每次构建少发约 1000 次请求，那一步从 8~9 分钟降到几十秒。
 
+第三段注入（2026-09 加入）：Gmeek 的 createFeedXml 会把全部文章都塞进 rss.xml，
+500 多篇就是 500 多 KB。RSS 的正常用途是「最近更新」，所以只保留最近 20 篇
+（约 20 KB）。截断只发生在这一个方法内部，页面、sitemap、blogBase.json 都不受影响。
+
 可用环境变量调节：
     GMEEK_MD_CACHE_DIR   缓存目录（默认 .md-cache，相对于 Gmeek 运行目录）
     GMEEK_MD_DELAY       每次请求前的间隔秒数（默认 2.0）
     GMEEK_MD_RETRY_WAIT  限流后首次等待秒数（默认 60，重试时线性递增）
     GMEEK_MD_MAX_ATTEMPTS 最大尝试次数（默认 8）
+    GMEEK_FEED_LIMIT     rss.xml 保留的文章篇数（默认 20；设为 0 表示不限制）
 
 脚本是幂等的：重复执行不会重复注入；找不到锚点时会放弃注入并正常退出，
 绝不因此让构建失败。
@@ -179,6 +184,52 @@ try:
     print("[patch] 已去掉逐篇请求：评论数取 issue 字段，置顶用一次 GraphQL 查询")
 except Exception as _api_exc:
     print("[patch] ⚠️ 逐篇请求优化未生效（不影响构建）：{}".format(_api_exc))
+
+# ---------------------------------------------------------------------------
+# 注入 3：让 rss.xml 只保留最近 N 篇
+#
+# Gmeek 的 createFeedXml 会把**全部**文章都写进 rss.xml（500 多篇 ≈ 500 KB），
+# 而 RSS 的正常用途是「最近更新」，十几二十篇就够了。
+# 这里在调用前把文章列表临时截断成最新 N 篇，调用完立刻还原成原样，
+# 所以页面、sitemap、blogBase.json 的内容都不受影响。
+# 可用环境变量 GMEEK_FEED_LIMIT 调节（默认 20；设为 0 表示不限制）。
+# ---------------------------------------------------------------------------
+try:
+    _MD_FEED_LIMIT = int(_md_os.environ.get("GMEEK_FEED_LIMIT", "20"))
+except Exception:  # noqa: BLE001 - 环境变量写错时退回默认值，绝不因此让构建失败
+    _MD_FEED_LIMIT = 20
+
+
+def _md_feed_wrap(orig):
+    def wrapper(self):
+        saved = dict(self.blogBase.get("postListJson") or {})
+        try:
+            if _MD_FEED_LIMIT and len(saved) > _MD_FEED_LIMIT:
+                newest = sorted(
+                    saved.items(),
+                    key=lambda kv: kv[1].get("createdAt", 0),
+                    reverse=True,
+                )[:_MD_FEED_LIMIT]
+                self.blogBase["postListJson"] = dict(newest)
+                print("[patch] rss.xml 只保留最近 {} 篇（全部 {} 篇）".format(_MD_FEED_LIMIT, len(saved)))
+        except Exception as _feed_exc:  # noqa: BLE001
+            print("[patch] ⚠️ RSS 截断失败，按原样生成：{}".format(_feed_exc))
+            self.blogBase["postListJson"] = saved
+        try:
+            return orig(self)
+        finally:
+            # Gmeek 内部会把 postListJson 重排成时间升序，这里也还原成同样的顺序
+            self.blogBase["postListJson"] = dict(
+                sorted(saved.items(), key=lambda kv: kv[1].get("createdAt", 0), reverse=False)
+            )
+
+    return wrapper
+
+
+try:
+    GMEEK.createFeedXml = _md_feed_wrap(GMEEK.createFeedXml)
+except Exception as _feed_wrap_exc:
+    print("[patch] ⚠️ RSS 截断未生效（不影响构建）：{}".format(_feed_wrap_exc))
 
 __MARKER__
 '''
