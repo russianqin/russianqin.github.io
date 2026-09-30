@@ -576,6 +576,11 @@
     <priority>0.4</priority>
   </url>
   <url>
+    <loc>https://russianqin.github.io/curated/075.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
     <loc>https://russianqin.github.io/curated/076.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
@@ -597,6 +602,11 @@
   </url>
   <url>
     <loc>https://russianqin.github.io/curated/080.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://russianqin.github.io/curated/081.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>
@@ -1186,6 +1196,11 @@
     <priority>0.4</priority>
   </url>
   <url>
+    <loc>https://russianqin.github.io/curated/199.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
     <loc>https://russianqin.github.io/curated/200.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
@@ -1506,6 +1521,16 @@
     <priority>0.4</priority>
   </url>
   <url>
+    <loc>https://russianqin.github.io/curated/264.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://russianqin.github.io/curated/265.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
     <loc>https://russianqin.github.io/curated/266.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
@@ -1522,11 +1547,6 @@
   </url>
   <url>
     <loc>https://russianqin.github.io/curated/269.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://russianqin.github.io/curated/270-2.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>
@@ -1901,11 +1921,6 @@
     <priority>0.4</priority>
   </url>
   <url>
-    <loc>https://russianqin.github.io/curated/344.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
     <loc>https://russianqin.github.io/curated/345.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
@@ -1917,6 +1932,11 @@
   </url>
   <url>
     <loc>https://russianqin.github.io/curated/347.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://russianqin.github.io/curated/348.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>
@@ -1957,6 +1977,11 @@
   </url>
   <url>
     <loc>https://russianqin.github.io/curated/356.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://russianqin.github.io/curated/357.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>
@@ -2067,6 +2092,11 @@
   </url>
   <url>
     <loc>https://russianqin.github.io/curated/379.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://russianqin.github.io/curated/380.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>
@@ -2606,42 +2636,12 @@
     <priority>0.4</priority>
   </url>
   <url>
+    <loc>https://russianqin.github.io/curated/493.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
     <loc>https://russianqin.github.io/curated/494.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://russianqin.github.io/curated/495.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://russianqin.github.io/curated/496.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://russianqin.github.io/curated/498.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://russianqin.github.io/curated/499.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://russianqin.github.io/curated/500.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://russianqin.github.io/curated/501.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://russianqin.github.io/curated/502.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>
