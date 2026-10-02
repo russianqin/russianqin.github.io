@@ -107,6 +107,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
 
+      - name: Sync 释略大典 page
+        run: python scripts/sync_shilue.py docs
+
       - name: Checkout 收藏仓库（私有，只读）
         uses: actions/checkout@v4
         with:

@@ -242,13 +242,6 @@ def merge(baseline_sections, source_sections, prefer="source"):
             stats["only_source" if other["origin"] == "source" else "only_baseline"] -= 1
             stats["both"] += 1
             other["origin"] = "both"
-            duplicates.append(
-                {
-                    "section": section["name"] or "#",
-                    "title": entry["title"],
-                    "kept": other["title"],
-                }
-            )
         new_text = normalize("".join(entry["paragraphs"]))
         old_text = normalize("".join(other["paragraphs"]))
         if len(new_text) > len(old_text):
@@ -264,7 +257,16 @@ def merge(baseline_sections, source_sections, prefer="source"):
         merged.append(section)
         src = src_by_name.get(name)
         base = base_by_name.get(name)
+        # 一边内部的重名（真正的重复条目）先记下来
         if src:
+            seen = {}
+            for entry in src["entries"]:
+                seen.setdefault(key_of(entry), []).append(entry["title"])
+            for key, titles in seen.items():
+                if len(titles) > 1:
+                    duplicates.append(
+                        {"section": name or "#", "title": titles[0], "kept": titles[0], "count": len(titles)}
+                    )
             for entry in src["entries"]:
                 put(section, entry, True)
         if base:
@@ -551,9 +553,11 @@ def main():
         )
     )
     if duplicates:
-        log("  合并的重名词条 %d 组：" % len(duplicates))
+        log("  源文件内重名词条 %d 组（已合并为一条）：" % len(duplicates))
         for item in duplicates:
-            log("    [%s] %s" % (item["section"], item["title"]))
+            log("    [%s] %s ×%d" % (item["section"], item["title"], item.get("count", 2)))
+    else:
+        log("  源文件内无重名词条")
     log("已写出 %s" % merged_path.relative_to(root).as_posix())
 
     shell = load_shell(docs)
@@ -568,7 +572,6 @@ def main():
     head = build_head(shell["head"], "%s - 五环魔法师" % TITLE, description, canonical)
 
     page = [
-        "<!DOCTYPE html>\n",
         head,
         "</head>\n<body>\n",
         clean_header(shell["header"], TITLE),
