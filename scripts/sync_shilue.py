@@ -7,12 +7,14 @@
     **安堵：**                    ← 词条（整行加粗，可带冒号也可不带）
     方言，"安定"意。               ← 释义正文，可多行/多段
 
-策略：**并集（最大化收容）**，与 sync_refreshment.py 一致
-  * 源文件提供最新内容；
-  * 基线只有一份：data/shilue-merged.md，每次构建都用它和源文件重算并集；
-  * 词条以「归一化标题」为 key：同一分区内重名的两条合并成一条，
-    内容不一致时保留信息量更大的版本（--prefer 可切换）；
-  * 只在一侧的词条一律保留 —— 源文件删掉的内容不会从页面消失。
+策略：**单源（源文件是唯一真源）**
+  * 页面内容完全来自 释略大典.md，没有任何本地基线参与合并；
+  * 源文件改了 → 页面跟着改；源文件删了 → 页面跟着消失；
+  * 同一分区内重名词条按「归一化标题」去重，保留信息量更大的版本。
+
+  源文件在 personal_txt_files 仓库，构建时联网拉取（见 SOURCE_URLS）。
+  该仓库的 .github/workflows/notify-blog.yml 会在 释略大典.md 被 push 后
+  触发本仓库的 Gmeek.yml，因此改动会自动流到博客。
 
 输出格式与页面现有格式一致：
     ## A                           ← 分区标题
@@ -144,150 +146,42 @@ def parse_source(text):
     return [s for s in sections if s["entries"]]
 
 
-def parse_baseline(text):
-    """基线格式：`## 分区` + `**词条**` + 段落，`---` 分隔词条。"""
-    sections = []
-    current = None
-    entry = None
-    lines = []
+def dedupe(sections):
+    """清理源文件内的重名词条：同一分区内 key（或高度相似）相同只留一条。
 
-    def flush_paragraph():
-        if lines:
-            entry["paragraphs"].append("\n".join(lines))
-            del lines[:]
-
-    def flush_entry():
-        nonlocal entry
-        if entry is not None:
-            flush_paragraph()
-            body = [p for p in entry["paragraphs"] if normalize(p)]
-            if body:
-                entry["paragraphs"] = body
-                current["entries"].append(entry)
-            entry = None
-
-    for raw in text.splitlines():
-        line = raw.rstrip()
-        stripped = line.strip()
-        head = re.match(r"^##\s*(.*)$", stripped)
-        if head:
-            flush_entry()
-            current = {"name": head.group(1), "entries": []}
-            sections.append(current)
-            continue
-        match = ENTRY_RE.match(stripped)
-        if match:
-            flush_entry()
-            if current is None:
-                current = {"name": "", "entries": []}
-                sections.append(current)
-            title, has_colon = split_title(match.group(1))
-            entry = {"title": title, "has_colon": has_colon, "paragraphs": []}
-            continue
-        if stripped == "---":
-            flush_entry()
-            continue
-        if not stripped:
-            flush_paragraph()
-            continue
-        if entry is not None:
-            lines.append(stripped)
-
-    flush_entry()
-    return [s for s in sections if s["entries"] or s["name"]]
-
-
-# ---------------------------------------------------------------- 合并
-
-def section_index(sections):
-    return {s["name"]: s for s in sections}
-
-
-def merge(baseline_sections, source_sections, prefer="source"):
-    """并集：源文件词条优先，基线里独有的词条全部保留；同分区重名合并。"""
-    merged = []
-    stats = {
-        "only_source": 0,
-        "only_baseline": 0,
-        "both": 0,
-        "kept_longer": 0,
-        "kept_baseline_format": 0,
-        "source_total": sum(len(s["entries"]) for s in source_sections),
-        "baseline_total": sum(len(s["entries"]) for s in baseline_sections),
-    }
+    保留信息量更大的版本；返回 (总条数, 重名清单)。
+    """
     duplicates = []
-
-    base_by_name = section_index(baseline_sections)
-    src_by_name = section_index(source_sections)
-    order = [s["name"] for s in source_sections] + [
-        s["name"] for s in baseline_sections if s["name"] not in src_by_name
-    ]
-
-    def put(section, entry, is_source):
-        key = key_of(entry)
-        match = None
-        for index, other in enumerate(section["entries"]):
-            if key_of(other) == key:
-                match = index
-                break
-            if difflib.SequenceMatcher(None, key, key_of(other)).ratio() >= SIMILARITY:
-                match = index
-                break
-        if match is None:
-            section["entries"].append(
+    for section in sections:
+        kept = []
+        index = {}
+        for entry in section["entries"]:
+            key = key_of(entry)
+            match = index.get(key)
+            if match is None:
+                for pos, other in enumerate(kept):
+                    if difflib.SequenceMatcher(None, key, key_of(other)).ratio() >= SIMILARITY:
+                        match = pos
+                        break
+            if match is None:
+                index[key] = len(kept)
+                kept.append(entry)
+                continue
+            other = kept[match]
+            old_text = normalize("".join(other["paragraphs"]))
+            new_text = normalize("".join(entry["paragraphs"]))
+            if len(new_text) > len(old_text):
+                kept[match] = entry
+            duplicates.append(
                 {
-                    "title": entry["title"],
-                    "has_colon": entry["has_colon"],
-                    "paragraphs": list(entry["paragraphs"]),
-                    "origin": "source" if is_source else "baseline",
-                    "from_source": is_source,
-                    "key": key,
+                    "section": section["name"] or "#",
+                    "title": other["title"],
+                    "count": 2,
                 }
             )
-            stats["only_source" if is_source else "only_baseline"] += 1
-            return
-
-        other = section["entries"][match]
-        if other["origin"] != "both":
-            stats["only_source" if other["origin"] == "source" else "only_baseline"] -= 1
-            stats["both"] += 1
-            other["origin"] = "both"
-        new_text = normalize("".join(entry["paragraphs"]))
-        old_text = normalize("".join(other["paragraphs"]))
-        if len(new_text) > len(old_text):
-            other["paragraphs"] = list(entry["paragraphs"])
-            other["has_colon"] = entry["has_colon"]
-            stats["kept_longer"] += 1
-        elif not is_source and new_text == old_text:
-            other["paragraphs"] = list(entry["paragraphs"])
-            stats["kept_baseline_format"] += 1
-
-    for name in order:
-        section = {"name": name, "entries": []}
-        merged.append(section)
-        src = src_by_name.get(name)
-        base = base_by_name.get(name)
-        # 一边内部的重名（真正的重复条目）先记下来
-        if src:
-            seen = {}
-            for entry in src["entries"]:
-                seen.setdefault(key_of(entry), []).append(entry["title"])
-            for key, titles in seen.items():
-                if len(titles) > 1:
-                    duplicates.append(
-                        {"section": name or "#", "title": titles[0], "kept": titles[0], "count": len(titles)}
-                    )
-            for entry in src["entries"]:
-                put(section, entry, True)
-        if base:
-            for entry in base["entries"]:
-                put(section, entry, False)
-
-    for section in merged:
-        section["entries"] = [e for e in section["entries"] if e["origin"]]
-        for entry in section["entries"]:
-            entry.pop("key", None)
-    return merged, stats, duplicates
+        section["entries"] = kept
+    total = sum(len(s["entries"]) for s in sections)
+    return total, duplicates
 
 
 # ---------------------------------------------------------------- 输出
@@ -317,25 +211,6 @@ def render_paragraph(text):
         last = match.end()
     parts.append(html.escape(text[last:], quote=False))
     return "".join(parts).replace("\n", "<br>")
-
-
-def to_baseline_markdown(sections):
-    parts = []
-    for section in sections:
-        parts.append("## %s" % section["name"])
-        parts.append("")
-        for index, entry in enumerate(section["entries"]):
-            if index:
-                parts.append("---")
-                parts.append("")
-            parts.append("**%s%s**" % (entry["title"], "\uff1a" if entry["has_colon"] else ""))
-            parts.append("")
-            for paragraph_index, paragraph in enumerate(entry["paragraphs"]):
-                if paragraph_index:
-                    parts.append("")
-                parts.append(paragraph)
-            parts.append("")
-    return "\n".join(parts).rstrip() + "\n"
 
 
 PAGE_CSS = """
@@ -528,12 +403,6 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("docs", nargs="?", default="docs", help="docs 目录")
     parser.add_argument("--source", help="本地源文件路径（离线调试用，省略则联网拉取）")
-    parser.add_argument(
-        "--prefer",
-        choices=("source", "baseline"),
-        default="source",
-        help="内容高度相似时优先哪一边（默认 source）",
-    )
     parser.add_argument("--site", default="https://russianqin.github.io")
     args = parser.parse_args()
 
@@ -545,54 +414,25 @@ def main():
         log("找不到 docs 目录：%s" % docs)
         return 1
 
-    merged_path = root / "data" / "shilue-merged.md"
-
     if args.source:
         source_text = read_text(args.source)
         log("使用本地源文件：%s（%d 字符）" % (args.source, len(source_text)))
     else:
         source_text = fetch_source()
 
-    source_sections = parse_source(source_text) if source_text else []
-    if source_text and not source_sections:
-        log("源文件解析结果为空")
-
-    if merged_path.exists():
-        baseline_sections = parse_baseline(read_text(merged_path))
-        log("基线：%s（%d 条）" % (merged_path.name, sum(len(s["entries"]) for s in baseline_sections)))
-    else:
-        baseline_sections = []
-        log("基线文件不存在，首次以源文件建立：%s" % merged_path.name)
-
-    if not source_sections and not baseline_sections:
-        log("源文件与基线都没有内容，退出")
+    sections = parse_source(source_text) if source_text else []
+    if not sections:
+        log("源文件解析结果为空，退出")
         return 1
 
-    merged, stats, duplicates = merge(baseline_sections, source_sections, args.prefer)
-    write_text(merged_path, to_baseline_markdown(merged))
-
-    total = sum(len(s["entries"]) for s in merged)
-    log(
-        "并集结果：%d 条 / %d 个分区（源文件 %d 条 + 基线 %d 条）"
-        % (total, len(merged), stats["source_total"], stats["baseline_total"])
-    )
-    log(
-        "  新增自源文件 %d，两边都有 %d，仅基线保留 %d，采用更长版本 %d，沿用基线格式 %d"
-        % (
-            stats["only_source"],
-            stats["both"],
-            stats["only_baseline"],
-            stats["kept_longer"],
-            stats["kept_baseline_format"],
-        )
-    )
+    total, duplicates = dedupe(sections)
+    log("源文件：%d 条 / %d 个分区" % (total, len(sections)))
     if duplicates:
         log("  源文件内重名词条 %d 组（已合并为一条）：" % len(duplicates))
         for item in duplicates:
-            log("    [%s] %s ×%d" % (item["section"], item["title"], item.get("count", 2)))
+            log("    [%s] %s ×%d" % (item["section"], item["title"], item["count"]))
     else:
         log("  源文件内无重名词条")
-    log("已写出 %s" % merged_path.relative_to(root).as_posix())
 
     shell = load_shell(docs)
     if shell is None:
@@ -600,7 +440,7 @@ def main():
         return 1
 
     alphabet = build_alphabet()
-    body = render_body(merged, alphabet)
+    body = render_body(sections, alphabet)
     description = "释略大典：%d 条词语、典故与概念，按首字母排列，可搜索。" % total
     canonical = "%s/%s.html" % (args.site.rstrip("/"), SLUG)
     head = build_head(shell["head"], "%s - 五环魔法师" % TITLE, description, canonical)
