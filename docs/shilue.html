@@ -552,38 +552,62 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <button class="shilue-top" id="shilueTop" type="button" title="回到顶部">↑</button>
 
 <style>
+/* --- 页面留白：Gmeek 的 body 在窄屏把 padding 压到 8px，正文会顶到屏幕边。
+       这里只做「补足」，桌面不动（45px 已够），窄屏给到 20px。 --- */
+@media (max-width: 600px) {
+  body { padding: 20px 20px 28px !important; }
+}
+@media (min-width: 601px) and (max-width: 900px) {
+  body { padding: 28px 28px; }
+}
+
 .shilue-intro{color:var(--fgColor-muted,#59636e);margin:0 0 16px;}
 .shilue-toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:16px;}
 .shilue-search{flex:1;min-width:200px;padding:6px 12px;font-size:14px;
   border:1px solid var(--borderColor-default,#d1d9e0);border-radius:6px;background:transparent;color:inherit;}
 .shilue-search:focus{outline:none;border-color:var(--fgColor-accent,#0969da);}
 .shilue-count{font-size:13px;color:var(--fgColor-muted,#59636e);white-space:nowrap;}
-.shilue-nav{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:24px;padding-bottom:16px;
+
+/* 字母导航：27 个字母排成一行（26+3=29px × 27 = 783px < 810px 容器宽）；
+   窄屏放不下时才换行，末行居中，不留参差 */
+.shilue-nav{display:flex;flex-wrap:wrap;gap:3px;justify-content:center;
+  margin-bottom:24px;padding-bottom:16px;
   border-bottom:1px solid var(--borderColor-muted,#d1d9e0);}
 .shilue-nav a,.shilue-nav span{display:inline-flex;align-items:center;justify-content:center;
-  min-width:28px;height:28px;padding:0 6px;border-radius:6px;font-size:13px;font-weight:600;
-  border:1px solid var(--borderColor-default,#d1d9e0);text-decoration:none;color:inherit;}
+  box-sizing:border-box;width:26px;height:26px;padding:0;border-radius:6px;
+  font-size:12.5px;font-weight:600;
+  border:1px solid var(--borderColor-default,#d1d9e0);text-decoration:none;color:inherit;
+  flex:0 0 auto;}
 .shilue-nav a:hover{background:var(--bgColor-accent-muted,#ddf4ff);border-color:var(--fgColor-accent,#0969da);}
 .shilue-nav span.shilue-nav-empty{color:var(--fgColor-disabled,#8b949e);opacity:.5;}
+
 .shilue-section{margin-bottom:32px;}
 .shilue-section-title{font-size:24px;font-weight:700;margin:0 0 12px;
   padding-bottom:6px;border-bottom:1px solid var(--borderColor-muted,#d1d9e0);
   scroll-margin-top:16px;}
 .shilue-section-empty{color:var(--fgColor-muted,#59636e);font-size:14px;font-style:italic;}
-.shilue-entry{margin:0 0 16px;padding-left:12px;border-left:2px solid var(--borderColor-muted,#d1d9e0);}
+
+/* 词条：左右都留呼吸位，正文不再顶到容器右边缘 */
+.shilue-entry{margin:0 0 18px;padding:2px 0 2px 14px;
+  border-left:2px solid var(--borderColor-muted,#d1d9e0);}
 .shilue-entry-title{font-weight:700;}
 .shilue-entry-body{margin:4px 0 0;}
 .shilue-entry-body p{margin:0 0 6px;}
 .shilue-entry-body p:last-child{margin-bottom:0;}
+
 .shilue-hidden{display:none!important;}
 .shilue-top{position:fixed;right:20px;bottom:20px;width:40px;height:40px;border-radius:50%;
   display:none;align-items:center;justify-content:center;cursor:pointer;font-size:18px;
   border:1px solid var(--borderColor-default,#d1d9e0);background:var(--bgColor-default,#fff);
   color:inherit;box-shadow:0 2px 8px rgba(0,0,0,.12);}
 .shilue-top.shilue-top-show{display:flex;}
+
 @media (max-width:600px){
   .shilue-section-title{font-size:20px;}
-  .shilue-top{right:12px;bottom:12px;}
+  .shilue-nav{gap:3px;}
+  .shilue-nav a,.shilue-nav span{width:23px;height:23px;font-size:11.5px;}
+  .shilue-entry{padding-left:10px;}
+  .shilue-top{right:14px;bottom:14px;}
 }
 </style>
 
