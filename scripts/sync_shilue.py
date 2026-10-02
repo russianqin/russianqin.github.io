@@ -23,6 +23,16 @@
 用法：
     python scripts/sync_shilue.py docs
     python scripts/sync_shilue.py docs --source ../personal_txt_files/释略大典.md
+
+【前置条件：Gmeek 的顶栏按钮依赖一个 GitHub Issue】
+本脚本只负责生成 docs/shilue.html，**不会**让顶栏出现入口图标。
+Gmeek 的顶栏单页按钮来自「Issue 的首个 label 命中 config.json 的 singlePage」：
+    * 模板 plist.html:  <a href=".../{{ labels[0] }}.html" title="{{ postTitle }}">
+    * 即 URL 取自 **label 名**，按钮名取自 **Issue 标题**，图标取自 iconList[label]
+所以必须在该仓库建一个 Issue：
+    * 标题 = 释略大典        （决定顶栏 tooltip / title）
+    * label = shilue         （决定 URL：/shilue.html，必须与 config.json 的 singlePage 项一致）
+参考现有单页：link → #5、refreshment → #12、quest in Moscow → #19、reading → #522
 """
 
 import argparse
