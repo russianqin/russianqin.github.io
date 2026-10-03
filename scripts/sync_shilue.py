@@ -42,6 +42,7 @@ import difflib
 import html
 import json
 import re
+import shutil
 import sys
 import time
 import urllib.parse
@@ -66,13 +67,23 @@ TITLE = "释略大典"
 SIMILARITY = 0.9
 USER_AGENT = "russianqin-blog-shilue/1.0 (+https://russianqin.github.io)"
 
-# 看板娘图库：图片放在 docs/kanban/ 下，页面用相对路径引用（与 docs/curated-images 同一惯例，
-# 不依赖 raw.githubusercontent，国内可正常加载）。
-# 以后加图：把图片放进 docs/kanban/，在下面追加一行即可；箭头、计数会自动出现。
+# 看板娘图库：图片的**真源**放在仓库 data/kanban/ 下，本脚本每次构建都会把它拷进
+# docs/kanban/，页面再用**站点根绝对路径** /kanban/xxx.webp 引用。
+#
+# 为什么必须这样：
+#   1) docs/ 是构建产物。Gmeek 每次跑都会 `cp -a /opt/Gmeek/docs` 覆盖掉 docs/，
+#      手工塞进 docs/ 的文件（没有脚本负责重新生成）会在下一次构建时消失。
+#      sync_curated.py 的 docs/curated-images 之所以留得住，就是因为它每次都会重拷。
+#   2) 用根绝对路径而非相对路径：本站图片的既有惯例就是 /curated-images/xxx.jpg
+#      （见 docs/curated/*.html），且不依赖 raw.githubusercontent，国内可正常加载。
+#
+# 以后加图：把图放进 data/kanban/，在下面追加一行，箭头/计数会自动出现。
 # 建议压到 720px 宽、WebP 质量 82（约 50KB/张），别放原始大图。
 KANBAN_IMAGES = [
-    "kanban/kanban-01.webp",
+    "kanban-01.webp",
 ]
+KANBAN_SRC_DIR = "data/kanban"   # 真源（相对仓库根）
+KANBAN_OUT_DIR = "kanban"        # 输出到 docs/ 下的子目录
 
 # 分区顺序：先 "#"（无字母的词条），再 A-Z
 SECTION_HEAD_RE = re.compile(r"^#\s*(\S*)\s*$")
@@ -273,10 +284,15 @@ PAGE_CSS = """
   color:inherit;box-shadow:0 2px 8px rgba(0,0,0,.12);}
 .shilue-top.shilue-top-show{display:flex;}
 
-/* --- 看板娘按钮：固定在右下角，位于「回到顶部」按钮正上方 --- */
-.shilue-kanban-btn{position:fixed;right:20px;bottom:70px;width:40px;height:40px;border-radius:50%;
+/* --- 看板娘按钮：右下角竖排最上面一个 ---
+   右下角共三个悬浮按钮，从下往上依次是：
+     回到顶部 .shilue-top        bottom:20 (40x40) → 占 20~60
+     分享本页 #shareBtn          bottom:78 (42x42) → 占 78~120【在 custom.css，别动】
+     看板娘   .shilue-kanban-btn bottom:130(40x40) → 占 130~170
+   注意：#shareBtn 的 z-index 是 60，本按钮必须也设 z-index，否则会被它盖住点不到。 */
+.shilue-kanban-btn{position:fixed;right:20px;bottom:130px;width:40px;height:40px;border-radius:50%;
   display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:17px;
-  font-weight:700;line-height:1;padding:0;
+  font-weight:700;line-height:1;padding:0;z-index:60;
   border:1px solid var(--borderColor-default,#d1d9e0);background:var(--bgColor-default,#fff);
   color:#c0392b;box-shadow:0 2px 8px rgba(0,0,0,.12);}
 .shilue-kanban-btn:hover{background:var(--bgColor-muted,#f6f8fa);}
@@ -310,7 +326,7 @@ PAGE_CSS = """
   .shilue-nav a,.shilue-nav span{width:23px;height:23px;font-size:11.5px;}
   .shilue-entry{padding-left:10px;}
   .shilue-top{right:14px;bottom:14px;}
-  .shilue-kanban-btn{right:14px;bottom:62px;}
+  .shilue-kanban-btn{right:16px;bottom:128px;}
   .shilue-modal-inner img{max-height:78vh;border-radius:6px;}
   .shilue-modal-close{top:-10px;right:-8px;width:28px;height:28px;font-size:16px;}
 }
@@ -468,7 +484,9 @@ def render_body(sections, alphabet):
 
     parts.append('<button class="shilue-top" id="shilueTop" type="button" title="回到顶部">↑</button>')
     if KANBAN_IMAGES:
-        images_attr = html.escape(",".join(KANBAN_IMAGES), quote=True)
+        # 站点根绝对路径：/kanban/xxx.webp（与 /curated-images/ 同一惯例）
+        urls = ["/%s/%s" % (KANBAN_OUT_DIR, name) for name in KANBAN_IMAGES]
+        images_attr = html.escape(",".join(urls), quote=True)
         parts.append(
             '<button class="shilue-kanban-btn" id="shilueKanbanBtn" type="button" '
             'title="看看板娘" aria-label="看看板娘" data-images="%s">釋</button>' % images_attr
@@ -489,6 +507,37 @@ def render_body(sections, alphabet):
     parts.append(PAGE_CSS)
     parts.append(PAGE_JS)
     return "\n".join(parts)
+
+
+# ---------------------------------------------------------------- 看板娘资源
+
+def sync_kanban_assets(root, docs):
+    """把 data/kanban/ 里的看板娘图片拷进 docs/kanban/。
+
+    必须每次构建都拷：docs/ 会被 Gmeek 的 `cp -a /opt/Gmeek/docs` 覆盖，
+    手工放进去的文件活不过下一轮构建。返回拷好的文件名列表。
+    """
+    if not KANBAN_IMAGES:
+        return []
+    src_dir = root / KANBAN_SRC_DIR
+    if not src_dir.is_dir():
+        log("警告：找不到看板娘图库目录 %s，跳过图片同步" % KANBAN_SRC_DIR)
+        return []
+
+    out_dir = docs / KANBAN_OUT_DIR
+    copied = []
+    for name in KANBAN_IMAGES:
+        source = src_dir / name
+        if not source.is_file():
+            log("警告：看板娘图片不存在 %s，跳过" % (Path(KANBAN_SRC_DIR) / name))
+            continue
+        target = out_dir / name
+        if not (target.is_file() and target.stat().st_size == source.stat().st_size):
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(str(source), str(target))
+        copied.append(name)
+    log("看板娘图片 %d 张 → docs/%s/" % (len(copied), KANBAN_OUT_DIR))
+    return copied
 
 
 # ---------------------------------------------------------------- 拉取
@@ -573,6 +622,9 @@ def main():
     out = docs / ("%s.html" % SLUG)
     write_text(out, "".join(page))
     log("已生成 %s（正文 %d 字符，%d 条）" % (out.relative_to(root).as_posix(), len(body), total))
+
+    # 看板娘图片必须每次构建都重拷进 docs/（docs/ 会被 Gmeek 覆盖）
+    sync_kanban_assets(root, docs)
     return 0
 
 
