@@ -1,8 +1,11 @@
+<style>
 /* --- 看板娘按钮：右下角悬浮按钮竖排最上面一个 ---
    右下角从下往上依次是：
      分享本页 #shareBtn          bottom:78  (42x42)【在 custom.css，别动】
      看板娘   .riri-kanban-btn   bottom:130 (40x40)
-   注意：#shareBtn 的 z-index 是 60，本按钮必须也设 z-index，否则会被它盖住点不到。 */
+   注意：#shareBtn 的 z-index 是 60，本按钮必须也设 z-index，否则会被它盖住点不到。
+   注意：本片段被整体注入到 `</head>` 之前，必须自带 <style> 包裹——
+   否则它会成为 head 里的裸文本，被 scripts/check_head.py 体检拦下导致构建失败。 */
 .riri-kanban-btn{position:fixed;right:20px;bottom:130px;width:40px;height:40px;border-radius:50%;
   display:flex;align-items:center;justify-content:center;cursor:pointer;
   padding:0;z-index:60;
@@ -40,3 +43,4 @@
   .riri-modal-inner img{max-height:78vh;border-radius:6px;}
   .riri-modal-close{top:-10px;right:-8px;width:28px;height:28px;font-size:16px;}
 }
+</style>

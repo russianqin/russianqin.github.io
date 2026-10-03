@@ -15,6 +15,9 @@ on:
       - "posts/**"
       - "static/**"
       - "scripts/**"
+      # widgets/** 是看板娘等页面组件的源文件，由 scripts/sync_refreshment.py 注入到 docs/。
+      # 不加这一行，单独改组件时 push 不会触发构建。
+      - "widgets/**"
       - ".github/workflows/Gmeek.yml"
   schedule:
     - cron: "0 16 * * *"
