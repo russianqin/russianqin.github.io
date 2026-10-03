@@ -79,11 +79,21 @@ USER_AGENT = "russianqin-blog-shilue/1.0 (+https://russianqin.github.io)"
 #
 # 以后加图：把图放进 data/kanban/，在下面追加一行，箭头/计数会自动出现。
 # 建议压到 720px 宽、WebP 质量 82（约 50KB/张），别放原始大图。
+# 顺序无所谓：页面打开时会洗牌，每次点开都是随机一张。
 KANBAN_IMAGES = [
     "kanban-01.webp",
+    "kanban-02.webp",
+    "kanban-03.webp",
+    "kanban-04.webp",
+    "kanban-05.webp",
+    "kanban-06.webp",
+    "kanban-07.webp",
+    "kanban-08.webp",
+    "kanban-09.webp",
 ]
 KANBAN_SRC_DIR = "data/kanban"   # 真源（相对仓库根）
 KANBAN_OUT_DIR = "kanban"        # 输出到 docs/ 下的子目录
+KANBAN_PRELOAD = 3               # 首次打开时预加载几张（其余翻到再取）
 
 # 分区顺序：先 "#"（无字母的词条），再 A-Z
 SECTION_HEAD_RE = re.compile(r"^#\s*(\S*)\s*$")
@@ -336,6 +346,7 @@ PAGE_CSS = """
 PAGE_JS = """
 <script>
 (function(){
+  var PRELOAD=%d;   /* 与 KANBAN_PRELOAD 保持一致 */
   var input=document.getElementById('shilueSearch');
   var count=document.getElementById('shilueCount');
   var entries=[].slice.call(document.querySelectorAll('.shilue-entry'));
@@ -389,8 +400,29 @@ PAGE_JS = """
     var nextBtn=document.getElementById('shilueModalNext');
     var countEl=document.getElementById('shilueModalCount');
     var shot=openBtn.getAttribute('data-images')||'';
-    var list=shot?shot.split(','):[];
+    var pool=shot?shot.split(','):[];   /* 图池（固定顺序，别动） */
+    var list=[];                        /* 本次打开的洗牌结果 */
     var idx=0;
+    var preloaded={};
+    var lastFirst=null;
+
+    /* Fisher–Yates 洗牌，返回新数组，不改动 pool */
+    function shuffled(src){
+      var a=src.slice();
+      for(var i=a.length-1;i>0;i--){
+        var j=Math.floor(Math.random()*(i+1));
+        var t=a[i];a[i]=a[j];a[j]=t;
+      }
+      return a;
+    }
+    /* 懒预加载：翻到哪预取到哪 */
+    function prime(from,count){
+      for(var i=from;i<from+count&&i<list.length;i++){
+        if(preloaded[list[i]]){continue;}
+        preloaded[list[i]]=1;
+        var p=new Image();p.src=list[i];
+      }
+    }
     function render(){
       if(!list.length){return;}
       img.src=list[idx];
@@ -402,10 +434,19 @@ PAGE_JS = """
         prevBtn.disabled=(idx===0);
         nextBtn.disabled=(idx===list.length-1);
       }
+      /* 当前张 + 后面 2 张，共 3 张在手 */
+      prime(idx,PRELOAD);
     }
     function open(){
-      if(!list.length){return;}
-      idx=0;render();
+      if(!pool.length){return;}
+      /* 每次点开都重新洗牌；若首张与上次相同且不止一张，再抽一次，
+         避免"随机了但看着没变" */
+      var next=shuffled(pool);
+      if(pool.length>1&&next[0]===lastFirst){
+        next=shuffled(pool);
+      }
+      lastFirst=next[0];
+      list=next;idx=0;render();
       modal.classList.add('shilue-modal-open');
       document.body.style.overflow='hidden';
     }
@@ -429,8 +470,8 @@ PAGE_JS = """
       else if(e.key==='ArrowLeft'){go(-1);}
       else if(e.key==='ArrowRight'){go(1);}
     });
-    /* 预加载，打开时不空白 */
-    list.forEach(function(src){var p=new Image();p.src=src;});
+    /* 首次打开前不预加载任何图，避免首屏白下几百 KB；
+       打开时 render() 会按洗牌结果取前 PRELOAD 张。 */
   }
 })();
 </script>
@@ -505,7 +546,7 @@ def render_body(sections, alphabet):
             "</div></div></div>"
         )
     parts.append(PAGE_CSS)
-    parts.append(PAGE_JS)
+    parts.append(PAGE_JS % KANBAN_PRELOAD)
     return "\n".join(parts)
 
 

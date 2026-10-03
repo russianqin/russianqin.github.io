@@ -20,26 +20,7 @@
 
 
 
-<meta name="description" content="释略大典：295 条词语、典故与概念，按首字母排列，可搜索。"><link rel="canonical" href="https://russianqin.github.io/shilue.html"><meta property="og:title" content="释略大典 - 五环魔法师"><meta property="og:description" content="释略大典：295 条词语、典故与概念，按首字母排列，可搜索。"><meta property="og:type" content="website"><meta property="og:url" content="https://russianqin.github.io/shilue.html"><meta name="twitter:card" content="summary"><meta property="og:site_name" content="五环魔法师"><meta name="twitter:title" content="五环魔法师"><meta name="twitter:description" content="释略大典：295 条词语、典故与概念，按首字母排列，可搜索。"><!-- optimized:seo --><link rel="preconnect" href="https://avatars.githubusercontent.com" crossorigin><link rel="dns-prefetch" href="https://avatars.githubusercontent.com"><link rel="dns-prefetch" href="https://github.com"><link rel="canonical" href="https://russianqin.github.io/shilue.html"><script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"释略大典 - 五环魔法师","url":"https://russianqin.github.io/shilue.html","inLanguage":"zh-CN","isPartOf":{"@type":"Blog","name":"五环魔法师","url":"https://russianqin.github.io/"}}</script><style>
-body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
-#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
-#footer {margin-top:64px; text-align: center;font-size: small;}
-
-</style><style>
-.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
-.title-right{display:flex;margin:auto 0 0 auto;}
-.title-right .circle{padding: 14px 16px;margin-right:8px;}
-#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
-#postBody hr{height:2px;}
-#cmButton{height:48px;margin-top:48px;}
-#comments{margin-top:64px;}
-.g-emoji{font-size:24px;}
-@media (max-width: 600px) {
-    body {padding: 8px;}
-    .postTitle{font-size:24px;}
-}
-
-</style></head>
+<meta name="description" content="释略大典：295 条词语、典故与概念，按首字母排列，可搜索。"><link rel="canonical" href="https://russianqin.github.io/shilue.html"><meta property="og:title" content="释略大典 - 五环魔法师"><meta property="og:description" content="释略大典：295 条词语、典故与概念，按首字母排列，可搜索。"><meta property="og:type" content="website"><meta property="og:url" content="https://russianqin.github.io/shilue.html"><meta name="twitter:card" content="summary"><meta property="og:site_name" content="五环魔法师"><meta name="twitter:title" content="五环魔法师"><meta name="twitter:description" content="释略大典：295 条词语、典故与概念，按首字母排列，可搜索。"><!-- optimized:seo --><link rel="preconnect" href="https://avatars.githubusercontent.com" crossorigin><link rel="dns-prefetch" href="https://avatars.githubusercontent.com"><link rel="dns-prefetch" href="https://github.com"><link rel="canonical" href="https://russianqin.github.io/shilue.html"><script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"释略大典 - 五环魔法师","url":"https://russianqin.github.io/shilue.html","inLanguage":"zh-CN","isPartOf":{"@type":"Blog","name":"五环魔法师","url":"https://russianqin.github.io/"}}</script></head>
 
 
 
@@ -554,7 +535,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <p>其理论核心是，本来有价值的资源或财产，由于产权安排方面的原因，其价值（或租金）下降，乃至完全消失。</p></div></div>
 </section>
 <button class="shilue-top" id="shilueTop" type="button" title="回到顶部">↑</button>
-<button class="shilue-kanban-btn" id="shilueKanbanBtn" type="button" title="看看板娘" aria-label="看看板娘" data-images="/kanban/kanban-01.webp">釋</button>
+<button class="shilue-kanban-btn" id="shilueKanbanBtn" type="button" title="看看板娘" aria-label="看看板娘" data-images="/kanban/kanban-01.webp,/kanban/kanban-02.webp,/kanban/kanban-03.webp,/kanban/kanban-04.webp,/kanban/kanban-05.webp,/kanban/kanban-06.webp,/kanban/kanban-07.webp,/kanban/kanban-08.webp,/kanban/kanban-09.webp">釋</button>
 <div class="shilue-modal" id="shilueModal" role="dialog" aria-modal="true" aria-label="看板娘"><div class="shilue-modal-inner"><button class="shilue-modal-close" id="shilueModalClose" type="button" title="关闭" aria-label="关闭">✕</button><img id="shilueModalImg" src="" alt="看板娘"><div class="shilue-modal-nav" id="shilueModalNav"><button id="shilueModalPrev" type="button" title="上一张" aria-label="上一张">‹</button><span class="shilue-modal-count" id="shilueModalCount"></span><button id="shilueModalNext" type="button" title="下一张" aria-label="下一张">›</button></div></div></div>
 
 <style>
@@ -659,6 +640,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 
 <script>
 (function(){
+  var PRELOAD=3;   /* 与 KANBAN_PRELOAD 保持一致 */
   var input=document.getElementById('shilueSearch');
   var count=document.getElementById('shilueCount');
   var entries=[].slice.call(document.querySelectorAll('.shilue-entry'));
@@ -712,8 +694,29 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
     var nextBtn=document.getElementById('shilueModalNext');
     var countEl=document.getElementById('shilueModalCount');
     var shot=openBtn.getAttribute('data-images')||'';
-    var list=shot?shot.split(','):[];
+    var pool=shot?shot.split(','):[];   /* 图池（固定顺序，别动） */
+    var list=[];                        /* 本次打开的洗牌结果 */
     var idx=0;
+    var preloaded={};
+    var lastFirst=null;
+
+    /* Fisher–Yates 洗牌，返回新数组，不改动 pool */
+    function shuffled(src){
+      var a=src.slice();
+      for(var i=a.length-1;i>0;i--){
+        var j=Math.floor(Math.random()*(i+1));
+        var t=a[i];a[i]=a[j];a[j]=t;
+      }
+      return a;
+    }
+    /* 懒预加载：翻到哪预取到哪 */
+    function prime(from,count){
+      for(var i=from;i<from+count&&i<list.length;i++){
+        if(preloaded[list[i]]){continue;}
+        preloaded[list[i]]=1;
+        var p=new Image();p.src=list[i];
+      }
+    }
     function render(){
       if(!list.length){return;}
       img.src=list[idx];
@@ -725,10 +728,19 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
         prevBtn.disabled=(idx===0);
         nextBtn.disabled=(idx===list.length-1);
       }
+      /* 当前张 + 后面 2 张，共 3 张在手 */
+      prime(idx,PRELOAD);
     }
     function open(){
-      if(!list.length){return;}
-      idx=0;render();
+      if(!pool.length){return;}
+      /* 每次点开都重新洗牌；若首张与上次相同且不止一张，再抽一次，
+         避免"随机了但看着没变" */
+      var next=shuffled(pool);
+      if(pool.length>1&&next[0]===lastFirst){
+        next=shuffled(pool);
+      }
+      lastFirst=next[0];
+      list=next;idx=0;render();
       modal.classList.add('shilue-modal-open');
       document.body.style.overflow='hidden';
     }
@@ -752,8 +764,8 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
       else if(e.key==='ArrowLeft'){go(-1);}
       else if(e.key==='ArrowRight'){go(1);}
     });
-    /* 预加载，打开时不空白 */
-    list.forEach(function(src){var p=new Image();p.src=src;});
+    /* 首次打开前不预加载任何图，避免首屏白下几百 KB；
+       打开时 render() 会按洗牌结果取前 PRELOAD 张。 */
   }
 })();
 </script>
