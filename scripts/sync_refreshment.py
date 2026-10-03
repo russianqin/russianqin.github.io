@@ -29,6 +29,7 @@ import html
 import json
 import os
 import re
+import shutil
 import sys
 import time
 import urllib.request
@@ -336,6 +337,57 @@ WIDGET_DOM_MARK = '<button class="riri-kanban-btn"'
 WIDGET_JS_MARK = "var shot=openBtn.getAttribute"
 WIDGET_CLOSE_MARK = "</head>"
 
+# 看板娘图库：与 sync_shilue.py 同一套约定——图片**真源**放在仓库 data/kanban/ 下，
+# 本脚本每次构建都把它拷进 docs/kanban/，页面用站点根绝对路径 /kanban/xxx.webp 引用。
+#
+# 为什么必须这样：docs/ 是构建产物。Gmeek 每次跑都会 `cp -a /opt/Gmeek/docs` 覆盖掉
+# docs/，手工塞进 docs/ 的文件（没有脚本负责重新生成）会在下一次构建时消失。
+# 2026-10-03 踩过一次：8 张 riri 图直接放进 docs/kanban/，被 Gmeek 的 auto update
+# 提交整体删除（b8aa09f0），线上全部 404。
+#
+# 以后加图：把 webp 放进 data/kanban/，在下面追加一行即可。
+KANBAN_IMAGES = [
+    "riri-01.webp",
+    "riri-02.webp",
+    "riri-03.webp",
+    "riri-04.webp",
+    "riri-05.webp",
+    "riri-06.webp",
+    "riri-07.webp",
+    "riri-08.webp",
+]
+KANBAN_SRC_DIR = "data/kanban"   # 真源（相对仓库根）
+KANBAN_OUT_DIR = "kanban"        # 输出到 docs/ 下的子目录
+
+
+def sync_kanban_assets(root, docs):
+    """把 data/kanban/ 里的看板娘图片拷进 docs/kanban/。
+
+    必须每次构建都拷：docs/ 会被 Gmeek 的 `cp -a /opt/Gmeek/docs` 覆盖，
+    手工放进去的文件活不过下一轮构建。返回拷好的文件名列表。
+    """
+    if not KANBAN_IMAGES:
+        return []
+    src_dir = root / KANBAN_SRC_DIR
+    if not src_dir.is_dir():
+        log("警告：找不到看板娘图库目录 %s，跳过图片同步" % KANBAN_SRC_DIR)
+        return []
+
+    out_dir = docs / KANBAN_OUT_DIR
+    copied = []
+    for name in KANBAN_IMAGES:
+        source = src_dir / name
+        if not source.is_file():
+            log("警告：看板娘图片不存在 %s，跳过" % (Path(KANBAN_SRC_DIR) / name))
+            continue
+        target = out_dir / name
+        if not (target.is_file() and target.stat().st_size == source.stat().st_size):
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(str(source), str(target))
+        copied.append(name)
+    log("看板娘图片 %d 张 → docs/%s/" % (len(copied), KANBAN_OUT_DIR))
+    return copied
+
 
 def load_widgets(root):
     """读取 widgets/ 下的三个片段；缺任何一个就整体跳过（不返回残缺组件）。"""
@@ -535,6 +587,9 @@ def main():
             log("已更新 %s（正文 %d 字符）" % (page.relative_to(root).as_posix(), len(body)))
     else:
         log("未找到 %s，跳过页面注入" % page)
+
+    # 看板娘图库每次构建都要重拷：docs/ 会被 Gmeek 覆盖，手工放的文件活不过一轮。
+    sync_kanban_assets(root, docs)
 
     update_issue_note()
     return 0
