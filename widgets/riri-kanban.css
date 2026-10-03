@@ -1,0 +1,42 @@
+/* --- 看板娘按钮：右下角悬浮按钮竖排最上面一个 ---
+   右下角从下往上依次是：
+     分享本页 #shareBtn          bottom:78  (42x42)【在 custom.css，别动】
+     看板娘   .riri-kanban-btn   bottom:130 (40x40)
+   注意：#shareBtn 的 z-index 是 60，本按钮必须也设 z-index，否则会被它盖住点不到。 */
+.riri-kanban-btn{position:fixed;right:20px;bottom:130px;width:40px;height:40px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+  padding:0;z-index:60;
+  border:1px solid var(--borderColor-default,#d1d9e0);background:var(--bgColor-default,#fff);
+  box-shadow:0 2px 8px rgba(0,0,0,.12);transition:transform .2s,box-shadow .2s;}
+.riri-kanban-btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.16);}
+.riri-kanban-btn:active{transform:none;}
+.riri-kanban-btn svg{display:block;width:22px;height:22px;}
+
+/* --- 看板娘弹窗 --- */
+.riri-modal{position:fixed;inset:0;z-index:9999;display:none;
+  align-items:center;justify-content:center;background:rgba(0,0,0,.72);padding:16px;
+  box-sizing:border-box;}
+.riri-modal.riri-modal-open{display:flex;}
+.riri-modal-inner{position:relative;display:flex;flex-direction:column;align-items:center;
+  max-width:100%;max-height:100%;box-sizing:border-box;}
+.riri-modal-inner img{max-width:100%;max-height:85vh;width:auto;height:auto;display:block;
+  border-radius:8px;box-shadow:0 8px 40px rgba(0,0,0,.5);background:#fff;}
+.riri-modal-close{position:absolute;top:-14px;right:-14px;width:32px;height:32px;border-radius:50%;
+  border:none;cursor:pointer;font-size:18px;line-height:1;color:#fff;background:#c0392b;
+  box-shadow:0 2px 10px rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;
+  padding:0;}
+.riri-modal-nav{display:none;align-items:center;gap:14px;margin-top:12px;color:#fff;
+  font-size:14px;}
+.riri-modal-nav.riri-modal-nav-show{display:flex;}
+.riri-modal-nav button{width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:16px;
+  padding:0;border:1px solid rgba(255,255,255,.5);background:rgba(255,255,255,.14);
+  color:#fff;line-height:1;}
+.riri-modal-nav button:hover{background:rgba(255,255,255,.28);}
+.riri-modal-nav button:disabled{opacity:.3;cursor:default;}
+.riri-modal-count{min-width:56px;text-align:center;font-variant-numeric:tabular-nums;}
+
+@media (max-width:600px){
+  .riri-kanban-btn{right:16px;bottom:128px;}
+  .riri-modal-inner img{max-height:78vh;border-radius:6px;}
+  .riri-modal-close{top:-10px;right:-8px;width:28px;height:28px;font-size:16px;}
+}

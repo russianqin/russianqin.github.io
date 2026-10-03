@@ -327,6 +327,73 @@ def inject_body(page_html, body, description):
     )
 
 
+# ---------------------------------------------------------------- 看板娘组件
+
+WIDGET_DIR = "widgets"
+# 用「按钮标签 + 弹窗 id」两个实际元素做判据，而不是注释里的字样，
+# 避免注释中出现 ririModal 时被误判为「已存在」。
+WIDGET_DOM_MARK = '<button class="riri-kanban-btn"'
+WIDGET_JS_MARK = "var shot=openBtn.getAttribute"
+WIDGET_CLOSE_MARK = "</head>"
+
+
+def load_widgets(root):
+    """读取 widgets/ 下的三个片段；缺任何一个就整体跳过（不返回残缺组件）。"""
+    parts = {}
+    for name in ("css", "html", "js"):
+        path = root / WIDGET_DIR / ("riri-kanban.%s" % name)
+        if not path.exists():
+            return None, path
+        parts[name] = read_text(path).rstrip("\n")
+    return parts, None
+
+
+def inject_widget(page_html, parts):
+    """注入看板娘组件。
+
+    策略：**存在就不动，缺失才补**（幂等）。
+
+      * CSS  – 插在 `</head>` 之前（仅在页面还没有该样式时）；
+      * HTML – 插在正文 `</div>` 之后、`<div id="footer">` 之前；
+      * JS   – 紧跟一段已有的 `<script>` 之后（不能插在 head，要等 DOM）。
+
+    返回 (新页面, 状态字符串)；状态用于日志，便于发现「组件被别的东西吃掉」。
+    """
+    css = parts["css"]
+    dom = parts["html"]
+    js = parts["js"]
+    anchor = "/* --- 看板娘按钮：右下角悬浮按钮竖排最上面一个 ---"
+    changed = []
+
+    if anchor not in page_html:
+        head_at = page_html.find(WIDGET_CLOSE_MARK)
+        if head_at < 0:
+            return page_html, "CSS 注入失败：找不到 </head>"
+        # 保持「前一行换行 + 片段 + 换行 + </head>」，不留多余空行
+        page_html = page_html[:head_at] + css + "\n" + page_html[head_at:]
+        changed.append("CSS")
+
+    if WIDGET_DOM_MARK not in page_html:
+        footer_at = page_html.find('<div id="footer">')
+        if footer_at < 0:
+            return page_html, "DOM 注入失败：找不到 footer 锚点"
+        page_html = page_html[:footer_at] + dom + "\n" + page_html[footer_at:]
+        changed.append("DOM")
+
+    if WIDGET_JS_MARK not in page_html:
+        # 插到最后一段 </script> 之后（不能放 head 里，要等 DOM 就绪）
+        script_at = page_html.rfind("</script>")
+        if script_at < 0:
+            return page_html, "JS 注入失败：找不到 <script> 锚点"
+        insert_at = script_at + len("</script>")
+        page_html = page_html[:insert_at] + "\n" + js + page_html[insert_at:]
+        changed.append("JS")
+
+    if not changed:
+        return page_html, "已存在，未改动"
+    return page_html, "已补全 " + "/".join(changed)
+
+
 # ---------------------------------------------------------------- 拉取 / Issue
 
 def fetch_source():
@@ -451,10 +518,19 @@ def main():
             total,
             time.strftime("%Y-%m-%d", time.localtime()),
         )
-        updated = inject_body(read_text(page), body, description)
+        current = read_text(page)
+        updated = inject_body(current, body, description)
         if updated is None:
             log("页面结构不符合预期，未注入正文：%s" % page)
         else:
+            # 正文注入会保留组件，但页面若被其它流程整体重生，组件会消失。
+            # 这里补一道「缺失即补回」，保证看板娘不会因为一次同步而没了。
+            widget_parts, missing = load_widgets(root)
+            if widget_parts is None:
+                log("未找到 %s（缺少 %s），跳过看板娘组件维护" % (WIDGET_DIR, missing.name if missing else "?"))
+            else:
+                updated, widget_state = inject_widget(updated, widget_parts)
+                log("看板娘组件：%s" % widget_state)
             write_text(page, updated)
             log("已更新 %s（正文 %d 字符）" % (page.relative_to(root).as_posix(), len(body)))
     else:
