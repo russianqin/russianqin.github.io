@@ -39,6 +39,49 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
     .postTitle{font-size:24px;}
 }
 
+/* --- 看板娘按钮：右下角悬浮按钮竖排最上面一个 ---
+   右下角从下往上依次是：
+     分享本页 #shareBtn          bottom:78  (42x42)【在 custom.css，别动】
+     看板娘   .riri-kanban-btn   bottom:130 (40x40)
+   注意：#shareBtn 的 z-index 是 60，本按钮必须也设 z-index，否则会被它盖住点不到。 */
+.riri-kanban-btn{position:fixed;right:20px;bottom:130px;width:40px;height:40px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+  padding:0;z-index:60;
+  border:1px solid var(--borderColor-default,#d1d9e0);background:var(--bgColor-default,#fff);
+  box-shadow:0 2px 8px rgba(0,0,0,.12);transition:transform .2s,box-shadow .2s;}
+.riri-kanban-btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.16);}
+.riri-kanban-btn:active{transform:none;}
+.riri-kanban-btn svg{display:block;width:22px;height:22px;}
+
+/* --- 看板娘弹窗 --- */
+.riri-modal{position:fixed;inset:0;z-index:9999;display:none;
+  align-items:center;justify-content:center;background:rgba(0,0,0,.72);padding:16px;
+  box-sizing:border-box;}
+.riri-modal.riri-modal-open{display:flex;}
+.riri-modal-inner{position:relative;display:flex;flex-direction:column;align-items:center;
+  max-width:100%;max-height:100%;box-sizing:border-box;}
+.riri-modal-inner img{max-width:100%;max-height:85vh;width:auto;height:auto;display:block;
+  border-radius:8px;box-shadow:0 8px 40px rgba(0,0,0,.5);background:#fff;}
+.riri-modal-close{position:absolute;top:-14px;right:-14px;width:32px;height:32px;border-radius:50%;
+  border:none;cursor:pointer;font-size:18px;line-height:1;color:#fff;background:#c0392b;
+  box-shadow:0 2px 10px rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;
+  padding:0;}
+.riri-modal-nav{display:none;align-items:center;gap:14px;margin-top:12px;color:#fff;
+  font-size:14px;}
+.riri-modal-nav.riri-modal-nav-show{display:flex;}
+.riri-modal-nav button{width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:16px;
+  padding:0;border:1px solid rgba(255,255,255,.5);background:rgba(255,255,255,.14);
+  color:#fff;line-height:1;}
+.riri-modal-nav button:hover{background:rgba(255,255,255,.28);}
+.riri-modal-nav button:disabled{opacity:.3;cursor:default;}
+.riri-modal-count{min-width:56px;text-align:center;font-variant-numeric:tabular-nums;}
+
+@media (max-width:600px){
+  .riri-kanban-btn{right:16px;bottom:128px;}
+  .riri-modal-inner img{max-height:78vh;border-radius:6px;}
+  .riri-modal-close{top:-10px;right:-8px;width:28px;height:28px;font-size:16px;}
+}
+
 </style></head>
 
 
@@ -2319,6 +2362,12 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <div class="comments" id="comments"></div>
 
 </div>
+<button class="riri-kanban-btn" id="ririKanbanBtn" type="button" title="看看板娘" aria-label="看看板娘" data-images="/kanban/riri-01.webp"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><!-- 日轮：日日新，苟日新，日日新，又日新 -->
+<g fill="none" stroke="#c0392b" stroke-width="1.6" stroke-linecap="round">
+<circle cx="12" cy="12" r="4.6" fill="#c0392b" fill-opacity="0.14"/>
+<path d="M12 2.2v2.6M12 19.2v2.6M2.2 12h2.6M19.2 12h2.6M5.08 5.08l1.84 1.84M17.08 17.08l1.84 1.84M18.92 5.08l-1.84 1.84M6.92 17.08l-1.84 1.84"/>
+</g></svg></button>
+<div class="riri-modal" id="ririModal" role="dialog" aria-modal="true" aria-label="看板娘"><div class="riri-modal-inner"><button class="riri-modal-close" id="ririModalClose" type="button" title="关闭" aria-label="关闭">✕</button><img id="ririModalImg" src="" alt="看板娘"><div class="riri-modal-nav" id="ririModalNav"><button id="ririModalPrev" type="button" title="上一张" aria-label="上一张">‹</button><span class="riri-modal-count" id="ririModalCount"></span><button id="ririModalNext" type="button" title="下一张" aria-label="下一张">›</button></div></div></div>
     <div id="footer"><div id="footer1">Copyright © <span id="copyrightYear"></span> <a href="https://russianqin.github.io">五环魔法师</a></div>
 <div id="footer2">
     <span id="runday"></span><span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a></span>
@@ -2334,6 +2383,100 @@ if("06/01/2025"!=""){
     var diffDay=Math.floor(diff/(1000*60*60*24));
     document.getElementById("runday").innerHTML="网站运行 "+diffDay+" 天"+" • ";
 }
+</script>
+
+<script>
+/* --- 看板娘弹窗（与史略页同构：洗牌 + 懒预加载 + 键盘翻页） --- */
+(function(){
+  var PRELOAD=3;
+
+  var modal=document.getElementById('ririModal');
+  var openBtn=document.getElementById('ririKanbanBtn');
+  if(!modal||!openBtn){return;}
+
+  var img=document.getElementById('ririModalImg');
+  var closeBtn=document.getElementById('ririModalClose');
+  var navBox=document.getElementById('ririModalNav');
+  var prevBtn=document.getElementById('ririModalPrev');
+  var nextBtn=document.getElementById('ririModalNext');
+  var countEl=document.getElementById('ririModalCount');
+  var shot=openBtn.getAttribute('data-images')||'';
+  var pool=shot?shot.split(',').filter(Boolean):[];   /* 图池（固定顺序，别动） */
+  var list=[];                                        /* 本次打开的洗牌结果 */
+  var idx=0;
+  var preloaded={};
+  var lastFirst=null;
+
+  /* 图池为空时按钮不响应，避免打开空白弹窗；填入 data-images 后自动生效 */
+  if(!pool.length){openBtn.disabled=true;openBtn.style.opacity='.45';return;}
+
+  /* Fisher–Yates 洗牌，返回新数组，不改动 pool */
+  function shuffled(src){
+    var a=src.slice();
+    for(var i=a.length-1;i>0;i--){
+      var j=Math.floor(Math.random()*(i+1));
+      var t=a[i];a[i]=a[j];a[j]=t;
+    }
+    return a;
+  }
+  /* 懒预加载：翻到哪预取到哪 */
+  function prime(from,count){
+    for(var i=from;i<from+count&&i<list.length;i++){
+      if(preloaded[list[i]]){continue;}
+      preloaded[list[i]]=1;
+      var p=new Image();p.src=list[i];
+    }
+  }
+  function render(){
+    if(!list.length){return;}
+    img.src=list[idx];
+    img.alt='看板娘 '+(idx+1);
+    var multi=list.length>1;
+    navBox.classList.toggle('riri-modal-nav-show',multi);
+    if(multi){
+      countEl.textContent=(idx+1)+' / '+list.length;
+      prevBtn.disabled=(idx===0);
+      nextBtn.disabled=(idx===list.length-1);
+    }
+    /* 当前张 + 后面 PRELOAD 张 */
+    prime(idx,PRELOAD);
+  }
+  function open(){
+    if(!pool.length){return;}
+    /* 每次点开都重新洗牌；若首张与上次相同且不止一张，再抽一次，
+       避免"随机了但看着没变" */
+    var next=shuffled(pool);
+    if(pool.length>1&&next[0]===lastFirst){
+      next=shuffled(pool);
+    }
+    lastFirst=next[0];
+    list=next;idx=0;render();
+    modal.classList.add('riri-modal-open');
+    document.body.style.overflow='hidden';
+  }
+  function close(){
+    modal.classList.remove('riri-modal-open');
+    document.body.style.overflow='';
+  }
+  function go(step){
+    var n=idx+step;
+    if(n<0||n>=list.length){return;}
+    idx=n;render();
+  }
+  openBtn.addEventListener('click',open);
+  closeBtn.addEventListener('click',close);
+  prevBtn.addEventListener('click',function(e){e.stopPropagation();go(-1);});
+  nextBtn.addEventListener('click',function(e){e.stopPropagation();go(1);});
+  modal.addEventListener('click',function(e){if(e.target===modal){close();}});
+  document.addEventListener('keydown',function(e){
+    if(!modal.classList.contains('riri-modal-open')){return;}
+    if(e.key==='Escape'){close();}
+    else if(e.key==='ArrowLeft'){go(-1);}
+    else if(e.key==='ArrowRight'){go(1);}
+  });
+  /* 首次打开前不预加载任何图，避免首屏白下几百 KB；
+     打开时 render() 会按洗牌结果取前 PRELOAD 张。 */
+})();
 </script></div>
 </body>
 <script>
