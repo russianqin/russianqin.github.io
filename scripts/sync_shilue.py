@@ -66,6 +66,14 @@ TITLE = "释略大典"
 SIMILARITY = 0.9
 USER_AGENT = "russianqin-blog-shilue/1.0 (+https://russianqin.github.io)"
 
+# 看板娘图库：图片放在 docs/kanban/ 下，页面用相对路径引用（与 docs/curated-images 同一惯例，
+# 不依赖 raw.githubusercontent，国内可正常加载）。
+# 以后加图：把图片放进 docs/kanban/，在下面追加一行即可；箭头、计数会自动出现。
+# 建议压到 720px 宽、WebP 质量 82（约 50KB/张），别放原始大图。
+KANBAN_IMAGES = [
+    "kanban/kanban-01.webp",
+]
+
 # 分区顺序：先 "#"（无字母的词条），再 A-Z
 SECTION_HEAD_RE = re.compile(r"^#\s*(\S*)\s*$")
 ENTRY_RE = re.compile(r"^\*\*(.+?)\*\*\s*$")
@@ -265,12 +273,46 @@ PAGE_CSS = """
   color:inherit;box-shadow:0 2px 8px rgba(0,0,0,.12);}
 .shilue-top.shilue-top-show{display:flex;}
 
+/* --- 看板娘按钮：固定在右下角，位于「回到顶部」按钮正上方 --- */
+.shilue-kanban-btn{position:fixed;right:20px;bottom:70px;width:40px;height:40px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:17px;
+  font-weight:700;line-height:1;padding:0;
+  border:1px solid var(--borderColor-default,#d1d9e0);background:var(--bgColor-default,#fff);
+  color:#c0392b;box-shadow:0 2px 8px rgba(0,0,0,.12);}
+.shilue-kanban-btn:hover{background:var(--bgColor-muted,#f6f8fa);}
+
+/* --- 看板娘弹窗 --- */
+.shilue-modal{position:fixed;inset:0;z-index:9999;display:none;
+  align-items:center;justify-content:center;background:rgba(0,0,0,.72);padding:16px;
+  box-sizing:border-box;}
+.shilue-modal.shilue-modal-open{display:flex;}
+.shilue-modal-inner{position:relative;display:flex;flex-direction:column;align-items:center;
+  max-width:100%;max-height:100%;box-sizing:border-box;}
+.shilue-modal-inner img{max-width:100%;max-height:85vh;width:auto;height:auto;display:block;
+  border-radius:8px;box-shadow:0 8px 40px rgba(0,0,0,.5);}
+.shilue-modal-close{position:absolute;top:-14px;right:-14px;width:32px;height:32px;border-radius:50%;
+  border:none;cursor:pointer;font-size:18px;line-height:1;color:#fff;background:#c0392b;
+  box-shadow:0 2px 10px rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;
+  padding:0;}
+.shilue-modal-nav{display:none;align-items:center;gap:14px;margin-top:12px;color:#fff;
+  font-size:14px;}
+.shilue-modal-nav.shilue-modal-nav-show{display:flex;}
+.shilue-modal-nav button{width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:16px;
+  padding:0;border:1px solid rgba(255,255,255,.5);background:rgba(255,255,255,.14);
+  color:#fff;line-height:1;}
+.shilue-modal-nav button:hover{background:rgba(255,255,255,.28);}
+.shilue-modal-nav button:disabled{opacity:.3;cursor:default;}
+.shilue-modal-count{min-width:56px;text-align:center;font-variant-numeric:tabular-nums;}
+
 @media (max-width:600px){
   .shilue-section-title{font-size:20px;}
   .shilue-nav{gap:3px;}
   .shilue-nav a,.shilue-nav span{width:23px;height:23px;font-size:11.5px;}
   .shilue-entry{padding-left:10px;}
   .shilue-top{right:14px;bottom:14px;}
+  .shilue-kanban-btn{right:14px;bottom:62px;}
+  .shilue-modal-inner img{max-height:78vh;border-radius:6px;}
+  .shilue-modal-close{top:-10px;right:-8px;width:28px;height:28px;font-size:16px;}
 }
 </style>
 """
@@ -318,6 +360,61 @@ PAGE_JS = """
     window.addEventListener('scroll',function(){
       top.classList.toggle('shilue-top-show',window.scrollY>400);
     });
+  }
+
+  /* --- 看板娘弹窗 --- */
+  var modal=document.getElementById('shilueModal');
+  var openBtn=document.getElementById('shilueKanbanBtn');
+  if(modal&&openBtn){
+    var img=document.getElementById('shilueModalImg');
+    var closeBtn=document.getElementById('shilueModalClose');
+    var navBox=document.getElementById('shilueModalNav');
+    var prevBtn=document.getElementById('shilueModalPrev');
+    var nextBtn=document.getElementById('shilueModalNext');
+    var countEl=document.getElementById('shilueModalCount');
+    var shot=openBtn.getAttribute('data-images')||'';
+    var list=shot?shot.split(','):[];
+    var idx=0;
+    function render(){
+      if(!list.length){return;}
+      img.src=list[idx];
+      img.alt='看板娘 '+(idx+1);
+      var multi=list.length>1;
+      navBox.classList.toggle('shilue-modal-nav-show',multi);
+      if(multi){
+        countEl.textContent=(idx+1)+' / '+list.length;
+        prevBtn.disabled=(idx===0);
+        nextBtn.disabled=(idx===list.length-1);
+      }
+    }
+    function open(){
+      if(!list.length){return;}
+      idx=0;render();
+      modal.classList.add('shilue-modal-open');
+      document.body.style.overflow='hidden';
+    }
+    function close(){
+      modal.classList.remove('shilue-modal-open');
+      document.body.style.overflow='';
+    }
+    function go(step){
+      var n=idx+step;
+      if(n<0||n>=list.length){return;}
+      idx=n;render();
+    }
+    openBtn.addEventListener('click',open);
+    closeBtn.addEventListener('click',close);
+    prevBtn.addEventListener('click',function(e){e.stopPropagation();go(-1);});
+    nextBtn.addEventListener('click',function(e){e.stopPropagation();go(1);});
+    modal.addEventListener('click',function(e){if(e.target===modal){close();}});
+    document.addEventListener('keydown',function(e){
+      if(!modal.classList.contains('shilue-modal-open')){return;}
+      if(e.key==='Escape'){close();}
+      else if(e.key==='ArrowLeft'){go(-1);}
+      else if(e.key==='ArrowRight'){go(1);}
+    });
+    /* 预加载，打开时不空白 */
+    list.forEach(function(src){var p=new Image();p.src=src;});
   }
 })();
 </script>
@@ -370,6 +467,25 @@ def render_body(sections, alphabet):
         parts.append("</section>")
 
     parts.append('<button class="shilue-top" id="shilueTop" type="button" title="回到顶部">↑</button>')
+    if KANBAN_IMAGES:
+        images_attr = html.escape(",".join(KANBAN_IMAGES), quote=True)
+        parts.append(
+            '<button class="shilue-kanban-btn" id="shilueKanbanBtn" type="button" '
+            'title="看看板娘" aria-label="看看板娘" data-images="%s">釋</button>' % images_attr
+        )
+        parts.append(
+            '<div class="shilue-modal" id="shilueModal" role="dialog" aria-modal="true" '
+            'aria-label="看板娘">'
+            '<div class="shilue-modal-inner">'
+            '<button class="shilue-modal-close" id="shilueModalClose" type="button" '
+            'title="关闭" aria-label="关闭">\u2715</button>'
+            '<img id="shilueModalImg" src="" alt="看板娘">'
+            '<div class="shilue-modal-nav" id="shilueModalNav">'
+            '<button id="shilueModalPrev" type="button" title="上一张" aria-label="上一张">\u2039</button>'
+            '<span class="shilue-modal-count" id="shilueModalCount"></span>'
+            '<button id="shilueModalNext" type="button" title="下一张" aria-label="下一张">\u203a</button>'
+            "</div></div></div>"
+        )
     parts.append(PAGE_CSS)
     parts.append(PAGE_JS)
     return "\n".join(parts)
