@@ -31,6 +31,9 @@ DEFAULT_SITE = "https://russianqin.github.io"
 # 每次构建都强制覆盖的静态文件（其余 static/ 文件只在 docs 里缺失时才拷）
 STATIC_ASSETS = ("custom.css", "custom.js", "robots.txt", "primer.css", "GmeekBSZ.js")
 
+# Gmeek 生成的分页块（只有「上一页 / 下一页」）——会被换成本站的分页导航
+PAGINATION_RE = re.compile(r'<nav class="paginate-container"[\s\S]*?</nav>', re.I)
+
 # 原本指向第三方的「首屏阻塞」资源 → 站内副本。
 # primer.css 是 Gmeek 主题样式（第三方镜像站，实测首字节要 2 秒多且会阻塞渲染），
 # GmeekBSZ.js 是「不蒜子」访问统计的加载器。两者都已经放进 static/。
@@ -708,6 +711,103 @@ def strip_reading_entry(docs):
     return 1
 
 
+# ---------------------------------------------------------------- 分页导航
+
+def pagination_page_list(docs):
+    """列出首页的各个分页：[（页码, 文件名）]，第 1 页是 index.html。"""
+    pages = [(1, "index.html")]
+    for path in sorted(docs.glob("page*.html")):
+        match = re.match(r"^page(\d+)\.html$", path.name, re.I)
+        if match:
+            pages.append((int(match.group(1)), path.name))
+    return sorted(pages)
+
+
+def pagination_numbers(current, total, span=2):
+    """页码条上要露出的数字：首尾页 + 当前页前后 span 页，中间用 None 表示省略号。"""
+    out = []
+    last = 0
+    for num in range(1, total + 1):
+        if not (num == 1 or num == total or abs(num - current) <= span):
+            continue
+        if last and num - last > 1:
+            out.append(None)
+        out.append(num)
+        last = num
+    return out
+
+
+def pagination_href(number):
+    """第 1 页就是站点根路径，其余是 pageN.html。"""
+    return "/" if number == 1 else "/page%d.html" % number
+
+
+def pagination_html(current, total):
+    """生成分页控件的 HTML：页码条 + 上一页/下一页 + 跳转下拉。"""
+    parts = ['<nav class="pg-nav" aria-label="分页导航">']
+
+    parts.append('<div class="pg-pages">')
+    for num in pagination_numbers(current, total):
+        if num is None:
+            parts.append('<span class="pg-gap" aria-hidden="true">…</span>')
+        elif num == current:
+            parts.append(
+                '<span class="pg-num is-current" aria-current="page">%d</span>' % num
+            )
+        else:
+            parts.append('<a class="pg-num" href="%s">%d</a>' % (pagination_href(num), num))
+    parts.append("</div>")
+
+    parts.append('<div class="pg-controls">')
+    if current > 1:
+        parts.append('<a class="pg-btn" rel="prev" href="%s">‹ 上一页</a>' % pagination_href(current - 1))
+    else:
+        parts.append('<span class="pg-btn is-disabled" aria-disabled="true">‹ 上一页</span>')
+    parts.append('<span class="pg-status">第 %d / %d 页</span>' % (current, total))
+    if current < total:
+        parts.append('<a class="pg-btn" rel="next" href="%s">下一页 ›</a>' % pagination_href(current + 1))
+    else:
+        parts.append('<span class="pg-btn is-disabled" aria-disabled="true">下一页 ›</span>')
+    parts.append("</div>")
+
+    options = []
+    for num in range(1, total + 1):
+        options.append(
+            '<option value="%s"%s>%d</option>'
+            % (pagination_href(num), " selected" if num == current else "", num)
+        )
+    parts.append(
+        '<label class="pg-jump">跳至<select class="pg-select" aria-label="跳转到指定页" '
+        'onchange="if(this.value){location.href=this.value;}">%s</select>页</label>' % "".join(options)
+    )
+
+    parts.append("</nav>")
+    return "".join(parts)
+
+
+def rebuild_pagination(docs):
+    """把所有分页页面里的「上一页 / 下一页」换成分页导航；已经是新版的跳过。"""
+    pages = pagination_page_list(docs)
+    if len(pages) < 2:
+        return 0, 0
+    total = pages[-1][0]
+    changed = 0
+    for number, name in pages:
+        path = docs / name
+        if not path.is_file():
+            continue
+        text, crlf = read_source(path)
+        if '<nav class="pg-nav"' in text:
+            continue                                   # 已经重建过，幂等
+        match = PAGINATION_RE.search(text)
+        if not match:
+            continue                                   # 找不到原分页块就原样保留，不冒险
+        updated = text[:match.start()] + pagination_html(number, total) + text[match.end():]
+        write_source(path, updated, crlf)
+        changed += 1
+    return changed, total
+
+
 def main():
     root = Path(__file__).resolve().parent.parent
     docs = Path(sys.argv[1]).resolve() if len(sys.argv) > 1 else root / "docs"
@@ -760,6 +860,9 @@ def main():
     icons = reorder_header_icons(docs)
     cleaned = strip_reading_entry(docs)
     log("顶栏图标排序：%d 个页面；首页入口残留清理：%s" % (icons, "已清理" if cleaned else "无"))
+
+    pager, pager_total = rebuild_pagination(docs)
+    log("分页导航：重建 %d 个页面（共 %d 页）" % (pager, pager_total))
 
     total = build_sitemap(docs, ctx)
     build_404(docs, ctx)
