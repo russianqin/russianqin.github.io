@@ -133,6 +133,9 @@ jobs:
           SITE_BASE_URL: https://russianqin.github.io
         run: python scripts/sync_local_posts.py assets docs
 
+      - name: Sync 色廊 page
+        run: python scripts/sync_gallery.py docs
+
       - name: Optimize docs (SEO / 图片懒加载 / sitemap)
         run: python scripts/optimize_docs.py docs
 
