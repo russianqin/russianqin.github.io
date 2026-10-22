@@ -138,12 +138,17 @@ def strip_seo_tags(head):
 
 
 def load_shell(docs):
-    """从已构建的站内单页取 head / header / footer 三段模板。
+    """从已构建的站内页面取 head / header / footer 三段模板。
 
-    优先 refreshment.html（标准单页：标题 + 右上角首页按钮），退而求其次 link.html、
-    index.html。都取不到就返回 None，调用方会跳过生成。
+    优先级：单页（refreshment / link）→ 任一文章页 → 首页。
+    文章页也要排在首页前面：首页的 header 是「头像 + 站点名」的列表版，
+    没有 h1.postTitle，拿它当模板会让画廊页顶部没有标题。
     """
-    candidates = [docs / "refreshment.html", docs / "link.html", docs / "index.html"]
+    candidates = [docs / "refreshment.html", docs / "link.html"]
+    post_dir = docs / "post"
+    if post_dir.is_dir():
+        candidates += sorted(post_dir.glob("*.html"))[:1]
+    candidates += [docs / "index.html"]
     candidates += sorted(docs.glob("*.html"))
     for path in candidates:
         if not path.is_file():

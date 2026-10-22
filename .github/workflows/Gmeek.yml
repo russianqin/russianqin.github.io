@@ -71,6 +71,13 @@ jobs:
       - name: Patch Gmeek (markdown cache & rate limit)
         run: python scripts/patch_gmeek_md_cache.py /opt/Gmeek/Gmeek.py
 
+      # GitHub 的 issues 列表接口换成了游标分页，翻到第 2 页起返回空，
+      # Gmeek 的 runAll() 只能拿到最近约 300 个 issue，更老的整批消失
+      # （2026-10-22 事故：个人页面 / 日日新 / 莫斯科生存攻略 三个板块 404，
+      #  文章从 510 篇掉到 59 篇）。这一步让它按编号把缺口补齐，并在数量骤降时中止构建。
+      - name: Patch Gmeek (issue paging)
+        run: python scripts/patch_gmeek_issue_paging.py /opt/Gmeek/Gmeek.py
+
       - name: Install dependencies
         run: |
           pip install --upgrade pip
