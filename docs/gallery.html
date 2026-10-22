@@ -18,35 +18,77 @@
 
 <title>色廊 - 五环魔法师</title>
 
-<meta name="description" content="色廊：图片收藏，共 6 张。"><link rel="canonical" href="https://russianqin.github.io/gallery.html"><meta property="og:title" content="色廊"><meta property="og:description" content="色廊：图片收藏，共 6 张。"><meta property="og:type" content="website"><meta property="og:url" content="https://russianqin.github.io/gallery.html"><meta name="twitter:card" content="summary"><meta property="og:site_name" content="五环魔法师"><meta name="twitter:title" content="五环魔法师"><meta name="twitter:description" content="色廊：图片收藏，共 6 张。"><!-- optimized:seo --><link rel="preconnect" href="https://avatars.githubusercontent.com" crossorigin><link rel="dns-prefetch" href="https://avatars.githubusercontent.com"><link rel="dns-prefetch" href="https://github.com"><link rel="canonical" href="https://russianqin.github.io/gallery.html"><script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"色廊 - 五环魔法师","url":"https://russianqin.github.io/gallery.html","inLanguage":"zh-CN","isPartOf":{"@type":"Blog","name":"五环魔法师","url":"https://russianqin.github.io/"}}</script><style>
+
+
+<style>
+/* --- 看板娘按钮：右下角悬浮按钮竖排最上面一个 ---
+   右下角从下往上依次是：
+     分享本页 #shareBtn          bottom:78  (42x42)【在 custom.css，别动】
+     看板娘   .riri-kanban-btn   bottom:130 (40x40)
+   注意：#shareBtn 的 z-index 是 60，本按钮必须也设 z-index，否则会被它盖住点不到。
+   注意：本片段被整体注入到文档头部（head 收尾标签之前），必须自带 style 标签包裹——
+   否则其中的 CSS 会成为 head 里的裸文本，被 scripts/check_head.py 体检拦下导致构建失败。
+   另注：本注释内不要写出任何标签字面量（哪怕是反引号包起来的），
+   optimize_docs.py 的 HTML 处理会按标签名截断，残片会漏到页面上。 */
+.riri-kanban-btn{position:fixed;right:20px;bottom:130px;width:40px;height:40px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+  padding:0;z-index:60;
+  border:1px solid var(--borderColor-default,#d1d9e0);background:var(--bgColor-default,#fff);
+  box-shadow:0 2px 8px rgba(0,0,0,.12);transition:transform .2s,box-shadow .2s;}
+.riri-kanban-btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.16);}
+.riri-kanban-btn:active{transform:none;}
+.riri-kanban-btn svg{display:block;width:22px;height:22px;}
+
+/* --- 看板娘弹窗 --- */
+.riri-modal{position:fixed;inset:0;z-index:9999;display:none;
+  align-items:center;justify-content:center;background:rgba(0,0,0,.72);padding:16px;
+  box-sizing:border-box;}
+.riri-modal.riri-modal-open{display:flex;}
+.riri-modal-inner{position:relative;display:flex;flex-direction:column;align-items:center;
+  max-width:100%;max-height:100%;box-sizing:border-box;}
+.riri-modal-inner img{max-width:100%;max-height:85vh;width:auto;height:auto;display:block;
+  border-radius:8px;box-shadow:0 8px 40px rgba(0,0,0,.5);background:#fff;}
+.riri-modal-close{position:absolute;top:-14px;right:-14px;width:32px;height:32px;border-radius:50%;
+  border:none;cursor:pointer;font-size:18px;line-height:1;color:#fff;background:#c0392b;
+  box-shadow:0 2px 10px rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;
+  padding:0;}
+.riri-modal-nav{display:none;align-items:center;gap:14px;margin-top:12px;color:#fff;
+  font-size:14px;}
+.riri-modal-nav.riri-modal-nav-show{display:flex;}
+.riri-modal-nav button{width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:16px;
+  padding:0;border:1px solid rgba(255,255,255,.5);background:rgba(255,255,255,.14);
+  color:#fff;line-height:1;}
+.riri-modal-nav button:hover{background:rgba(255,255,255,.28);}
+.riri-modal-nav button:disabled{opacity:.3;cursor:default;}
+.riri-modal-count{min-width:56px;text-align:center;font-variant-numeric:tabular-nums;}
+
+@media (max-width:600px){
+  .riri-kanban-btn{right:16px;bottom:128px;}
+  .riri-modal-inner img{max-height:78vh;border-radius:6px;}
+  .riri-modal-close{top:-10px;right:-8px;width:28px;height:28px;font-size:16px;}
+}
+</style>
+<meta name="description" content="色廊：图片收藏，共 7 张。"><link rel="canonical" href="https://russianqin.github.io/gallery.html"><meta property="og:title" content="色廊"><meta property="og:description" content="色廊：图片收藏，共 7 张。"><meta property="og:type" content="website"><meta property="og:url" content="https://russianqin.github.io/gallery.html"><meta name="twitter:card" content="summary"><meta property="og:site_name" content="五环魔法师"><meta name="twitter:title" content="五环魔法师"><meta name="twitter:description" content="色廊：图片收藏，共 7 张。"><!-- optimized:seo --><link rel="preconnect" href="https://avatars.githubusercontent.com" crossorigin><link rel="dns-prefetch" href="https://avatars.githubusercontent.com"><link rel="dns-prefetch" href="https://github.com"><link rel="canonical" href="https://russianqin.github.io/gallery.html"><script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"色廊 - 五环魔法师","url":"https://russianqin.github.io/gallery.html","inLanguage":"zh-CN","isPartOf":{"@type":"Blog","name":"五环魔法师","url":"https://russianqin.github.io/"}}</script><style>
 body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
 #header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
 #footer {margin-top:64px; text-align: center;font-size: small;}
 
 </style><style>
-.avatar {transition: 0.8s;width:64px;height:64px;object-fit: cover;}
-.avatar:hover{transform: scale(1.15) rotate(360deg);}
-.title-left a{color:inherit;text-decoration:none;vertical-align: bottom;font-size:40px;font-weight: bold;font-family:Monaco;margin-left:8px;}
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
 .title-right{display:flex;margin:auto 0 0 auto;}
-.title-right button{margin-right:8px;padding:16px;}
-.title-right .circle{padding: 14px 16px;}
-
-.SideNav{min-width: 360px;}
-.SideNav-icon{margin-right: 16px}
-.SideNav-item .Label{color: #fff;margin-left:4px;}
-.d-flex{min-width:0;}
-.listTitle{overflow:hidden;white-space:nowrap;text-overflow: ellipsis;max-width: 100%;}
-.listLabels{white-space:nowrap;display:flex;}
-.listLabels object{max-height:16px;max-width:24px;}
-
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
 @media (max-width: 600px) {
     body {padding: 8px;}
-    .avatar {width:40px;height:40px;}
-    .blogTitle{display:none;}
-    #buttonRSS{display:none;}
-    .LabelTime{display:none;}
+    .postTitle{font-size:24px;}
 }
+
 </style></head>
+
 
 
 
@@ -56,48 +98,27 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <body>
 
     <div id="header">
-<div class="title-left">
-    <img src="https://avatars.githubusercontent.com/u/6659289?v=4" class="avatar circle" id="avatarImg" alt="avatar"><a class="blogTitle">五环魔法师</a></div>
+<h1 class="postTitle">色廊</h1>
 <div class="title-right">
-    <a href="https://russianqin.github.io/tag.html" id="buttonSearch" class="btn btn-invisible circle" title="搜索">
-        <svg class="octicon" width="16" height="16" >
-            <path id="pathSearch" fill-rule="evenodd"></path>
+    <a href="https://russianqin.github.io" id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd"></path>
         </svg>
     </a>
-    <a href="/curated.html" class="btn btn-invisible circle" title="Curated Articles">
-        <svg class="octicon" width="16" height="16" >
-            <path id="Curated Articles" fill-rule="evenodd"></path>
-        </svg>
-    </a><a href="/gallery.html" class="btn btn-invisible circle" title="色廊">
-        <svg class="octicon" width="16" height="16" >
-            <path id="色廊" fill-rule="evenodd"></path>
-        </svg>
-    </a>
-    <a href="https://russianqin.github.io/shilue.html" class="btn btn-invisible circle" title="释略大典">
-        <svg class="octicon" width="16" height="16" >
-            <path id="释略大典" fill-rule="evenodd"></path>
-        </svg>
-    </a><a href="https://russianqin.github.io/reading.html" class="btn btn-invisible circle" title="读书心得">
-        <svg class="octicon" width="16" height="16" >
-            <path id="读书心得" fill-rule="evenodd"></path>
-        </svg>
-    </a>
-    <a href="https://russianqin.github.io/rss.xml" target="_blank" id="buttonRSS" class="btn btn-invisible circle" title="RSS">
-        <svg class="octicon" width="16" height="16" >
-            <path id="pathRSS" fill-rule="evenodd"></path>
-        </svg>
-    </a>
-    <a class="btn btn-invisible circle" onclick="modeSwitch()" title="切换主题">
+    
+
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
         <svg class="octicon" width="16" height="16" >
             <path id="themeSwitch" fill-rule="evenodd"></path>
         </svg>
     </a>
+
 </div>
 </div>
     <div id="content">
 <div class="markdown-body" id="postBody">
-<div class="gallery-intro">共 <b>6</b> 张。点任意一张看大图，键盘 <kbd>←</kbd> <kbd>→</kbd> 翻页。</div>
-<div class="gallery-grid" id="galleryGrid" data-total="6"><a class="gallery-item" href="/gallery-images/%D0%90%D0%BD%D0%B0%D1%81%D1%82%D0%B0%D1%81%D0%B8%D1%8F-03.png" data-name="Анастасия-03"><img src="/gallery-images/%D0%90%D0%BD%D0%B0%D1%81%D1%82%D0%B0%D1%81%D0%B8%D1%8F-03.png" alt="Анастасия-03" loading="lazy" decoding="async"></a><a class="gallery-item" href="/gallery-images/%D0%95%D0%BB%D0%B5%D0%BD%D0%B0-01.png" data-name="Елена-01"><img src="/gallery-images/%D0%95%D0%BB%D0%B5%D0%BD%D0%B0-01.png" alt="Елена-01" loading="lazy" decoding="async"></a><a class="gallery-item" href="/gallery-images/%D0%95%D0%BB%D0%B5%D0%BD%D0%B0-02.png" data-name="Елена-02"><img src="/gallery-images/%D0%95%D0%BB%D0%B5%D0%BD%D0%B0-02.png" alt="Елена-02" loading="lazy" decoding="async"></a><a class="gallery-item" href="/gallery-images/%D0%95%D0%BB%D0%B5%D0%BD%D0%B0-03.png" data-name="Елена-03"><img src="/gallery-images/%D0%95%D0%BB%D0%B5%D0%BD%D0%B0-03.png" alt="Елена-03" loading="lazy" decoding="async"></a><a class="gallery-item" href="/gallery-images/%D0%95%D0%BB%D0%B5%D0%BD%D0%B0-04.png" data-name="Елена-04"><img src="/gallery-images/%D0%95%D0%BB%D0%B5%D0%BD%D0%B0-04.png" alt="Елена-04" loading="lazy" decoding="async"></a><a class="gallery-item" href="/gallery-images/%D0%95%D0%BB%D0%B5%D0%BD%D0%B0-05.png" data-name="Елена-05"><img src="/gallery-images/%D0%95%D0%BB%D0%B5%D0%BD%D0%B0-05.png" alt="Елена-05" loading="lazy" decoding="async"></a></div>
+<div class="gallery-intro">共 <b>7</b> 张。点任意一张看大图，键盘 <kbd>←</kbd> <kbd>→</kbd> 翻页。</div>
+<div class="gallery-grid" id="galleryGrid" data-total="7"><a class="gallery-item" href="/gallery-images/%D0%90%D0%BD%D0%B0%D1%81%D1%82%D0%B0%D1%81%D0%B8%D1%8F-03.png" data-name="Анастасия-03"><img src="/gallery-images/%D0%90%D0%BD%D0%B0%D1%81%D1%82%D0%B0%D1%81%D0%B8%D1%8F-03.png" alt="Анастасия-03" loading="lazy" decoding="async"></a><a class="gallery-item" href="/gallery-images/%D0%95%D0%BB%D0%B5%D0%BD%D0%B0-01.png" data-name="Елена-01"><img src="/gallery-images/%D0%95%D0%BB%D0%B5%D0%BD%D0%B0-01.png" alt="Елена-01" loading="lazy" decoding="async"></a><a class="gallery-item" href="/gallery-images/%D0%95%D0%BB%D0%B5%D0%BD%D0%B0-02.png" data-name="Елена-02"><img src="/gallery-images/%D0%95%D0%BB%D0%B5%D0%BD%D0%B0-02.png" alt="Елена-02" loading="lazy" decoding="async"></a><a class="gallery-item" href="/gallery-images/%D0%95%D0%BB%D0%B5%D0%BD%D0%B0-03.png" data-name="Елена-03"><img src="/gallery-images/%D0%95%D0%BB%D0%B5%D0%BD%D0%B0-03.png" alt="Елена-03" loading="lazy" decoding="async"></a><a class="gallery-item" href="/gallery-images/%D0%95%D0%BB%D0%B5%D0%BD%D0%B0-04.png" data-name="Елена-04"><img src="/gallery-images/%D0%95%D0%BB%D0%B5%D0%BD%D0%B0-04.png" alt="Елена-04" loading="lazy" decoding="async"></a><a class="gallery-item" href="/gallery-images/%D0%95%D0%BB%D0%B5%D0%BD%D0%B0-05.png" data-name="Елена-05"><img src="/gallery-images/%D0%95%D0%BB%D0%B5%D0%BD%D0%B0-05.png" alt="Елена-05" loading="lazy" decoding="async"></a><a class="gallery-item" href="/gallery-images/%D0%9C%D0%B0%D1%80%D0%B8%D1%8F-01.png" data-name="Мария-01"><img src="/gallery-images/%D0%9C%D0%B0%D1%80%D0%B8%D1%8F-01.png" alt="Мария-01" loading="lazy" decoding="async"></a></div>
 <div class="gallery-viewer" id="galleryViewer" role="dialog" aria-modal="true" aria-label="查看大图">
 <button class="gallery-viewer-close" id="galleryViewerClose" type="button" aria-label="关闭">&#10005;</button>
 <button class="gallery-viewer-prev" id="galleryViewerPrev" type="button" aria-label="上一张">&#8249;</button>
@@ -251,7 +272,7 @@ if("06/01/2025"!=""){
 </script></div>
 </body>
 <script>
-var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'search': 'M15.7 13.3l-3.81-3.83A5.93 5.93 0 0 0 13 6c0-3.31-2.69-6-6-6S1 2.69 1 6s2.69 6 6 6c1.3 0 2.48-.41 3.47-1.11l3.83 3.81c.19.2.45.3.7.3.25 0 .52-.09.7-.3a.996.996 0 0 0 0-1.41v.01zM7 10.7c-2.59 0-4.7-2.11-4.7-4.7 0-2.59 2.11-4.7 4.7-4.7 2.59 0 4.7 2.11 4.7 4.7 0 2.59-2.11 4.7-4.7 4.7z', 'rss': 'M2.002 2.725a.75.75 0 0 1 .797-.699C8.79 2.42 13.58 7.21 13.974 13.201a.75.75 0 0 1-1.497.098 10.502 10.502 0 0 0-9.776-9.776.747.747 0 0 1-.7-.798ZM2.84 7.05h-.002a7.002 7.002 0 0 1 6.113 6.111.75.75 0 0 1-1.49.178 5.503 5.503 0 0 0-4.8-4.8.75.75 0 0 1 .179-1.489ZM2 13a1 1 0 1 1 2 0 1 1 0 0 1-2 0Z', 'upload': 'M2.75 14A1.75 1.75 0 0 1 1 12.25v-2.5a.75.75 0 0 1 1.5 0v2.5c0 .138.112.25.25.25h10.5a.25.25 0 0 0 .25-.25v-2.5a.75.75 0 0 1 1.5 0v2.5A1.75 1.75 0 0 1 13.25 14Z M11.78 4.72a.749.749 0 1 1-1.06 1.06L8.75 3.811V9.5a.75.75 0 0 1-1.5 0V3.811L5.28 5.78a.749.749 0 1 1-1.06-1.06l3.25-3.25a.749.749 0 0 1 1.06 0l3.25 3.25Z', 'post': 'M0 3.75C0 2.784.784 2 1.75 2h12.5c.966 0 1.75.784 1.75 1.75v8.5A1.75 1.75 0 0 1 14.25 14H1.75A1.75 1.75 0 0 1 0 12.25Zm1.75-.25a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h12.5a.25.25 0 0 0 .25-.25v-8.5a.25.25 0 0 0-.25-.25ZM3.5 6.25a.75.75 0 0 1 .75-.75h7a.75.75 0 0 1 0 1.5h-7a.75.75 0 0 1-.75-.75Zm.75 2.25h4a.75.75 0 0 1 0 1.5h-4a.75.75 0 0 1 0-1.5Z', 'link': 'm7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z', 'refreshment': 'M13-.005c1.654 0 3 1.328 3 3 0 .982-.338 1.933-.783 2.818-.443.879-1.028 1.758-1.582 2.588l-.011.017c-.568.853-1.104 1.659-1.501 2.446-.398.789-.623 1.494-.623 2.136a1.5 1.5 0 1 0 2.333-1.248.75.75 0 0 1 .834-1.246A3 3 0 0 1 13 16H3a3 3 0 0 1-3-3c0-1.582.891-3.135 1.777-4.506.209-.322.418-.637.623-.946.473-.709.923-1.386 1.287-2.048H2.51c-.576 0-1.381-.133-1.907-.783A2.68 2.68 0 0 1 0 2.995a3 3 0 0 1 3-3Zm0 1.5a1.5 1.5 0 0 0-1.5 1.5c0 .476.223.834.667 1.132A.75.75 0 0 1 11.75 5.5H5.368c-.467 1.003-1.141 2.015-1.773 2.963-.192.289-.381.571-.558.845C2.13 10.711 1.5 11.916 1.5 13A1.5 1.5 0 0 0 3 14.5h7.401A2.989 2.989 0 0 1 10 13c0-.979.338-1.928.784-2.812.441-.874 1.023-1.748 1.575-2.576l.017-.026c.568-.853 1.103-1.658 1.501-2.448.398-.79.623-1.497.623-2.143 0-.838-.669-1.5-1.5-1.5Zm-10 0a1.5 1.5 0 0 0-1.5 1.5c0 .321.1.569.27.778.097.12.325.227.74.227h7.674A2.737 2.737 0 0 1 10 2.995c0-.546.146-1.059.401-1.5Z', 'shilue': 'M11.5 0a.75.75 0 0 1 .75.75v.75h1.25a1.75 1.75 0 0 1 1.75 1.75V14.5A1.5 1.5 0 0 1 13.75 16H2.25A1.5 1.5 0 0 1 .75 14.5V3.25A1.75 1.75 0 0 1 2.5 1.5h1.25V.75a.75.75 0 0 1 1.5 0v.75h4.75V.75a.75.75 0 0 1 .75-.75ZM2.5 3a.25.25 0 0 0-.25.25V14.5a.25.25 0 0 0 .25.25h11.5a.25.25 0 0 0 .25-.25V3.25A.25.25 0 0 0 14 3H2.5Zm2.5 3.5a.75.75 0 0 1 0-1.5h2.5a.75.75 0 0 1 0 1.5H5Zm0 3a.75.75 0 0 1 0-1.5h6a.75.75 0 0 1 0 1.5H5Zm0 3a.75.75 0 0 1 0-1.5h6a.75.75 0 0 1 0 1.5H5Z', 'quest in Moscow': 'M7.998 15.035c-4.562 0-7.873-2.914-7.998-3.749V9.338c.085-.628.677-1.686 1.588-2.065.013-.07.024-.143.036-.218.029-.183.06-.384.126-.612-.201-.508-.254-1.084-.254-1.656 0-.87.128-1.769.693-2.484.579-.733 1.494-1.124 2.724-1.261 1.206-.134 2.262.034 2.944.765.05.053.096.108.139.165.044-.057.094-.112.143-.165.682-.731 1.738-.899 2.944-.765 1.23.137 2.145.528 2.724 1.261.566.715.693 1.614.693 2.484 0 .572-.053 1.148-.254 1.656.066.228.098.429.126.612.012.076.024.148.037.218.924.385 1.522 1.471 1.591 2.095v1.872c0 .766-3.351 3.795-8.002 3.795Zm0-1.485c2.28 0 4.584-1.11 5.002-1.433V7.862l-.023-.116c-.49.21-1.075.291-1.727.291-1.146 0-2.059-.327-2.71-.991A3.222 3.222 0 0 1 8 6.303a3.24 3.24 0 0 1-.544.743c-.65.664-1.563.991-2.71.991-.652 0-1.236-.081-1.727-.291l-.023.116v4.255c.419.323 2.722 1.433 5.002 1.433ZM6.762 2.83c-.193-.206-.637-.413-1.682-.297-1.019.113-1.479.404-1.713.7-.247.312-.369.789-.369 1.554 0 .793.129 1.171.308 1.371.162.181.519.379 1.442.379.853 0 1.339-.235 1.638-.54.315-.322.527-.827.617-1.553.117-.935-.037-1.395-.241-1.614Zm4.155-.297c-1.044-.116-1.488.091-1.681.297-.204.219-.359.679-.242 1.614.091.726.303 1.231.618 1.553.299.305.784.54 1.638.54.922 0 1.28-.198 1.442-.379.179-.2.308-.578.308-1.371 0-.765-.123-1.242-.37-1.554-.233-.296-.693-.587-1.713-.7Z', 'reading': 'M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z', 'Curated Articles': 'M3.499.75a.75.75 0 0 1 1.5 0v.996C5.9 2.903 6.793 3.65 7.662 4.376l.24.202c-.036-.694.055-1.422.426-2.163C9.1.873 10.794-.045 12.622.26 14.408.558 16 1.94 16 4.25c0 1.278-.954 2.575-2.44 2.734l.146.508.065.22c.203.701.412 1.455.476 2.226.142 1.707-.4 3.03-1.487 3.898C11.714 14.671 10.27 15 8.75 15h-6a.75.75 0 0 1 0-1.5h1.376a4.484 4.484 0 0 1-.563-1.191 3.835 3.835 0 0 1-.05-2.063 4.647 4.647 0 0 1-2.025-.293.75.75 0 0 1 .525-1.406c1.357.507 2.376-.006 2.698-.318l.009-.01a.747.747 0 0 1 1.06 0 .748.748 0 0 1-.012 1.074c-.912.92-.992 1.835-.768 2.586.221.74.745 1.337 1.196 1.621H8.75c1.343 0 2.398-.296 3.074-.836.635-.507 1.036-1.31.928-2.602-.05-.603-.216-1.224-.422-1.93l-.064-.221c-.12-.407-.246-.84-.353-1.29a2.425 2.425 0 0 1-.507-.441 3.075 3.075 0 0 1-.633-1.248.75.75 0 0 1 1.455-.364c.046.185.144.436.31.627.146.168.353.305.712.305.738 0 1.25-.615 1.25-1.25 0-1.47-.95-2.315-2.123-2.51-1.172-.196-2.227.387-2.706 1.345-.46.92-.27 1.774.019 3.062l.042.19a.884.884 0 0 1 .01.05c.348.443.666.949.94 1.553a.75.75 0 1 1-1.365.62c-.553-1.217-1.32-1.94-2.3-2.768L6.7 5.527c-.814-.68-1.75-1.462-2.692-2.619a3.737 3.737 0 0 0-1.023.88c-.406.495-.663 1.036-.722 1.508.116.122.306.21.591.239.388.038.797-.06 1.032-.19a.75.75 0 0 1 .728 1.31c-.515.287-1.23.439-1.906.373-.682-.067-1.473-.38-1.879-1.193L.75 5.677V5.5c0-.984.48-1.94 1.077-2.664.46-.559 1.05-1.055 1.673-1.353V.75Z', '色廊': 'M16 13.25A1.75 1.75 0 0 1 14.25 15H1.75A1.75 1.75 0 0 1 0 13.25V2.75C0 1.784.784 1 1.75 1h12.5c.966 0 1.75.784 1.75 1.75ZM1.75 2.5a.25.25 0 0 0-.25.25v10.5c0 .138.112.25.25.25h.94l.03-.03 6.077-6.078a1.75 1.75 0 0 1 2.412-.06L14.5 10.31V2.75a.25.25 0 0 0-.25-.25Zm12.5 11a.25.25 0 0 0 .25-.25v-.917l-4.298-3.889a.25.25 0 0 0-.344.009L4.81 13.5ZM7 6a2 2 0 1 1-3.999.001A2 2 0 0 1 7 6ZM5.5 6a.5.5 0 1 0-1 0 .5.5 0 0 0 1 0Z'};
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z'};
 var utterancesLoad=0;
 
 let themeSettings={
@@ -283,23 +304,143 @@ console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n","padding:5px 
 </script>
 
 <script>
-document.getElementById("pathSearch").setAttribute("d",IconList["search"]);
-document.getElementById("pathRSS").setAttribute("d",IconList["rss"]);
-iconTOP=document.getElementsByClassName("svgTop1");
-iconPost=document.getElementsByClassName("svgTop0");
-for(var i=0;i<iconTOP.length;i++){
-    iconTOP[i].setAttribute("d",IconList["upload"]);
-    iconTOP[i].parentNode.style.color="red";
+document.getElementById("pathHome").setAttribute("d",IconList["home"]);
+document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
+
+
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.disabled=true;
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","russianqin/russianqin.github.io");
+    script.setAttribute("issue-term","og:title");
+    
+    if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
+    else if(localStorage.getItem("meek_theme")=="light") {script.setAttribute("theme","github-light");}
+    else{script.setAttribute("theme","preferred-color-scheme");}
+    
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
 }
-for(var i=0;i<iconPost.length;i++){
-    iconPost[i].setAttribute("d",IconList["post"]);
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
 }
 
 
-document.getElementById("Curated Articles").setAttribute("d",value=IconList["Curated Articles"]);
-document.getElementById("色廊").setAttribute("d",value=IconList["色廊"]);
 
-document.getElementById("释略大典").setAttribute("d",value=IconList["shilue"]);document.getElementById("读书心得").setAttribute("d",value=IconList["reading"]);
+</script>
+<script>
+/* --- 看板娘弹窗（与史略页同构：洗牌 + 懒预加载 + 键盘翻页） --- */
+(function(){
+  var PRELOAD=3;
+
+  var modal=document.getElementById('ririModal');
+  var openBtn=document.getElementById('ririKanbanBtn');
+  if(!modal||!openBtn){return;}
+
+  var img=document.getElementById('ririModalImg');
+  var closeBtn=document.getElementById('ririModalClose');
+  var navBox=document.getElementById('ririModalNav');
+  var prevBtn=document.getElementById('ririModalPrev');
+  var nextBtn=document.getElementById('ririModalNext');
+  var countEl=document.getElementById('ririModalCount');
+  var shot=openBtn.getAttribute('data-images')||'';
+  var pool=shot?shot.split(',').filter(Boolean):[];   /* 图池（固定顺序，别动） */
+  var list=[];                                        /* 本次打开的洗牌结果 */
+  var idx=0;
+  var preloaded={};
+  var lastFirst=null;
+
+  /* 图池为空时按钮不响应，避免打开空白弹窗；填入 data-images 后自动生效 */
+  if(!pool.length){openBtn.disabled=true;openBtn.style.opacity='.45';return;}
+
+  /* Fisher–Yates 洗牌，返回新数组，不改动 pool */
+  function shuffled(src){
+    var a=src.slice();
+    for(var i=a.length-1;i>0;i--){
+      var j=Math.floor(Math.random()*(i+1));
+      var t=a[i];a[i]=a[j];a[j]=t;
+    }
+    return a;
+  }
+  /* 懒预加载：翻到哪预取到哪 */
+  function prime(from,count){
+    for(var i=from;i<from+count&&i<list.length;i++){
+      if(preloaded[list[i]]){continue;}
+      preloaded[list[i]]=1;
+      var p=new Image();p.src=list[i];
+    }
+  }
+  function render(){
+    if(!list.length){return;}
+    img.src=list[idx];
+    img.alt='看板娘 '+(idx+1);
+    var multi=list.length>1;
+    navBox.classList.toggle('riri-modal-nav-show',multi);
+    if(multi){
+      countEl.textContent=(idx+1)+' / '+list.length;
+      prevBtn.disabled=(idx===0);
+      nextBtn.disabled=(idx===list.length-1);
+    }
+    /* 当前张 + 后面 PRELOAD 张 */
+    prime(idx,PRELOAD);
+  }
+  function open(){
+    if(!pool.length){return;}
+    /* 每次点开都重新洗牌；若首张与上次相同且不止一张，再抽一次，
+       避免"随机了但看着没变" */
+    var next=shuffled(pool);
+    if(pool.length>1&&next[0]===lastFirst){
+      next=shuffled(pool);
+    }
+    lastFirst=next[0];
+    list=next;idx=0;render();
+    modal.classList.add('riri-modal-open');
+    document.body.style.overflow='hidden';
+  }
+  function close(){
+    modal.classList.remove('riri-modal-open');
+    document.body.style.overflow='';
+  }
+  function go(step){
+    var n=idx+step;
+    if(n<0||n>=list.length){return;}
+    idx=n;render();
+  }
+  openBtn.addEventListener('click',open);
+  closeBtn.addEventListener('click',close);
+  prevBtn.addEventListener('click',function(e){e.stopPropagation();go(-1);});
+  nextBtn.addEventListener('click',function(e){e.stopPropagation();go(1);});
+  modal.addEventListener('click',function(e){if(e.target===modal){close();}});
+  document.addEventListener('keydown',function(e){
+    if(!modal.classList.contains('riri-modal-open')){return;}
+    if(e.key==='Escape'){close();}
+    else if(e.key==='ArrowLeft'){go(-1);}
+    else if(e.key==='ArrowRight'){go(1);}
+  });
+  /* 首次打开前不预加载任何图，避免首屏白下几百 KB；
+     打开时 render() 会按洗牌结果取前 PRELOAD 张。 */
+})();
 </script>
 
 
