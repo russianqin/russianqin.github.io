@@ -74,6 +74,20 @@ def _gm_cached_issue_count():
     return len(_old.get("postListJson") or {}) + len(_old.get("singeListJson") or {})
 
 
+def _gm_cached_max_number():
+    """缓存里出现过的最大 issue 编号；列表接口彻底不可用时拿它当补齐上界。"""
+    try:
+        with open("blogBase.json", "r", encoding="utf-8") as _f:
+            _old = _gm_json.loads(_f.read())
+    except Exception:
+        return 0
+    best = 0
+    for _key in list(_old.get("postListJson") or {}) + list(_old.get("singeListJson") or {}):
+        if _key[:1] == "P" and _key[1:].isdigit():
+            best = max(best, int(_key[1:]))
+    return best
+
+
 def _gm_is_pull_request(issue):
     """PR 也会出现在 issues 列表里，别把它当文章渲染成页面。
 
@@ -110,6 +124,14 @@ def _gm_all_open_issues(repo):
                 break
     except Exception as _exc:  # 列表接口翻页中途断掉也继续，靠补齐兜住
         print("issues list paging stopped early: %s" % _exc)
+
+    if not found:
+        # 列表接口整个不可用（第一页就挂了）：拿缓存里的最大编号当上界，
+        # 逐号扫一遍。多留 20 个余量，免得连最近新建的几篇也漏掉。
+        latest = _gm_cached_max_number()
+        if latest:
+            latest += 20
+        print("issues list unusable, scanning 1..%d by number instead" % latest)
 
     missing = [n for n in range(1, latest + 1) if n not in found]
     if missing:
