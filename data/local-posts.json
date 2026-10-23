@@ -2,17 +2,17 @@
   "version": 1,
   "note": "本文件由 scripts/sync_local_posts.py 自动维护：md 文件 → Issue 编号。",
   "posts": {
-    "posts/因信称义，赛哥囤币.md": {
-      "issue": 525
-    },
-    "posts/被读反的成功清单.md": {
-      "issue": 527
-    },
     "_removed_/因信称义，赛哥囤币.md": {
       "issue": 528
     },
     "_removed_/被读反的成功清单.md": {
       "issue": 529
+    },
+    "posts/因信称义，赛哥囤币.md": {
+      "issue": 525
+    },
+    "posts/被读反的成功清单.md": {
+      "issue": 527
     }
   }
 }
