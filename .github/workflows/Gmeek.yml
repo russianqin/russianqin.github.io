@@ -90,6 +90,13 @@ jobs:
           SITE_BASE_URL: https://russianqin.github.io
         run: python scripts/sync_local_posts.py publish
 
+      # 上一步刚关掉的 Issue，如果紧接着就拉列表，会撞上 GitHub issues 接口的几秒缓存：
+      # 缓存里它还是 open，于是被当成正常文章重建，列表页继续显示（2026-10-23 的 #529 就是这样
+      # 活下来的 —— 它和 #528 相隔 1 秒关闭，#528 的缓存已过期被正确排除，#529 没有）。
+      # 停 15 秒让缓存过期，比事后手工再触发一次构建省事。
+      - name: Cool down before rebuild
+        run: sleep 15
+
       - name: Generate new html
         env:
           GMEEK_MD_CACHE_DIR: ${{ github.workspace }}/.md-cache
