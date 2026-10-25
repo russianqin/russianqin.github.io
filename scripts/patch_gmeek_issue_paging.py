@@ -91,12 +91,20 @@ def _gm_cached_max_number():
 def _gm_is_pull_request(issue):
     """PR 也会出现在 issues 列表里，别把它当文章渲染成页面。
 
-    PyGithub 对非 PR 的 issue，`pull_request` 是 NotSet 哨兵（不是 dict），
-    这里只看能不能当成 dict 取出 url —— 取不到就是普通 issue。
+    **只能读 `_rawData`，不要碰 `issue.pull_request` 或 `issue.raw_data`。**
+
+    这两个属性都会触发 PyGithub 的惰性补全：`pull_request` 走
+    `_completeIfNotSet`，`raw_data` 走 `CompletableGithubObject.raw_data` 里的
+    `_completeIfNeeded`。而 GitHub 的列表接口对**非 PR** 的 issue 根本不返回
+    `pull_request` 字段，属性恒为 NotSet —— 等于给每一篇都补发一次
+    `GET /issues/{n}`。520 篇就是 520 次串行往返（2026-10-25 实测：
+    构建的 Generate 步骤因此从 19 秒涨到 275 秒）。
+
+    `_rawData` 是构造对象时就填好的原始载荷，读它不发请求。
     """
+    raw = getattr(issue, "_rawData", None) or {}
     try:
-        flag = issue.pull_request
-        return bool(flag.get("url"))
+        return bool((raw.get("pull_request") or {}).get("url"))
     except Exception:
         return False
 
