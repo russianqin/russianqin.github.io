@@ -38,6 +38,21 @@ tags: [随笔, 读书]
 - **不要**用这五个名字当标签：`link`、`refreshment`、`quest in Moscow`、`reading`、
   `Curated Articles` —— 它们是现有独立页面的名字，用了会把那些页面顶掉。脚本会拦下来并报错
 
+### 想进主题板块，就加主题标签
+
+顶栏有四个主题板块：`BTC`、`外文`、`薄肌`、`自媒体`。文章只要带上对应的标签，
+下次构建就会自动出现在那个板块里（一篇文章可以同时进多个板块）：
+
+```
+---
+title: 标题
+tags: [BTC, 随笔]
+---
+```
+
+`scripts/sync_topics.py` 只按 `data/topics.json` 里的清单归类，不改文章、不改标签。
+老文章不想动标签，就把 issue 编号写进 `data/topics.json` 那个板块的 `numbers` 里。
+
 ## 图片
 
 图片分两种写法，可以混着用：

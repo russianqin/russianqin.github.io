@@ -1,0 +1,38 @@
+{
+    "version": 1,
+    "note": "四个主题板块的唯一真源。每次构建由 scripts/sync_topics.py 生成 docs/<slug>.html（页面不手改，手改会被下次构建覆盖）。labels = 按 Issue 标签自动纳入；numbers = 按 issue 编号手工指定；exclude = 从本板块剔除。三种取并集，exclude 最后生效；一篇文章可以同时出现在多个板块里。",
+    "topics": [
+        {
+            "slug": "btc",
+            "title": "BTC",
+            "desc": "比特币、加密资产，以及「钱到底是什么」这一类问题。",
+            "labels": [],
+            "numbers": [525],
+            "exclude": []
+        },
+        {
+            "slug": "waiwen",
+            "title": "外文",
+            "desc": "俄语、英语的学习笔记、生词与翻译。",
+            "labels": ["俄语生词", "英语生词"],
+            "numbers": [],
+            "exclude": []
+        },
+        {
+            "slug": "boji",
+            "title": "薄肌",
+            "desc": "训练、体脂、吃与练的记录。",
+            "labels": ["薄肌"],
+            "numbers": [],
+            "exclude": []
+        },
+        {
+            "slug": "zimeiti",
+            "title": "自媒体",
+            "desc": "写作、选题、流量与平台。",
+            "labels": ["自媒体"],
+            "numbers": [],
+            "exclude": []
+        }
+    ]
+}

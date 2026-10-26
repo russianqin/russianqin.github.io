@@ -150,6 +150,13 @@ jobs:
       - name: Sync 色廊 page
         run: python scripts/sync_gallery.py docs
 
+      # 四个主题板块（BTC / 外文 / 薄肌 / 自媒体）。归类清单在 data/topics.json，
+      # 脚本只读 blogBase.json + 清单，**不发任何网络请求**；页面必须在这一步生成，
+      # 手工塞进 docs/ 会被 Gmeek 的 docs 覆盖冲掉。
+      # 必须排在 optimize_docs 之前，好让新页也进 sitemap、也做图片懒加载。
+      - name: Sync 主题板块 page
+        run: python scripts/sync_topics.py docs
+
       - name: Optimize docs (SEO / 图片懒加载 / sitemap)
         run: python scripts/optimize_docs.py docs
 
