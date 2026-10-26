@@ -948,3 +948,44 @@ body.gallery-viewer-open { overflow: hidden; }
     .gallery-viewer-next { width: 40px; height: 40px; margin-top: -20px; font-size: 22px; }
     .gallery-viewer img { max-height: calc(100vh - 140px); }
 }
+
+/* --- 主题板块页（/btc.html、/waiwen.html、/boji.html、/zimeiti.html） --- */
+.topic-heading { margin: 0 0 8px; font-size: 26px; }
+.topic-intro { margin: 0 0 20px; color: var(--color-fg-muted); font-size: 14px; }
+.topic-count {
+    margin-bottom: 4px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--color-border-muted);
+    color: var(--color-fg-muted);
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+}
+.topic-list { list-style: none; margin: 0; padding: 0; }
+.topic-item { padding: 16px 0; border-bottom: 1px solid var(--color-border-muted); }
+.topic-item:last-child { border-bottom: 0; padding-bottom: 0; }
+.topic-link { font-size: 17px; font-weight: 500; color: var(--color-accent-fg); text-decoration: none; }
+.topic-link:hover { text-decoration: underline; }
+.topic-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin: 6px 0;
+    color: var(--color-fg-muted);
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+}
+.topic-tag {
+    padding: 1px 8px;
+    border: 1px solid var(--color-border-default);
+    border-radius: 999px;
+    background: var(--color-canvas-subtle);
+}
+.topic-excerpt { margin: 0; color: var(--color-fg-muted); font-size: 14px; line-height: 1.7; }
+.topic-empty { padding: 48px 0; color: var(--color-fg-muted); text-align: center; line-height: 2; }
+
+@media (max-width: 600px) {
+    .topic-heading { font-size: 22px; }
+    .topic-link { font-size: 16px; }
+    .topic-excerpt { font-size: 13px; }
+}

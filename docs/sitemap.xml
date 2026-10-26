@@ -6,6 +6,16 @@
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>https://russianqin.github.io/boji.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://russianqin.github.io/btc.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://russianqin.github.io/curated.html</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -207,6 +217,16 @@
   </url>
   <url>
     <loc>https://russianqin.github.io/tag.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://russianqin.github.io/waiwen.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://russianqin.github.io/zimeiti.html</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
