@@ -78,6 +78,12 @@ jobs:
       - name: Patch Gmeek (issue paging)
         run: python scripts/patch_gmeek_issue_paging.py /opt/Gmeek/Gmeek.py
 
+      # 首页列表原先只按 (置顶, 创建时间秒) 排，同秒创建的一批文章会退化成
+      # 「组间倒序、组内正序」（2026-10-27 薄肌 7 篇：05,06,07,03,04,01,02）。
+      # 这一步给排序键补上 issue 编号，让整批文章读起来是连贯的倒序。
+      - name: Patch Gmeek (post list order)
+        run: python scripts/patch_gmeek_plist_order.py /opt/Gmeek/Gmeek.py
+
       - name: Install dependencies
         run: |
           pip install --upgrade pip
