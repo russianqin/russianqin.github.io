@@ -1,6 +1,6 @@
 {
     "version": 1,
-    "note": "四个主题板块的唯一真源。每次构建由 scripts/sync_topics.py 生成 docs/<slug>.html（页面不手改，手改会被下次构建覆盖）。labels = 按 Issue 标签自动纳入；numbers = 按 issue 编号手工指定；exclude = 从本板块剔除。三种取并集，exclude 最后生效；一篇文章可以同时出现在多个板块里。",
+    "note": "四个主题板块的唯一真源。每次构建由 scripts/sync_topics.py 生成 docs/<slug>.html（页面不手改，手改会被下次构建覆盖）。labels = 按 Issue 标签自动纳入；numbers = 按 issue 编号手工指定；exclude = 从本板块剔除；order = 排序方向，asc 从老到新、缺省 desc 从新到老（同一批上传导致时间戳相同，会用 issue 编号兜底）。三者取并集，exclude 最后生效；一篇文章可以同时出现在多个板块里。",
     "topics": [
         {
             "slug": "btc",
@@ -24,7 +24,8 @@
             "desc": "训练、体脂、吃与练的记录。",
             "labels": ["薄肌"],
             "numbers": [],
-            "exclude": []
+            "exclude": [],
+            "order": "asc"
         },
         {
             "slug": "zimeiti",

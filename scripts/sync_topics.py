@@ -15,8 +15,9 @@ config.json 的 exlink 提供（见文件末尾说明）。
     labels   Issue 标签命中（外文板块靠这个一次吃下 26+23 篇生词表）
     numbers  issue 编号，给老文章用
     exclude  从本板块剔除
+    order    asc（从老到新）/ 缺省 desc（从新到老）
 
-三者取并集，exclude 最后生效。没有任何概率判断。
+前三个取并集，exclude 最后生效；order 只管页面排列。没有任何概率判断。
 
 ## 为什么顶栏要在 exlink 里
 
@@ -84,7 +85,15 @@ def collect(posts, topic):
         if number in numbers or labels.intersection(entry.get("labels") or []):
             picked[number] = entry
 
-    ordered = sorted(picked.items(), key=lambda kv: kv[1].get("createdAt") or 0, reverse=True)
+    # 排序键带上编号：同一批上传的文章 createdAt 常常只差 0~1 秒甚至完全相同，
+    # 只按时间排的话同秒的几篇顺序会随输入顺序漂移（2026-10-27 薄肌七篇就是这样乱掉的）。
+    # 编号在同一个仓库里单调递增，拿它兜底最稳。
+    newest_first = str(topic.get("order") or "desc").lower() != "asc"
+    ordered = sorted(
+        picked.items(),
+        key=lambda kv: (kv[1].get("createdAt") or 0, kv[0]),
+        reverse=newest_first,
+    )
     return ordered, sorted(n for n in numbers if n not in picked)
 
 
