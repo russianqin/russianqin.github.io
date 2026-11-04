@@ -97,21 +97,28 @@ jobs:
           SITE_BASE_URL: https://russianqin.github.io
         run: |
           python scripts/sync_local_posts.py publish 2>&1 | tee "$RUNNER_TEMP/publish.log"
-          # 这一步自己也可能关 Issue（本地文章被删 → 关闭对应 Issue），后面的冷却要不要
-          # 睡取决于它到底关了几篇。日志末行固定是
-          # 「完成：新建 a，更新 b，未变 c，关闭 d，清理 e」，只把 d 取出来。
-          # 取不到时输出 "?"，下面的判断会当成"需要冷却"，宁可多睡 15 秒。
-          closed=$(sed -n 's/.*关闭 \([0-9][0-9]*\)，.*/\1/p' "$RUNNER_TEMP/publish.log" | tail -1)
-          echo "closed=${closed:-?}" >> "$GITHUB_OUTPUT"
+          # 这一步自己会新建/关闭 Issue（新文章 → 建 Issue，本地文章被删 → 关 Issue）。
+          # 两种情况都得让后面的冷却起作用：push 事件走的 runAll 是**列表接口**，
+          # 刚建的 Issue 可能还没进缓存（新文章 404），刚关的可能还留着（列表页继续显示）。
+          # 日志末行固定是「完成：新建 a，更新 b，未变 c，关闭 d，清理 e」，取 a 和 d。
+          log="$RUNNER_TEMP/publish.log"
+          n_new=$(sed -n 's/.*新建 \([0-9][0-9]*\)，.*/\1/p' "$log" | tail -1)
+          n_closed=$(sed -n 's/.*关闭 \([0-9][0-9]*\)，.*/\1/p' "$log" | tail -1)
+          # 两个数都是 0 才算「这次没动 Issue 列表」；任一项取不到就当成动过，宁可多睡 15 秒
+          if [ "${n_new:-x}" = "0" ] && [ "${n_closed:-x}" = "0" ]; then
+            echo "touched=0" >> "$GITHUB_OUTPUT"
+          else
+            echo "touched=1" >> "$GITHUB_OUTPUT"
+          fi
 
-      # 冷却只是为了绕开 issues 列表接口那几秒缓存：刚关掉的 Issue 如果紧接着就去拉列表，
-      # 缓存里它还是 open，于是被当成正常文章重建，列表页继续显示（2026-10-23 的 #529 就是这样
-      # 活下来的 —— 它和 #528 相隔 1 秒关闭，#528 的缓存已过期被正确排除，#529 没有）。
-      # 只有「本次构建里确实关了 Issue」才需要睡：在 GitHub 上手动关闭/删除（issues 事件），
-      # 或者上一步 publish 关掉了几篇被删掉的本地文章。其余情况（新建/编辑 Issue、push、
-      # 定时、手动触发）根本不碰这份缓存，没必要陪着睡 15 秒。
+      # 冷却只是为了绕开 issues 列表接口那几秒缓存：刚动过的 Issue 如果紧接着就去拉列表，
+      # 缓存里还是旧状态，于是新建的被漏掉（新文章 404）、关掉的被当成正常文章重建（2026-10-23
+      # 的 #529 就是这样活下来的 —— 它和 #528 相隔 1 秒关闭，#528 的缓存过期了，#529 没有）。
+      # 只有「本次构建确实动过 Issue 列表」才需要睡：在 GitHub 上关闭/删除 Issue（这两个事件
+      # 走 runAll，要拉列表），或者上一步 publish 新建、关掉过 Issue。新建/编辑 Issue 走的是
+      # runOne（直接按编号取），纯 push、定时、手动触发也不碰这份缓存，都不必睡。
       - name: Cool down before rebuild
-        if: ${{ (github.event_name == 'issues' && (github.event.action == 'closed' || github.event.action == 'deleted')) || steps.publish.outputs.closed != '0' }}
+        if: ${{ (github.event_name == 'issues' && (github.event.action == 'closed' || github.event.action == 'deleted')) || steps.publish.outputs.touched != '0' }}
         run: sleep 15
 
       - name: Generate new html
