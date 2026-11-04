@@ -90,17 +90,28 @@ jobs:
           pip install -r /opt/Gmeek/requirements.txt
 
       - name: Sync 本地文章 → Issue
+        id: publish
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
           SITE_BASE_URL: https://russianqin.github.io
-        run: python scripts/sync_local_posts.py publish
+        run: |
+          python scripts/sync_local_posts.py publish 2>&1 | tee "$RUNNER_TEMP/publish.log"
+          # 这一步自己也可能关 Issue（本地文章被删 → 关闭对应 Issue），后面的冷却要不要
+          # 睡取决于它到底关了几篇。日志末行固定是
+          # 「完成：新建 a，更新 b，未变 c，关闭 d，清理 e」，只把 d 取出来。
+          # 取不到时输出 "?"，下面的判断会当成"需要冷却"，宁可多睡 15 秒。
+          closed=$(sed -n 's/.*关闭 \([0-9][0-9]*\)，.*/\1/p' "$RUNNER_TEMP/publish.log" | tail -1)
+          echo "closed=${closed:-?}" >> "$GITHUB_OUTPUT"
 
-      # 上一步刚关掉的 Issue，如果紧接着就拉列表，会撞上 GitHub issues 接口的几秒缓存：
+      # 冷却只是为了绕开 issues 列表接口那几秒缓存：刚关掉的 Issue 如果紧接着就去拉列表，
       # 缓存里它还是 open，于是被当成正常文章重建，列表页继续显示（2026-10-23 的 #529 就是这样
       # 活下来的 —— 它和 #528 相隔 1 秒关闭，#528 的缓存已过期被正确排除，#529 没有）。
-      # 停 15 秒让缓存过期，比事后手工再触发一次构建省事。
+      # 只有「本次构建里确实关了 Issue」才需要睡：在 GitHub 上手动关闭/删除（issues 事件），
+      # 或者上一步 publish 关掉了几篇被删掉的本地文章。其余情况（新建/编辑 Issue、push、
+      # 定时、手动触发）根本不碰这份缓存，没必要陪着睡 15 秒。
       - name: Cool down before rebuild
+        if: ${{ (github.event_name == 'issues' && (github.event.action == 'closed' || github.event.action == 'deleted')) || steps.publish.outputs.closed != '0' }}
         run: sleep 15
 
       - name: Generate new html
