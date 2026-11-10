@@ -24,8 +24,7 @@
             "desc": "训练、体脂、吃与练的记录。",
             "labels": ["薄肌"],
             "numbers": [],
-            "exclude": [],
-            "order": "asc"
+            "exclude": []
         },
         {
             "slug": "zimeiti",
