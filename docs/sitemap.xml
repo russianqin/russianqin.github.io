@@ -171,6 +171,11 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://russianqin.github.io/page37.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://russianqin.github.io/page4.html</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -6727,6 +6732,12 @@
   <url>
     <loc>https://russianqin.github.io/post/ying-yu-zhong-qi-%C2%B7-di-san-tian-%E2%80%94%E2%80%94-ting-xie-wei-zhu-%EF%BC%8C-wa-chu---cai-ci---zhe-ge-zhen-bing-gen.html</loc>
     <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://russianqin.github.io/post/bo-ji-ji-lu-%2017%EF%BC%9A11%20-yue-%2018%20-ri-%EF%BC%8C-hui-fu-bi-lian-geng-man.html</loc>
+    <lastmod>2026-11-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
